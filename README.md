@@ -1,4 +1,5 @@
 # ember-appointment-slots-pickers
+<<<<<<< HEAD
 
 This README outlines the details of collaborating on this Ember addon.
 
@@ -25,3 +26,6 @@ This README outlines the details of collaborating on this Ember addon.
 * `ember build`
 
 For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
+=======
+A suite of appointment slots pickers written in Ember
+>>>>>>> a35759504b3a2fffe159ad09cbf479c6be99e242
