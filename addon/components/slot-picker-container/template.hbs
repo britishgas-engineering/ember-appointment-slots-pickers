@@ -1,0 +1,20 @@
+<div class="asp-container">
+  <div class="asp">
+    {{yield
+      (hash
+        days=days
+        rows=rows
+        cols=cols
+        cellsPerCol=cellsPerCol
+        multiSelected=multiSelected
+        cellsForColOfSelectedDays=cellsForColOfSelectedDays
+        noSlotLabel=noSlotLabel
+        slotsAreLoading=slotsAreLoading
+        selectedFilter=selectedFilter
+        canSelectMultipleSlots=canSelectMultipleSlots
+      )
+      (action "onSelectSlot")
+      (action "onDeselectSlot")
+    }}
+  </div>
+</div>

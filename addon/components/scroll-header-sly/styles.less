@@ -1,0 +1,26 @@
+& {
+  .scroll-header-sly-frame {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  .scroll-header-sly-slidee {
+    // https://github.com/OwlCarousel2/OwlCarousel2/issues/1932
+    touch-action: manipulation;
+    height: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    & > li {
+      float: left;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    &:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  }
+}

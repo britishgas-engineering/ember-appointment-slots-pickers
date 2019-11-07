@@ -1,0 +1,9 @@
+<div class="scroll-header-sly-frame">
+  <ul class="scroll-header-sly-slidee">
+    {{#each itemsUpdate as |item itemIndex|}}
+      <li class="scroll-header-sly-item">
+        {{yield item itemIndex}}
+      </li>
+    {{/each}}
+  </ul>
+</div>

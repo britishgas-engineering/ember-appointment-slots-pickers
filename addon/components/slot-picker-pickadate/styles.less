@@ -1,0 +1,76 @@
+& {
+  .pickadate-input {
+    .picker__box {
+      padding: 0;
+      .picker__header {
+        .picker__nav {
+          &--prev, &--next {
+            font-size: 30px;
+            margin-top: 8px;
+          }
+          &--prev {
+            left: 10px;
+          }
+          &--next {
+            right: 10px;
+          }
+        }
+      }
+      .picker {
+        &__day {
+          border: 2px solid transparent;
+          &--outfocus, &--infocus {
+            &.picker__day--disabled {
+              background-color: transparent;
+              color: @dark-grey;
+              border: none;
+            }
+          }
+          &--infocus {
+            background-color: transparent;
+            border-color: @dark-blue;
+            color: @dark-blue;
+            font-weight: bold;
+            &.picker__day--disabled {
+              font-weight: normal;
+              &:hover {
+                color: @dark-grey;
+                background-color: transparent;
+              }
+            }
+          }
+          &.picker__day {
+            &--outfocus {
+              background-color: transparent;
+              border: 1px solid @dark-blue;
+              font-weight: normal;
+              &.picker__day--disabled {
+                background: transparent;
+                font-weight: normal;
+                background-color: transparent;
+                color: @dark-grey;
+                border: none;
+              }
+            }
+            &--selected {
+              background-color: @dark-blue;
+              color: @white;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media only screen and (max-width: 440px) {
+    .pickadate-input {
+      .picker {
+        &__day {
+          width: 36px;
+          height: 36px;
+          line-height: 24px;
+          margin: 6px auto;
+        }
+      }
+    }
+  }
+}

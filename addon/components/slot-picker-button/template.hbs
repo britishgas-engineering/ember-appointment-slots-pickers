@@ -1,0 +1,25 @@
+{{#if isSelected}}
+  {{#if canSelectMultipleSlots}}
+    {{#bg-button
+      class='asp-btn selected background background-dark-blue'
+      theme='secondary'
+      hide-icon='true'
+      action=(action attrs.deselect appointmentSlot)}}
+      {{appointmentSlot.slotPickerTime}}
+      <span class="fa fa-check" aria-hidden="true"></span>
+    {{/bg-button}}
+  {{else}}
+    <div class="asp-appointment-slot-selected white background background-dark-blue">
+      {{appointmentSlot.slotPickerTime}}
+      <span class="fa fa-check" aria-hidden="true"></span>
+    </div>
+  {{/if}}
+{{else}}
+  {{#bg-button
+    class='asp-btn'
+    theme='secondary'
+    hide-icon='true'
+    action=(action attrs.select appointmentSlot)}}
+    {{appointmentSlot.slotPickerTime}}
+  {{/bg-button}}
+{{/if}}

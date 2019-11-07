@@ -1,0 +1,53 @@
+<div class="asp-desktop">
+  <div class="asp-table">
+
+    <div class="asp-col asp-col-header background-light-grey font-size-9 border-right">
+      <div class="asp-row asp-row-header background-dark-blue white">
+      </div>
+      {{#each rows as |row index|}}
+        <div class="asp-row {{if (has-a-delimiter rows index) 'delimiter'}}">
+          <div class="asp-cell font-size-8">
+            <div class="row-label {{row.labelClassName}}">
+              {{row.label}}
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+
+    {{#scroll-header index=selectedDayIndex items=cellsPerCol as |item|}}
+
+      <div class="asp-col font-size-8">
+
+        <div class="asp-row asp-row-header background-dark-blue white">
+          <div class="asp-cell border-right border-white">
+            {{item.col.dayLabel}}
+          </div>
+        </div>
+
+        {{#each item.cellsForCol as |cell index|}}
+          <div class="asp-row border-right border-light-grey {{if (has-a-delimiter rows index) 'delimiter'}}">
+            <div class="asp-cell">
+              {{#if cell}}
+                {{slot-picker-button
+                  appointmentSlot=cell
+                  multiSelected=multiSelected
+                  canSelectMultipleSlots=canSelectMultipleSlots
+                  select=(action onSelectSlot)
+                  deselect=(optional-action onDeselectSlot)
+                }}
+              {{else}}
+                <div class="no-slot-label">
+                  {{if noSlotLabel noSlotLabel 'Fully booked'}}
+                </div>
+              {{/if}}
+            </div>
+          </div>
+
+        {{/each}}
+
+      </div>
+
+    {{/scroll-header}}
+  </div>
+</div>

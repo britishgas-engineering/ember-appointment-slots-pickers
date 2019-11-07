@@ -1,0 +1,74 @@
+& {
+  .filter-container-desktop {
+    margin-bottom: 2em;
+
+    .filter-slot-desktop {
+      float: left;
+      border: 0;
+      background-color: #EEEEEE;
+      border-right: 1px solid #dcdcdc;
+      font-size: 20px;
+      width: 25%;
+      padding: 8px 0;
+
+      &:first-child {
+        border-radius: 5px 0 0 5px;
+      }
+
+      &:last-child {
+        border-radius: 0 5px 5px 0;
+        border-right: 0;
+      }
+
+      &:hover,
+      &.filter-slot-selected {
+        background-color: #005EB1;
+        color: white
+      }
+    }
+
+    .filter-desktop-title {
+      font-size: 22px;
+      margin-bottom: 1em;
+      text-align: center;
+      display: block;
+    }
+
+    .filter-button-group {
+      text-align: center;
+      display: flex;
+      justify-content: center;
+    }
+  }
+  div.filter-container {
+    padding: 0 18%;
+    div.filter {
+      font-size: 18px;
+      padding: 0 10%;
+
+      div.filter-button-group {
+        display: inblock;
+        button.filter-slot {
+          background-color: Transparent;
+          border: 1px solid @dark-blue;
+          border-radius: 4px;
+          font-size: x-small;
+          font-weight: bold;
+          margin: 5px;
+          width: 40%;
+          &.filter-slot-selected {
+            background-color: @dark-blue;
+            color: white;
+          }
+          &.filter-slot-big {
+            width: calc(80% + 7px);
+          }
+        }
+      }
+      div.filter-divider {
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
+    }
+  }
+}
