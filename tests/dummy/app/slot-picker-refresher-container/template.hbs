@@ -1,0 +1,34 @@
+<div class="container-fluid">
+  <h1>slot-picker-refresher-container</h1>
+
+  <h3>Default</h3>
+  <p>
+    Note: the component to be displayed when expired must be enclosed into a "refresher-overlay" div
+  </p>
+  
+  <div class="mb8">
+    {{#slot-picker-refresher-container
+      delay=3000
+      onrefresh=(route-action "refresh")
+      as |isExpired refresh|
+    }}
+      <div class="refresher-overlay">
+        {{#if isExpired}}
+          <p class="red">Your data has expired!</p>
+        {{else}}
+          <p>Your data will expire in 3 seconds.</p>
+        {{/if}}
+      </div>
+
+      {{#bg-button
+        action=(action refresh)
+        disabled=(unless isExpired true)
+        theme="secondary"
+      }}
+        Refresh
+      {{/bg-button}}
+
+    {{/slot-picker-refresher-container}}
+  </div>
+
+</div>

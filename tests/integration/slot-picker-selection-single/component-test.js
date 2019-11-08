@@ -1,9 +1,9 @@
-import {findAll, find, render} from '@ember/test-helpers';
+import { findAll, find, render } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
-import {test} from 'qunit';
+import { test } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
-import {module} from 'qunit';
-import {setupRenderingTest} from 'ember-qunit';
+import { module } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 
 module('Integration | Component | slot-picker-selection-single', function (hooks) {
   setupRenderingTest(hooks);

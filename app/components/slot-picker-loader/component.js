@@ -1,1 +1,1 @@
-export {default} from 'ember-commons/components/slot-picker-loader/component';
+export {default} from 'ember-appointment-slots-pickers/components/slot-picker-loader/component';

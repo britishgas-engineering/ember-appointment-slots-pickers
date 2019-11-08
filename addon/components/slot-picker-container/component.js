@@ -9,7 +9,7 @@ import {
   sort,
   setDiff
 } from '@ember/object/computed';
-import EmberObject, {computed} from '@ember/object';
+import EmberObject, { computed } from '@ember/object';
 import ObjectProxy from '@ember/object/proxy';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
@@ -18,7 +18,10 @@ import layout from './template';
 
 export default Component.extend({
   layout,
-  appointmentSlots: [],
+  init() {
+    this._super(...arguments);
+    this.appointmentSlots = this.appointmentSlots || [];
+  },
   selected: null,
   select: null,
   noSlotLabel: 'Fully booked',
@@ -82,7 +85,7 @@ export default Component.extend({
     });
   }),
 
-  rowsSorting: ['group:desc', 'id:asc'],
+  rowsSorting: ['group:desc', 'id:asc'],//eslint-disable-line
   rows: sort('rowsNotSorted', 'rowsSorting'),
 
   dayIdsWithDuplicates: mapBy('availableAppointmentSlots', 'slotPickerDay'),
@@ -101,7 +104,7 @@ export default Component.extend({
     });
   }),
 
-  colsSorting: ['dayId:asc'],
+  colsSorting: ['dayId:asc'],//eslint-disable-line
   cols: sort('colsNotSorted', 'colsSorting'),
 
   cellsPerCol: computed(
@@ -137,7 +140,7 @@ export default Component.extend({
 
   actions: {
     onSelectSlot(slot) {
-      const onSelectSlot = this.attrs.select;
+      const onSelectSlot = this.get('select');
 
       if (onSelectSlot) {
         return onSelectSlot(slot);
@@ -155,7 +158,7 @@ export default Component.extend({
     },
 
     onDeselectSlot(slot) {
-      const onDeselectSlot = this.attrs.deselect;
+      const onDeselectSlot = this.get('deselect');
 
       if (onDeselectSlot) {
         return onDeselectSlot(slot);

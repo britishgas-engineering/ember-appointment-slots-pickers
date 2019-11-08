@@ -1,9 +1,12 @@
-import {filter} from '@ember/object/computed';
+import { filter } from '@ember/object/computed';
 import Component from '@ember/component';
 import layout from './template';
 
 export default Component.extend({
-  appointmentSlots: [],
+  init() {
+    this._super(...arguments);
+    this.appointmentSlots = this.appointmentSlots || [];
+  },
   selectedFilter: undefined,
   layout: layout,
   filteredAppointmentSlots: filter('appointmentSlots', function (appointmentSlot) {

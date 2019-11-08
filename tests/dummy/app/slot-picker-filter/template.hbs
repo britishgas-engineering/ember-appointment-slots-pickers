@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <h1>Slot picker filter</h1>
+  <div class="slot-picker-filter">
+    <div class="even-odd-slots">
+      <h2>Odd number of time slot options</h2>
+      {{#slot-picker-filter-container
+        appointmentSlots=model.appointmentSlots
+        as |filteredAppointmentSlots changeFilter selectedFilter|
+      }}
+        {{#if selectedFilter}}
+          <p>Selected time slot: {{selectedFilter.startTimeLabel}} - {{selectedFilter.endTimeLabel}}</p>
+        {{else}}
+          <p>No time slot selected</p>
+        {{/if}}
+        <div class="slot-picker-container">
+          {{slot-picker-filter
+            timeSlots=model.fourTimeSlots
+            changeFilter=changeFilter
+            selectedFilter=selectedFilter
+          }}
+        </div>
+      {{/slot-picker-filter-container}}
+    </div>
+    <div class="even-odd-slots">
+      <h2>Even number of time slot options</h2>
+      {{#slot-picker-filter-container
+        appointmentSlots=model.appointmentSlots
+        as |filteredAppointmentSlots changeFilter selectedFilter|
+      }}
+        {{#if selectedFilter}}
+          <p>Selected time slot: {{selectedFilter.startTimeLabel}} - {{selectedFilter.endTimeLabel}}</p>
+        {{else}}
+          <p>No time slot selected</p>
+        {{/if}}
+        <div class="slot-picker-container">
+          {{slot-picker-filter
+            timeSlots=model.threeTimeSlots
+            changeFilter=changeFilter
+            selectedFilter=selectedFilter
+          }}
+        </div>
+      {{/slot-picker-filter-container}}
+    </div>
+  </div>
+</div>

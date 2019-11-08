@@ -1,9 +1,11 @@
-import {module} from 'qunit'; import {setupRenderingTest} from 'ember-qunit';
-import {test} from 'qunit';
+import {
+  module} from 'qunit'; import {setupRenderingTest
+} from 'ember-qunit';
+import { test } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
-import {generateAppointmentSlots} from 'dummy/tests/helpers/generate-appointment-slots';
-import {run} from '@ember/runloop';
-import {render, settled, findAll} from '@ember/test-helpers';
+import { generateAppointmentSlots } from 'dummy/tests/helpers/generate-appointment-slots';
+import { run } from '@ember/runloop';
+import { render, settled, findAll } from '@ember/test-helpers';
 
 module('Integration | Component | slot-picker-desktop', function (hooks) {
   setupRenderingTest(hooks);

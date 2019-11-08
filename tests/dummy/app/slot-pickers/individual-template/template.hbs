@@ -1,0 +1,138 @@
+<div class="container-fluid">
+
+  <h1>{{model.slotPickerName}}</h1>
+
+  <h3>Default</h3>
+  <div class="mb8">
+    {{#slot-picker-container
+      appointmentSlots=model.showableSlots
+      selected=model.selected
+      noSlotLabel="Not available"
+      select=(action (mut model.selected))
+      as |baseProps onSelectSlot|
+    }}
+      {{component model.slotPickerName
+        baseProps=baseProps
+        onSelectSlot=onSelectSlot
+      }}
+      {{slot-picker-selection-single baseProps=baseProps}}
+    {{/slot-picker-container}}
+  </div>
+
+  <h3>Overlay (appears after {{delay}} ms, change with queryParam ?delay=10000)</h3>
+  {{!-- <div class="mb8">
+    {{#slot-picker-refresher-container
+      delay=delay
+      onrefresh=(route-action "resetSlots" delay)
+      as |isExpired refresh|
+    }}
+      {{#slot-picker-container
+        appointmentSlots=model.showableSlots
+        selected=model.selected
+        noSlotLabel="Not available"
+        select=(action (mut model.selected))
+        as |baseProps onSelectSlot|
+      }}
+        {{component model.slotPickerName
+          baseProps=baseProps
+          onSelectSlot=onSelectSlot
+        }}
+        {{#if isExpired}}
+          {{slot-picker-overlay title="<h3>Hello World</h3>" refresh=(action refresh)}}
+        {{/if}}
+        {{slot-picker-selection-single baseProps=baseProps}}
+      {{/slot-picker-container}}
+    {{/slot-picker-refresher-container}}
+  </div> --}}
+
+  <h3>Loading state ({{delay}} ms, change with queryParam ?delay=10000)</h3>
+
+  <h4>Default loader (if exists)</h4>
+  <div class="mb8">
+    {{#slot-picker-container
+      appointmentSlots=model.asyncSlots
+      selected=model.selected
+      noSlotLabel="Not available"
+      select=(action (mut model.selected))
+      as |baseProps onSelectSlot|
+    }}
+      {{component model.slotPickerName
+        baseProps=baseProps
+        onSelectSlot=onSelectSlot
+      }}
+      {{slot-picker-selection-single baseProps=baseProps}}
+    {{/slot-picker-container}}
+  </div>
+
+  <h4>Custom loading template</h4>
+  <div class="mb8">
+    {{#slot-picker-container
+      appointmentSlots=model.asyncSlots
+      selected=model.selected
+      noSlotLabel="Not available"
+      select=(action (mut model.selected))
+      as |baseProps onSelectSlot|
+    }}
+      {{#if baseProps.slotsAreLoading}}
+        {{slot-picker-loader title="Finding the next available appointments in your area.."}}
+      {{else}}
+        {{component model.slotPickerName
+          baseProps=baseProps
+          onSelectSlot=onSelectSlot
+        }}
+      {{/if}}
+      {{slot-picker-selection-single baseProps=baseProps}}
+    {{/slot-picker-container}}
+  </div>
+
+  <h3>Filter slots</h3>
+  <div class="mb8">
+    {{#slot-picker-filter-container
+      appointmentSlots=model.showableSlots
+      onFilter=(action (mut model.selected null))
+      as |filteredAppointmentSlots changeFilter selectedFilter|
+    }}
+      {{#slot-picker-container
+        appointmentSlots=filteredAppointmentSlots
+        selected=model.selected
+        noSlotLabel="Not available"
+        selectedFilter=selectedFilter
+        select=(action (mut model.selected))
+        as |baseProps onSelectSlot|
+      }}
+        {{slot-picker-filter
+          timeSlots=baseProps.rows
+          changeFilter=changeFilter
+          selectedFilter=selectedFilter
+        }}
+        {{component model.slotPickerName
+          baseProps=baseProps
+          onSelectSlot=onSelectSlot
+        }}
+        {{slot-picker-selection-single baseProps=baseProps}}
+      {{/slot-picker-container}}
+    {{/slot-picker-filter-container}}
+  </div>
+
+  {{#if (not (eq model.slotPickerName "slot-picker-pickadate"))}}
+    <h3>Multiple slots</h3>
+    <div class="mb8">
+      {{#slot-picker-container
+        appointmentSlots=model.showableSlots
+          selected=selectedSlots
+          canSelectMultipleSlots=true
+          noSlotLabel="Not available"
+          select=(action "appendSlot")
+          deselect=(action "removeSlot")
+          as |baseProps onSelectSlot onDeselectSlot|
+       }}
+        {{component model.slotPickerName
+          baseProps=baseProps
+          onSelectSlot=onSelectSlot
+          onDeselectSlot=onDeselectSlot
+        }}
+        {{slot-picker-selection-multi baseProps=baseProps onDeselectSlot=onDeselectSlot}}
+      {{/slot-picker-container}}
+    </div>
+  {{/if}}
+</div>

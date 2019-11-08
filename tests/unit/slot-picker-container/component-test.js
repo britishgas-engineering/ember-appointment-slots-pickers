@@ -1,12 +1,12 @@
 import moment from 'moment';
 import EmberObject from '@ember/object';
 import ObjectProxy from '@ember/object/proxy';
-import {module, test} from 'qunit';
-import {setupTest} from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import RSVP from 'rsvp';
 import DS from 'ember-data';
-import {run} from '@ember/runloop';
-import {settled} from '@ember/test-helpers';
+import { run } from '@ember/runloop';
+import { settled } from '@ember/test-helpers';
 
 module('Unit | Component | slot-picker-container', function (hooks) {
   setupTest(hooks);

@@ -1,12 +1,15 @@
 import Service from '@ember/service';
-import {module, test} from 'qunit';
-import {setupRenderingTest} from 'ember-qunit';
-import {render, settled, click, findAll} from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, settled, click, findAll } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 // Stub config service
 const configServiceStub = Service.extend({
-  config: {}
+  init() {
+    this._super(...arguments);
+    this.config = this.config || {};
+  }
 });
 
 module('Integration | Component | refresher container', function (hooks) {

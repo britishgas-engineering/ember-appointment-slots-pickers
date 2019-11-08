@@ -1,0 +1,16 @@
+<div class="container-fluid">
+
+  <h1>scroll-header</h1>
+
+  <div class="mb8">
+    {{#scroll-header
+      items=model
+      index=100 as |item|
+    }}
+      <div class="cell scroll-header">
+        {{item}}
+      </div>
+    {{/scroll-header}}
+  </div>
+
+</div>

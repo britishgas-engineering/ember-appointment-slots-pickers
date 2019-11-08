@@ -1,6 +1,8 @@
-import {module} from 'qunit';
-import {test} from 'qunit'; import {setupTest} from 'ember-qunit';
-import {settled} from '@ember/test-helpers';
+import { module } from 'qunit';
+import {
+  test} from 'qunit'; import {setupTest
+} from 'ember-qunit';
+import { settled } from '@ember/test-helpers';
 
 module('Unit | Component | scroll-header-sly', function (hooks) {
   setupTest(hooks);

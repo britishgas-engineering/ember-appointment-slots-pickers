@@ -1,7 +1,7 @@
 import layout from './template';
-import {computed} from '@ember/object';
-import slotPickerBase from 'ember-commons/components/slot-picker-base/component';
-import {inject as service} from '@ember/service';
+import { computed } from '@ember/object';
+import slotPickerBase from 'ember-appointment-slots-pickers/components/slot-picker-base/component';
+import { inject as service } from '@ember/service';
 
 export default slotPickerBase.extend({
   layout,

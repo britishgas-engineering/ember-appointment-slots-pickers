@@ -1,13 +1,19 @@
-import {test} from 'qunit';
+import { test } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
-import {generateAppointmentSlots} from 'dummy/tests/helpers/generate-appointment-slots';
-import {module} from 'qunit';
-import {setupRenderingTest} from 'ember-qunit';
-import {run} from '@ember/runloop';
+import { generateAppointmentSlots } from 'dummy/tests/helpers/generate-appointment-slots';
+import { module } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { run } from '@ember/runloop';
 import moment from 'moment';
 
-import {render, settled, find, click, findAll} from '@ember/test-helpers';
+import {
+  render,
+  settled,
+  find,
+  click,
+  findAll
+} from '@ember/test-helpers';
 
 module('Integration | Component | slot-picker-pickadate', function (hooks) {
   setupRenderingTest(hooks);

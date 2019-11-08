@@ -1,8 +1,10 @@
-import {module} from 'qunit'; import {setupRenderingTest} from 'ember-qunit';
-import {test} from 'qunit';
+import {
+  module} from 'qunit'; import {setupRenderingTest
+} from 'ember-qunit';
+import { test } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
-import {run} from '@ember/runloop';
-import {render, settled, click, findAll} from '@ember/test-helpers';
+import { run } from '@ember/runloop';
+import { render, settled, click, findAll } from '@ember/test-helpers';
 
 module('Integration | Component | slot-picker-button', function (hooks) {
   setupRenderingTest(hooks);

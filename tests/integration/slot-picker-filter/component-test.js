@@ -1,9 +1,9 @@
-import {module, test} from 'qunit';
-import {setupRenderingTest} from 'ember-qunit';
-import {render, find, findAll, clearRender} from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, find, findAll, clearRender } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
-import {run} from '@ember/runloop';
+import { run } from '@ember/runloop';
 
 module('Integration | Component | slot-picker-filter', function (hooks) {
   setupRenderingTest(hooks);

@@ -1,10 +1,10 @@
-import {bool, map} from '@ember/object/computed';
+import { bool, map } from '@ember/object/computed';
 import layout from './template';
-import slotPickerBase from 'ember-commons/components/slot-picker-base/component';
-import {computed} from '@ember/object';
-import {inject as service} from '@ember/service';
+import slotPickerBase from 'ember-appointment-slots-pickers/components/slot-picker-base/component';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import moment from 'moment';
-import {run} from '@ember/runloop';
+import { run } from '@ember/runloop';
 
 export default slotPickerBase.extend({
   scroll: service(),

@@ -1,12 +1,21 @@
-import {union} from '@ember/object/computed';
-import {inject as service} from '@ember/service';
+import { union } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import Component from '@ember/component';
-import EmberObject, {computed} from '@ember/object';
+import EmberObject, { computed } from '@ember/object';
 import layout from './template';
 
 export default Component.extend({
   layout: layout,
-  timeSlots: [],
+  init() {
+    this._super(...arguments);
+    this.timeSlots = this.timeSlots || [];
+    this.fixedTimeSlots = this.fixedTimeSlots || [
+      EmberObject.create({
+        id: 'showall',
+        label: 'Show all'
+      })
+    ];
+  },
   viewport: service(),
   areTimeSlotsHidden: true,
   selectedFilter: null,
@@ -16,12 +25,6 @@ export default Component.extend({
   inputTimeSlots: computed(function () {
     return this.get('timeSlots');
   }),
-  fixedTimeSlots: [
-    EmberObject.create({
-      id: 'showall',
-      label: 'Show all'
-    })
-  ],
   allTimeSlots: union('inputTimeSlots', 'fixedTimeSlots'),
   areSlotsEven: computed('allTimeSlots.[]', function () {
     return this.get('allTimeSlots.length') % 2 === 0;
@@ -37,7 +40,7 @@ export default Component.extend({
     timeSlotButtonClick(selectedInternalTimeSlot) {
       this.set('selectedFilter', selectedInternalTimeSlot);
       this.set('areTimeSlotsHidden', true);
-      this.sendAction('changeFilter', selectedInternalTimeSlot.id === 'showall' ? null : selectedInternalTimeSlot);
+      this.changeFilter(selectedInternalTimeSlot.id === 'showall' ? null : selectedInternalTimeSlot);
     }
   }
 });

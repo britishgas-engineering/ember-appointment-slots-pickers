@@ -1,9 +1,9 @@
-import {test} from 'qunit';
+import { test } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
-import {module} from 'qunit';
-import {setupRenderingTest} from 'ember-qunit';
+import { module } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import $ from 'jquery';
-import {click, findAll, find, render} from '@ember/test-helpers';
+import { click, findAll, find, render } from '@ember/test-helpers';
 
 module('Integration | Component | scroll-header', function (hooks) {
   setupRenderingTest(hooks);

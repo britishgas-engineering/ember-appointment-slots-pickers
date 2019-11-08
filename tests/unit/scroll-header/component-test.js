@@ -1,6 +1,8 @@
-import {test} from 'qunit'; import {setupTest} from 'ember-qunit';
-import {module} from 'qunit';
-import {run} from '@ember/runloop';
+import {
+  test} from 'qunit'; import {setupTest
+} from 'ember-qunit';
+import { module } from 'qunit';
+import { run } from '@ember/runloop';
 
 module('Unit | Component | scroll-header', function (hooks) {
   setupTest(hooks);

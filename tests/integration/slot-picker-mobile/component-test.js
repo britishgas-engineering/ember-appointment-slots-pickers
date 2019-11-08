@@ -1,12 +1,12 @@
-import {test} from 'qunit';
+import { test } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
-import {generateAppointmentSlots} from 'dummy/tests/helpers/generate-appointment-slots';
-import {module} from 'qunit';
-import {setupRenderingTest} from 'ember-qunit';
-import {run} from '@ember/runloop';
+import { generateAppointmentSlots } from 'dummy/tests/helpers/generate-appointment-slots';
+import { module } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { run } from '@ember/runloop';
 import $ from 'jquery';
 
-import {render, settled, click, findAll} from '@ember/test-helpers';
+import { render, settled, click, findAll } from '@ember/test-helpers';
 
 module('Integration | Component | slot-picker-mobile', function (hooks) {
   setupRenderingTest(hooks);

@@ -1,5 +1,7 @@
-import {module} from 'qunit';
-import {test} from 'qunit'; import {setupTest} from 'ember-qunit';
+import { module } from 'qunit';
+import {
+  test} from 'qunit'; import {setupTest
+} from 'ember-qunit';
 import EmberObject from '@ember/object';
 
 module('Unit | Component | slot-picker-filter-container', function (hooks) {
