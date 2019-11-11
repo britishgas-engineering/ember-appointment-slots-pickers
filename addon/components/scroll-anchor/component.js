@@ -18,7 +18,8 @@ export default Component.extend({
   stayOnTopOf: null,
 
   classNames: [
-    'scroll-anchor'
+    'scroll-anchor',
+    'ember-appointment-slots-pickers'
   ],
 
   classNameBindings: [

@@ -43,7 +43,7 @@ export default Component.extend(RecognizerMixin, {
   },
 
   classNames: [
-    'asp-scroll'
+    'asp-scroll', 'ember-appointment-slots-pickers'
   ],
 
   /**

@@ -7,7 +7,7 @@ export default Component.extend({
   layout,
 
   tagName: 'button',
-  classNames: ['bg-button', 'btn'],
+  classNames: ['bg-button', 'btn', 'ember-appointment-slots-pickers'],
   classNameBindings: ['bgTheme'],
   attributeBindings: ['isDisabled:disabled', 'type', 'tabindex'],
 

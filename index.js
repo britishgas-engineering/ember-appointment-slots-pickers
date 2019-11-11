@@ -10,7 +10,9 @@ module.exports = {
     this.import('node_modules/pickadate/lib/picker.js');
     this.import('node_modules/pickadate/lib/picker.date.js');
     this.import('node_modules/pickadate/lib/themes/default.date.css');
-    //this.import('node_modules/sly/scripts/sly.js');
+    this.import('node_modules/sly-shim/dist/sly.min.js');
+    this.import('node_modules/bootstrap/dist/js/bootstrap.js');
+    this.import('node_modules/bootstrap/dist/css/bootstrap.min.css');
   },
   isDevelopingAddon: function () {
     if (this.env === 'test') {

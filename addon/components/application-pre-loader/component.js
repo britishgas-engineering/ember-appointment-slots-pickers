@@ -3,7 +3,7 @@ import Component from '@ember/component';
 
 export default Component.extend({
 
-  classNames: ['application-pre-loader'],
+  classNames: ['application-pre-loader', 'ember-appointment-slots-pickers'],
 
   didInsertElement: function () {
     //go to the bottom of screen if smaller than it

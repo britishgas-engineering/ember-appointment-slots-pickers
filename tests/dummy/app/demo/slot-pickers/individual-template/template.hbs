@@ -19,6 +19,7 @@
     {{/slot-picker-container}}
   </div>
 
+  <hr>
   <h3>Overlay (appears after {{delay}} ms, change with queryParam ?delay=10000)</h3>
   {{!-- <div class="mb8">
     {{#slot-picker-refresher-container
@@ -44,9 +45,9 @@
       {{/slot-picker-container}}
     {{/slot-picker-refresher-container}}
   </div> --}}
-
+  <hr>
   <h3>Loading state ({{delay}} ms, change with queryParam ?delay=10000)</h3>
-
+  <hr>
   <h4>Default loader (if exists)</h4>
   <div class="mb8">
     {{#slot-picker-container
@@ -63,7 +64,7 @@
       {{slot-picker-selection-single baseProps=baseProps}}
     {{/slot-picker-container}}
   </div>
-
+  <hr>
   <h4>Custom loading template</h4>
   <div class="mb8">
     {{#slot-picker-container
@@ -84,7 +85,7 @@
       {{slot-picker-selection-single baseProps=baseProps}}
     {{/slot-picker-container}}
   </div>
-
+  <hr>
   <h3>Filter slots</h3>
   <div class="mb8">
     {{#slot-picker-filter-container
@@ -115,6 +116,7 @@
   </div>
 
   {{#if (not (eq model.slotPickerName "slot-picker-pickadate"))}}
+    <hr>
     <h3>Multiple slots</h3>
     <div class="mb8">
       {{#slot-picker-container

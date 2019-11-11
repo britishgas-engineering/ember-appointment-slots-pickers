@@ -7,10 +7,10 @@ import layout from './template';
 
 export default Component.extend({
   layout: layout,
-  classNames: ['scroll-header-sly'],
+  classNames: ['scroll-header-sly', 'ember-appointment-slots-pickers'],
 
   viewport: service(),
-  window: service(),
+  window: window,//TODO: use service instead
 
   index: null, //day at the middle
   indexUpdate: null,

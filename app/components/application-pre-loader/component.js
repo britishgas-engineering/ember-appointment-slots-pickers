@@ -1,3 +1,1 @@
-import applicationPreLoader from 'ember-commons/components/application-pre-loader/component';
-
-export default applicationPreLoader;
+export {default} from 'ember-appointment-slots-pickers/components/application-pre-loader/component';

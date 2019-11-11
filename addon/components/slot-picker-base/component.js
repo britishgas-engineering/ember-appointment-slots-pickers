@@ -5,6 +5,7 @@ import { run } from '@ember/runloop';
 import moment from 'moment';
 
 export default Component.extend({
+  classNames: ['ember-appointment-slots-pickers'],
   init() {
     this._super(...arguments);
     this.baseProps = this.baseProps || {};

@@ -23,7 +23,7 @@ export default Component.extend({
   slotsUpdate: null,
   jsDays: null,
   jsDaysUpdate: null,
-  classNames: ['pickadate-input'],
+  classNames: ['pickadate-input', 'ember-appointment-slots-pickers'],
   disable: null,
   hideToday: null,
   highlight: null,
