@@ -12,13 +12,20 @@
         {{else}}
           <p>No time slot selected</p>
         {{/if}}
-        <div class="slot-picker-container">
+        {{#slot-picker-container
+          appointmentSlots=model.fourTimeSlots
+          selected=model.selected
+          noSlotLabel="Not available"
+          selectedFilter=selectedFilter
+          select=(action (mut model.selected))
+          as |baseProps onSelectSlot|
+        }}
           {{slot-picker-filter
-            timeSlots=model.fourTimeSlots
+            timeSlots=baseProps.rows
             changeFilter=changeFilter
             selectedFilter=selectedFilter
           }}
-        </div>
+        {{/slot-picker-container}}
       {{/slot-picker-filter-container}}
     </div>
     <div class="even-odd-slots">
@@ -32,13 +39,20 @@
         {{else}}
           <p>No time slot selected</p>
         {{/if}}
-        <div class="slot-picker-container">
+        {{#slot-picker-container
+          appointmentSlots=model.threeTimeSlots
+          selected=model.selected
+          noSlotLabel="Not available"
+          selectedFilter=selectedFilter
+          select=(action (mut model.selected))
+          as |baseProps onSelectSlot|
+        }}
           {{slot-picker-filter
-            timeSlots=model.threeTimeSlots
+            timeSlots=baseProps.rows
             changeFilter=changeFilter
             selectedFilter=selectedFilter
           }}
-        </div>
+        {{/slot-picker-container}}
       {{/slot-picker-filter-container}}
     </div>
   </div>

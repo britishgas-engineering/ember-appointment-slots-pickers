@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import moment from 'moment';
+import EmberObject from '@ember/object';
 
 export default Route.extend({
   model() {
@@ -32,36 +33,43 @@ export default Route.extend({
       }));
     }
     const fourTimeSlots = [
-      {
-        id: '08001000',
-        slotPickerTime: '8am - 10am'
-      },
-      {
-        id: '10001200',
-        slotPickerTime: '10am - 12pm'
-      },
-      {
-        id: '12001400',
-        slotPickerTime: '12pm - 2pm'
-      },
-      {
-        id: '14001600',
-        slotPickerTime: '2am - 4pm'
-      }
+      EmberObject.create({
+        slotPickerRowId: '08001000',
+        slotPickerRowLabel: '8am - 10am',
+        slotPickerAvailable: true
+      }),
+      EmberObject.create({
+        slotPickerRowId: '10001200',
+        slotPickerRowLabel: '10am - 12pm',
+        slotPickerAvailable: true
+      }),
+      EmberObject.create({
+        slotPickerRowId: '12001400',
+        slotPickerRowLabel: '12pm - 2pm',
+        slotPickerAvailable: true
+      }),
+      EmberObject.create({
+        slotPickerRowId: '14001600',
+        slotPickerRowLabel: '2pm - 4pm',
+        slotPickerAvailable: true
+      })
     ];
     const threeTimeSlots = [
-      {
-        id: '08001100',
-        slotPickerTime: '8am - 11am'
-      },
-      {
-        id: '11001300',
-        slotPickerTime: '11am - 1pm'
-      },
-      {
-        id: '13001600',
-        slotPickerTime: '1pm - 4pm'
-      }
+      EmberObject.create({
+        slotPickerRowId: '08001100',
+        slotPickerRowLabel: '8am - 10am',
+        slotPickerAvailable: true
+      }),
+      EmberObject.create({
+        slotPickerRowId: '11001300',
+        slotPickerRowLabel: '10am - 12pm',
+        slotPickerAvailable: true
+      }),
+      EmberObject.create({
+        slotPickerRowId: '13001600',
+        slotPickerRowLabel: '2pm - 4pm',
+        slotPickerAvailable: true
+      })
     ];
     return {
       fourTimeSlots,

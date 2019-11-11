@@ -21,7 +21,7 @@
 
   <hr>
   <h3>Overlay (appears after {{delay}} ms, change with queryParam ?delay=10000)</h3>
-  {{!-- <div class="mb8">
+  <div class="mb8">
     {{#slot-picker-refresher-container
       delay=delay
       onrefresh=(route-action "resetSlots" delay)
@@ -44,7 +44,7 @@
         {{slot-picker-selection-single baseProps=baseProps}}
       {{/slot-picker-container}}
     {{/slot-picker-refresher-container}}
-  </div> --}}
+  </div>
   <hr>
   <h3>Loading state ({{delay}} ms, change with queryParam ?delay=10000)</h3>
   <hr>

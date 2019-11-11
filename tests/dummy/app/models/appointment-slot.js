@@ -18,7 +18,7 @@ export default DS.Model.extend({
       case 'EVENING': return 'Evening';
       case 'FF': return 'Family friendly';
       case 'PM': return 'Afternoon';
-      default: return 'Not recognized';
+      default: return null;
     }
   }),
 
@@ -104,5 +104,6 @@ export default DS.Model.extend({
     return startMoment.format('YYYYMMDD');
   }),
 
-  slotPickerTime: readOnly('timeLabel')
+  slotPickerTime: readOnly('timeLabel'),
+  slotPickerAvailable: readOnly('available')
 });

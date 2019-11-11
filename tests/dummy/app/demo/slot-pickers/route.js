@@ -27,25 +27,6 @@ const schema = [{
   variant: 'ALLDAY'
 }];
 
-const filterOptions = [
-  {
-    id: '08001000',
-    slotPickerTime: '8am - 10am'
-  },
-  {
-    id: '10001200',
-    slotPickerTime: '10am - 12pm'
-  },
-  {
-    id: '12001400',
-    slotPickerTime: '12pm - 2pm'
-  },
-  {
-    id: '14001600',
-    slotPickerTime: '2pm - 4pm'
-  }
-];
-
 export default Route.extend({
   model(params) {
     const appointmentSlots = [];
@@ -70,8 +51,7 @@ export default Route.extend({
     const model = EmberObject.create({
       selected: selectedSlot,
       appointmentSlots,
-      showableSlots,
-      filterOptions
+      showableSlots
     });
     this._resetAsyncSlots(model, params.delay);
     return model;

@@ -45,7 +45,7 @@ export default Component.extend({
     });
   }),
 
-  availableAppointmentSlotsWithoutSelected: filterBy('appointmentSlots', 'available', true),
+  availableAppointmentSlotsWithoutSelected: filterBy('appointmentSlots', 'slotPickerAvailable', true),
   hasNoSlots: equal('availableAppointmentSlotsWithoutSelected.length', 0),
   slotsArePending: computed('appointmentSlots.isPending', function () {
     return this.get('appointmentSlots.isPending');
