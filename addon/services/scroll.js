@@ -50,14 +50,17 @@ export default Service.extend({
     return maxDistance / this.get('_minimumDuration');
   }),
 
-  scrollStopEventNames: [
-    'scroll',
-    'mousedown',
-    'DOMMouseScroll',
-    'mousewheel',
-    'keyup',
-    'touchstart'
-  ],
+  init() {
+    this._super(...arguments);
+    this.scrollStopEventNames = this.scrollStopEventNames || [
+      'scroll',
+      'mousedown',
+      'DOMMouseScroll',
+      'mousewheel',
+      'keyup',
+      'touchstart'
+    ];
+  },
 
   /**
    * calling the scroll (only in dev, staging or production)

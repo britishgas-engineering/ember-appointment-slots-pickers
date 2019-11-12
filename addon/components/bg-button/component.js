@@ -43,8 +43,9 @@ export default Component.extend({
   isDisabled: or('disabled', 'loading'),
 
   click(...params) {
-    if (this.attrs.action) {
-      const promise = this.attrs.action(...params);
+    const action = this.get('action');
+    if (action) {
+      const promise = action(...params);
 
       // if the action is a closure action
       // and a promise set loading state

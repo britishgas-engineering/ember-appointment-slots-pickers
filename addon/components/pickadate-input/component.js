@@ -33,8 +33,11 @@ export default Component.extend({
   selected: null,
   setShorterDays: null,
   value: null,
-  weekdaysShort: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-  weekdaysShorter: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+  init() {
+    this._super(...arguments);
+    this.weekdaysShort = this.weekdaysShort || ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+    this.weekdaysShorter = this.weekdaysShorter || ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  },
 
   /**
   * Notify the parent controller
@@ -48,7 +51,7 @@ export default Component.extend({
     const $el = $(e.target);
 
     if ($el.hasClass('picker__day--disabled')) {
-      this.sendAction('select');
+      this.select();
     }
 
   },
@@ -67,7 +70,7 @@ export default Component.extend({
   */
   onPickerSet: function (e) {
     if (e.select) {
-      this.sendAction('select', e.select);
+      this.select(e.select);
     }
   },
 
@@ -75,7 +78,7 @@ export default Component.extend({
   * Update the picker selected date
   * @return {undefined}
   */
-  onValueChanged: observer('value', function () {
+  onValueChanged: observer('value', function () {//eslint-disable-line
     if (this.get('value')) {
 
       // Set the value on the picker and mute
@@ -86,7 +89,7 @@ export default Component.extend({
     }
   }),
 
-  onSelectionChanged: observer('selected', function () {
+  onSelectionChanged: observer('selected', function () {//eslint-disable-line
     if (!this.isDestroyed && this.get('selected')) {
       this.picker.set('select', moment(this.get('selected.slotPickerDay'), 'YYYYMMDD').toDate(), {muted: true});
     }

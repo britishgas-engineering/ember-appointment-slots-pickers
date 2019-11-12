@@ -11,17 +11,20 @@ const HorizontalSwipeView = Component.extend(RecognizerMixin, {
 
   // Attributes
   width: 0,
-  items: [],
   index: 0,
   onswipe: null,
+  init() {
+    this._super(...arguments);
+    this.items = this.items || [];
+  },
 
   swipeLeft() {
-    const onswipe = this.attrs.onswipe;
+    const onswipe = this.get('onswipe');
     return onswipe && onswipe(1);
   },
 
   swipeRight() {
-    const onswipe = this.attrs.onswipe;
+    const onswipe = this.get('onswipe');
     return onswipe && onswipe(-1);
   },
 

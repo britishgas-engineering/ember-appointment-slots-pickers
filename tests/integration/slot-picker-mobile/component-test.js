@@ -1,6 +1,6 @@
 import { test } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { generateAppointmentSlots } from 'dummy/tests/helpers/generate-appointment-slots';
+import { generateAppointmentSlots } from 'ember-appointment-slots-pickers/test-support/helpers/generate-appointment-slots';
 import { module } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { run } from '@ember/runloop';

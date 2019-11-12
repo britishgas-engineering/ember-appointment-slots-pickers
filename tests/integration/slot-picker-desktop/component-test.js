@@ -3,7 +3,7 @@ import {
 } from 'ember-qunit';
 import { test } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { generateAppointmentSlots } from 'dummy/tests/helpers/generate-appointment-slots';
+import { generateAppointmentSlots } from 'ember-appointment-slots-pickers/test-support/helpers/generate-appointment-slots';
 import { run } from '@ember/runloop';
 import { render, settled, findAll } from '@ember/test-helpers';
 

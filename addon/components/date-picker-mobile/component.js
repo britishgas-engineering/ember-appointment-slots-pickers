@@ -30,12 +30,14 @@ export default Component.extend({
   //.row class is added to make it backward comptable. That's now very clean so happy to remove
   //if sure it doesn't break the different classe995
   classNames: ['date-picker-mobile', 'ember-appointment-slots-pickers'],
-
-  dates: [],
+  init() {
+    this._super(...arguments);
+    this.dates = this.dates || [];
+    this.selectedSlots = this.selectedSlots || [];
+  },
   currentIndex: 0,
   width: 0,
   cacheKey: true,
-  selectedSlots: [],
 
   _resizeListener() {},
 
@@ -113,7 +115,7 @@ export default Component.extend({
   }),
 
   validatedDates: map('dates', function (date) {
-    assert(moment.isMoment(date), 'you must supply moment objects as "dates" in date-picker-mobile');
+    assert('you must supply moment objects as "dates" in date-picker-mobile', moment.isMoment(date));
     return date;
   }),
 
