@@ -10,7 +10,7 @@ export default DS.Model.extend({
   available: DS.attr('boolean'),
   classification: DS.attr('string'),
 
-  variantLabel: computed('variant', function () {
+  _variantLabel: computed('variant', function () {
     const variant = this.get('variant');
     switch(variant) {
       case 'ALLDAY': return 'All day';
@@ -22,7 +22,7 @@ export default DS.Model.extend({
     }
   }),
 
-  startMoment: computed('convertToUKTimezone', 'startTime', function () {
+  slotPickerStartMoment: computed('convertToUKTimezone', 'startTime', function () {
     if (this.get('startTime')) {
       return this.get('convertToUKTimezone') ?
         moment(this.get('startTime')).tz('Europe/London') :
@@ -32,7 +32,7 @@ export default DS.Model.extend({
     }
   }),
 
-  endMoment: computed('convertToUKTimezone', 'endTime', function () {
+  _endMoment: computed('convertToUKTimezone', 'endTime', function () {
     if (this.get('endTime')) {
       return this.get('convertToUKTimezone') ?
         moment(this.get('endTime')).tz('Europe/London') :
@@ -42,14 +42,14 @@ export default DS.Model.extend({
     }
   }),
 
-  timeLabel: computed('startMoment', 'endMoment', function () {
-    const startMoment = this.get('startMoment');
+  slotPickerTime: computed('slotPickerStartMoment', '_endMoment', function () {
+    const slotPickerStartMoment = this.get('slotPickerStartMoment');
 
-    const endMoment = this.get('endMoment');
-    if (startMoment && endMoment) {
-      const start = startMoment.format('mm') === '00' ? startMoment.format('ha') : startMoment.format('h:mma');
+    const _endMoment = this.get('_endMoment');
+    if (slotPickerStartMoment && _endMoment) {
+      const start = slotPickerStartMoment.format('mm') === '00' ? slotPickerStartMoment.format('ha') : slotPickerStartMoment.format('h:mma');
 
-      const end = endMoment.format('mm') === '00' ? endMoment.format('ha') : endMoment.format('h:mma');
+      const end = _endMoment.format('mm') === '00' ? _endMoment.format('ha') : _endMoment.format('h:mma');
 
       return `${start} - ${end}`;
     } else {
@@ -57,53 +57,61 @@ export default DS.Model.extend({
     }
   }),
 
-  startTimeLabel: computed('startMoment', function () {
-    const startMoment = this.get('startMoment');
-    return startMoment.format('mm') === '00' ? startMoment.format('ha') : startMoment.format('h:mma');
+  slotPickerStartTimeLabel: computed('slotPickerStartMoment', function () {
+    const slotPickerStartMoment = this.get('slotPickerStartMoment');
+    return slotPickerStartMoment.format('mm') === '00' ? slotPickerStartMoment.format('ha') : slotPickerStartMoment.format('h:mma');
   }),
 
-  endTimeLabel: computed('endMoment', function () {
-    const endMoment = this.get('endMoment');
+  slotPickerEndTimeLabel: computed('_endMoment', function () {
+    const _endMoment = this.get('_endMoment');
 
-    return endMoment.format('mm') === '00' ? endMoment.format('ha') : endMoment.format('h:mma');
+    return _endMoment.format('mm') === '00' ? _endMoment.format('ha') : _endMoment.format('h:mma');
   }),
 
-  timeId: computed('startMoment', 'endMoment', function () {
-    const startMoment = this.get('startMoment');
+  _timeId: computed('slotPickerStartMoment', '_endMoment', function () {
+    const slotPickerStartMoment = this.get('slotPickerStartMoment');
 
-    const endMoment = this.get('endMoment');
+    const _endMoment = this.get('_endMoment');
 
-    return startMoment.format('HHmm') + endMoment.format('HHmm');
+    return slotPickerStartMoment.format('HHmm') + _endMoment.format('HHmm');
   }),
 
-  //isSpecialTimePeriod: bool('variantLabel'),
-
-  slotPickerRowId: computed('timeId', 'variantLabel', function () {
-    return this.get('timeId') + (this.get('variantLabel') || '');
+  slotPickerRowId: computed('_timeId', '_variantLabel', function () {
+    return this.get('_timeId') + (this.get('_variantLabel') || '');
   }),
 
-  slotPickerRowLabel: computed('variantLabel', 'timeLabel', function () {
-    const variantLabel = this.get('variantLabel');
+  slotPickerRowLabel: computed('_variantLabel', 'timeLabel', function () {
+    const _variantLabel = this.get('_variantLabel');
     const timeLabel = this.get('timeLabel');
-    return variantLabel || timeLabel;
+    return _variantLabel || timeLabel;
   }),
 
-  slotPickerRowLabelClassName: computed('variantLabel', function () {
-    const variantLabel = this.get('variantLabel');
-    return variantLabel ? 'bold' : '';
+  slotPickerRowLabelClassName: computed('_variantLabel', function () {
+    const _variantLabel = this.get('_variantLabel');
+    return _variantLabel ? 'bold' : '';
   }),
 
-  slotPickerGroup: computed('variantLabel', function () {
-    const variantLabel = this.get('variantLabel');
-    return variantLabel ? 1 : 0;
+  slotPickerGroup: computed('_variantLabel', function () {
+    const _variantLabel = this.get('_variantLabel');
+    return _variantLabel ? 1 : 0;
   }),
 
-  slotPickerDay: computed('startMoment', function () {
-    const startMoment = this.get('startMoment');
+  slotPickerDay: computed('slotPickerStartMoment', function () {
+    const slotPickerStartMoment = this.get('slotPickerStartMoment');
 
-    return startMoment.format('YYYYMMDD');
+    return slotPickerStartMoment.format('YYYYMMDD');
+  }),
+  slotPickerDayLabel: computed('slotPickerStartMoment', function () {
+    const slotPickerStartMoment = this.get('slotPickerStartMoment');
+
+    return slotPickerStartMoment.format('ddd Do MMM YYYY');
   }),
 
-  slotPickerTime: readOnly('timeLabel'),
+  slotPickerLongDayLabel: computed('slotPickerStartMoment', function () {
+    const slotPickerStartMoment = this.get('slotPickerStartMoment');
+
+    return slotPickerStartMoment.format('dddd Do MMMM');
+  }),
+
   slotPickerAvailable: readOnly('available')
 });

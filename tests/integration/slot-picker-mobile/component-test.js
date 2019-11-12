@@ -66,7 +66,7 @@ module('Integration | Component | slot-picker-mobile', function (hooks) {
 
     const generatedSlots = this.get('generatedAppointmentSlots');
     const firstAvailableSlot = generatedSlots.find((slot) => slot.get('available'));
-    const firstDayLabel = `${firstAvailableSlot.get('startTimeLabel')} - ${firstAvailableSlot.get('endTimeLabel')}`;
+    const firstDayLabel = `${firstAvailableSlot.get('slotPickerStartTimeLabel')} - ${firstAvailableSlot.get('slotPickerEndTimeLabel')}`;
 
     assert.notOk(
       this.$('.horizontal-swipe-view ul li:eq(0)').is(':offscreen'),

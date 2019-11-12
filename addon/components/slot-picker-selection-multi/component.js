@@ -5,6 +5,6 @@ import layout from './template';
 export default Component.extend({
   layout,
 
-  sorting: ['startTime:asc'],//eslint-disable-line
+  sorting: ['slotPickerTime:asc'],//eslint-disable-line
   sorted: sort('multiSelected', 'sorting')
 });

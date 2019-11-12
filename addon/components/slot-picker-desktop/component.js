@@ -14,7 +14,7 @@ export default slotPickerBase.extend({
       const multiSelected = this.get('multiSelected');
 
       // always scroll to the last selected column
-      if (dayLabel && multiSelected.length > 0 && multiSelected[multiSelected.length - 1].get('dayLabel') === dayLabel) {
+      if (dayLabel && multiSelected.length > 0 && multiSelected[multiSelected.length - 1].get('slotPickerDayLabel') === dayLabel) {
         selectedDayIndex = index;
       }
     });

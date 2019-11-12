@@ -30,16 +30,16 @@ module('Integration | Component | slot-picker-selection-multi', async function (
     this.set('baseProps', EmberObject.create({
       multiSelected: [
         EmberObject.create({
-          dayLabel: 'LABEL',
-          startTimeLabel: 'START',
-          endTimeLabel: 'END',
-          startTime: now
+          slotPickerDayLabel: 'LABEL',
+          slotPickerStartTimeLabel: 'START',
+          slotPickerEndTimeLabel: 'END',
+          slotPickerTime: now
         }),
         EmberObject.create({
-          dayLabel: 'LABEL1',
-          startTimeLabel: 'START1',
-          endTimeLabel: 'END1',
-          startTime: yesterday
+          slotPickerDayLabel: 'LABEL1',
+          slotPickerStartTimeLabel: 'START1',
+          slotPickerEndTimeLabel: 'END1',
+          slotPickerTime: yesterday
         })
       ]
     }));

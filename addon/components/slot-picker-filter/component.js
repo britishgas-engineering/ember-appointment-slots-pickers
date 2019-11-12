@@ -40,7 +40,7 @@ export default Component.extend({
     timeSlotButtonClick(selectedInternalTimeSlot) {
       this.set('selectedFilter', selectedInternalTimeSlot);
       this.set('areTimeSlotsHidden', true);
-      this.changeFilter(selectedInternalTimeSlot.id === 'showall' ? null : selectedInternalTimeSlot);
+      return this.changeFilter && this.changeFilter(selectedInternalTimeSlot.id === 'showall' ? null : selectedInternalTimeSlot);
     }
   }
 });

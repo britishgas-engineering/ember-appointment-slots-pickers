@@ -41,11 +41,11 @@ export default Route.extend({
         endTime: startMoment.hours(s.endHour).minutes(0).seconds(0).format(),
         variant: s.variant,
         available: Math.random() > 0.75 || notDisplayable,
-        notDisplayable
+        slotPickerNotDisplayable: notDisplayable
       }));
     }
     const availableSlots = appointmentSlots.filterBy('available', true);
-    const showableSlots = appointmentSlots.filterBy('notDisplayable', false);
+    const showableSlots = appointmentSlots.filterBy('slotPickerNotDisplayable', false);
     const selectedSlotIndex = Math.floor(Math.random() * (availableSlots.length + 1));
     const selectedSlot = availableSlots[selectedSlotIndex];
     const model = EmberObject.create({

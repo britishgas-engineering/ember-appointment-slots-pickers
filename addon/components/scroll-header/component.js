@@ -148,7 +148,6 @@ export default Component.extend(RecognizerMixin, {
   //case where appointment.appointmentSlot resolves later (appointment.appointmentSlot.content is initially null)
   _onIndexChange: observer('index', function () {//eslint-disable-line
     const index = this.get('index');
-
     if (!this.isDestroyed && index !== undefined) {
       this.set(
         'currentItem',

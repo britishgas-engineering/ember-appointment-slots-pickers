@@ -12,8 +12,8 @@ export default Component.extend({
   appointmentSlotsNotEmpty: filter('appointmentSlots', function (appointmentSlot) {
     return !!appointmentSlot;
   }),
-  startMoment: computed('appointmentSlotsNotEmpty.firstObject.startMoment', function () {
-    return this.get('appointmentSlotsNotEmpty.firstObject.startMoment');
+  startMoment: computed('appointmentSlotsNotEmpty.firstObject.slotPickerStartMoment', function () {
+    return this.get('appointmentSlotsNotEmpty.firstObject.slotPickerStartMoment');
   }).readOnly(),
   dayOfWeek: computed('startMoment', function () {
     const startMoment = this.get('startMoment');

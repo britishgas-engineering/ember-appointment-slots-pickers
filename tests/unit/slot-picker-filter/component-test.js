@@ -20,7 +20,7 @@ module('Unit | Component | slot-picker-filter', function (hooks) {
   });
 
   test('timeSlotButtonClick should reset areTimeSlotsHidden and call changeFilter', function (assert) {
-    const sendAction = sinon.stub();
+    const changeFilter = sinon.stub();
     const timeSlots = [
       {
         id: '08001000'
@@ -36,7 +36,7 @@ module('Unit | Component | slot-picker-filter', function (hooks) {
       }
     ];
     const component = this.owner.factoryFor('component:slot-picker-filter').create({
-      sendAction,
+      changeFilter,
       timeSlots
     });
     component.send('timeSlotButtonClick', {
@@ -47,25 +47,20 @@ module('Unit | Component | slot-picker-filter', function (hooks) {
       'areTimeSlotsHidden should be true'
     );
     assert.equal(
-      sendAction.args.length,
+      changeFilter.args.length,
       1,
-      'sendAction should be called once'
+      'changeFilter should be called once'
     );
-    const sendActionArgs = sendAction.args[0];
+    const changeFilterArgs = changeFilter.args[0];
     assert.equal(
-      sendActionArgs.length,
-      2,
-      'sendAction should be called with two arguments'
-    );
-    assert.equal(
-      sendActionArgs[0],
-      'changeFilter',
-      'sendAction should be called with changeFilter as first argument'
+      changeFilterArgs.length,
+      1,
+      'changeFilter should be called with one argument'
     );
     assert.equal(
-      sendActionArgs[1].get('id'),
+      changeFilterArgs[0].get('id'),
       '08001000',
-      'sendAction should be called with the clicked time slot as second argument'
+      'changeFilter should be called with the clicked time slot as second argument'
     );
   });
 

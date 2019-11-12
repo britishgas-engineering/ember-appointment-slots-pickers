@@ -22,9 +22,9 @@ module('Integration | Component | slot-picker-selection-single', function (hooks
     this.set('baseProps', EmberObject.create({
       multiSelected: [
         EmberObject.create({
-          longDayLabel: 'LABEL',
-          startTimeLabel: 'START',
-          endTimeLabel: 'END'
+          slotPickerLongDayLabel: 'LABEL',
+          slotPickerStartTimeLabel: 'START',
+          slotPickerEndTimeLabel: 'END'
         })
       ]
     }));

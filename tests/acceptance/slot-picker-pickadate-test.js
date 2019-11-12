@@ -2,7 +2,7 @@ import {visit} from '@ember/test-helpers';
 import {module, test} from 'qunit';
 import $ from 'jquery';
 import {setupApplicationTest} from 'ember-qunit';
-//import {throwsAdapterError} from 'ember-commons/test-support/helpers/throws-adapter-error';
+import {throwsAdapterError} from 'ember-appointment-slots-pickers/test-support/helpers/throws-adapter-error';
 import {run} from '@ember/runloop';
 
 module('Acceptance | Component | slot-picker-pickadate', function (hooks) {
@@ -10,9 +10,9 @@ module('Acceptance | Component | slot-picker-pickadate', function (hooks) {
 
   test('regression test slot-picker-pickadate', async function (assert) {
     //this test is needed, because there are some possible tricky discrepancies in calendars, depending on the cases
-    //await throwsAdapterError(assert, async () => {
-      await visit('components/slot-pickers/pickadate?delay=10');
-    //});
+    await throwsAdapterError(assert, async () => {
+      await visit('demo/slot-pickers/pickadate?delay=10');
+    });
     await run(() => $('button:contains("Refresh")').click());
     const arrayOfCalendars = $('.asp-pickadate');
     const firstCalendar = arrayOfCalendars.first();
