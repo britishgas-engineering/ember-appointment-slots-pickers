@@ -10,7 +10,7 @@ This README outlines the details of collaborating on this Ember addon.
 * `cd ember-appointment-slots-pickers`
 * `npm install`
 * `bower install`
-
+ 
 ## Running
 
 * `ember serve`
