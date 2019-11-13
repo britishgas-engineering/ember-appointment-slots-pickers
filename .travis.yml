@@ -5,6 +5,8 @@ node_js:
 
 sudo: false
 
+dist: trusty
+
 cache:
   directories:
     - $HOME/.npm
@@ -25,12 +27,10 @@ matrix:
 
 before_install:
   - npm config set spin false
-  - phantomjs --version
 
 install:
   - npm install
 
 script:
-  # Usually, it's ok to finish the test scenario without reverting
-  #  to the addon's original dependency state, skipping "cleanup".
-  - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup
+script:
+  - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
