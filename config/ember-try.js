@@ -1,7 +1,19 @@
 /*jshint node:true*/
 module.exports = {
-  scenarios: [
+  useVersionCompatibility: true,
+  scenarios: []
+  /*scenarios: [
     {
+      name: 'ember-lts-3.4',
+      bower: {
+        dependencies: {
+          'ember': 'components/ember#lts-2-4'
+        },
+        resolutions: {
+          'ember': 'lts-2-4'
+        }
+      }
+    },{
       name: 'ember-lts-2.4',
       bower: {
         dependencies: {
@@ -56,5 +68,5 @@ module.exports = {
         }
       }
     }
-  ]
+  ]*/
 };
