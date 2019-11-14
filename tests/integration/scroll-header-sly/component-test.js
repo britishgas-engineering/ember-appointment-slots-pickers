@@ -1,9 +1,9 @@
-import {module, test} from 'qunit';
-import {setupRenderingTest} from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import {run} from '@ember/runloop';
+import { run } from '@ember/runloop';
 
-import {render, settled, findAll} from '@ember/test-helpers';
+import { render, settled, findAll } from '@ember/test-helpers';
 
 let windowMock;
 

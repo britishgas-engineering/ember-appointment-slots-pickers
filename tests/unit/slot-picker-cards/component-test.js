@@ -1,6 +1,8 @@
 
-import {module} from 'qunit';
-import {test} from 'qunit'; import {setupTest} from 'ember-qunit';
+import { module } from 'qunit';
+import {
+  test} from 'qunit'; import {setupTest
+} from 'ember-qunit';
 
 module('Unit | Component | slot-picker-cards', function (hooks) {
   setupTest(hooks);

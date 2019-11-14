@@ -1,11 +1,11 @@
-import {inject as service} from '@ember/service';
-import {equal} from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { equal } from '@ember/object/computed';
 import Component from '@ember/component';
-import {computed, observer} from '@ember/object';
+import { computed, observer } from '@ember/object';
 import Ember from 'ember';
 import RecognizerMixin from 'ember-gestures/mixins/recognizers';
 import layout from './template';
-import {run} from '@ember/runloop';
+import { run } from '@ember/runloop';
 
 const {
   String
@@ -16,8 +16,11 @@ export default Component.extend(RecognizerMixin, {
   layout,
   viewport: service(),
   recognizers: 'swipe',
-  // Attributes
-  items: [],
+
+  init() {
+    this._super(...arguments);
+    this.items = this.items || [];
+  },
 
   swipeLeft() {
     this.goToNextItem();
@@ -40,7 +43,7 @@ export default Component.extend(RecognizerMixin, {
   },
 
   classNames: [
-    'asp-scroll'
+    'asp-scroll', 'ember-appointment-slots-pickers'
   ],
 
   /**
@@ -143,9 +146,8 @@ export default Component.extend(RecognizerMixin, {
   },
 
   //case where appointment.appointmentSlot resolves later (appointment.appointmentSlot.content is initially null)
-  _onIndexChange: observer('index', function () {
+  _onIndexChange: observer('index', function () {//eslint-disable-line
     const index = this.get('index');
-
     if (!this.isDestroyed && index !== undefined) {
       this.set(
         'currentItem',

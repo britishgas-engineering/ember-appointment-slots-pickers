@@ -1,19 +1,17 @@
-import {computed} from '@ember/object';
+import { computed } from '@ember/object';
 import Component from '@ember/component';
-import {inject as service} from '@ember/service';
-import {run} from '@ember/runloop';
+import { inject as service } from '@ember/service';
+import { run } from '@ember/runloop';
 import $ from 'jquery';
 import layout from './template';
 
 export default Component.extend({
   layout: layout,
-  classNames: ['scroll-header-sly'],
+  classNames: ['scroll-header-sly', 'ember-appointment-slots-pickers'],
 
   viewport: service(),
-  window: service(),
+  window: window,//TODO: use service instead
 
-  items: [],
-  itemsUpdate: [],
   index: null, //day at the middle
   indexUpdate: null,
   speed: 300,
@@ -21,6 +19,12 @@ export default Component.extend({
   isDragging: true,
   'active-item-alignment': 'basic',
   sly: null,
+
+  init() {
+    this._super(...arguments);
+    this.items = this.items || [];
+    this.itemsUpdate = this.itemsUpdate || [];
+  },
 
   _afterRenderInit() {
     if (this.isDestroyed) {
@@ -41,7 +45,7 @@ export default Component.extend({
     if (this.isDestroyed) {
       return false;
     }
-    return this.attrs.onactive(this.get('sly').rel.activeItem);
+    return this.get('onactive')(this.get('sly').rel.activeItem);
   },
 
   _indexFromPosition: computed(function () {
@@ -57,7 +61,7 @@ export default Component.extend({
       }
     }
     return index;
-  }).volatile(),
+  }).volatile(),//eslint-disable-line
 
   _afterRenderSlyMove() {
     if (this.isDestroyed) {
@@ -69,7 +73,7 @@ export default Component.extend({
       this.$('.scroll-header-sly-item').removeClass('active');
       this.$(`.scroll-header-sly-item:eq(${indexRounded})`).addClass('active');
     }
-    return this.attrs.onmove(index);
+    return this.get('onmove')(index);
   },
 
   _afterRenderSlyMoveEnd() {
@@ -77,7 +81,7 @@ export default Component.extend({
       return false;
     }
     const index = this.get('_indexFromPosition');
-    return this.attrs.onmoveend(index);
+    return this.get('onmoveend')(index);
   },
 
   _afterRenderReload() {
@@ -125,20 +129,20 @@ export default Component.extend({
       })
     );
 
-    if (this.attrs.onactive) {
+    if (this.get('onactive')) {
       this.get('sly').on('active', () => {
         run.scheduleOnce('afterRender', this, '_afterRenderSlyActive');
       });
     }
 
-    if (this.attrs.onmove) {
+    if (this.get('onmove')) {
       this.get('sly').on('move', () => {
         run(() => {
           run.scheduleOnce('afterRender', this, '_afterRenderSlyMove');
         });
       });
     }
-    if (this.attrs.onmoveend) {
+    if (this.get('onmoveend')) {
       this.get('sly').on('moveEnd', () => {
         run(() => {
           run.scheduleOnce('afterRender', this, '_afterRenderSlyMoveEnd');

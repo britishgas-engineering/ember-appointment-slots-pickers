@@ -1,9 +1,9 @@
-import {findAll, find, render} from '@ember/test-helpers';
+import { findAll, find, render } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
-import {test} from 'qunit';
+import { test } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
-import {module} from 'qunit';
-import {setupRenderingTest} from 'ember-qunit';
+import { module } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 
 module('Integration | Component | slot-picker-selection-single', function (hooks) {
   setupRenderingTest(hooks);
@@ -22,9 +22,9 @@ module('Integration | Component | slot-picker-selection-single', function (hooks
     this.set('baseProps', EmberObject.create({
       multiSelected: [
         EmberObject.create({
-          longDayLabel: 'LABEL',
-          startTimeLabel: 'START',
-          endTimeLabel: 'END'
+          slotPickerLongDayLabel: 'LABEL',
+          slotPickerStartTimeLabel: 'START',
+          slotPickerEndTimeLabel: 'END'
         })
       ]
     }));

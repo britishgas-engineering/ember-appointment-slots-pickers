@@ -1,0 +1,46 @@
+<div class="container-fluid">
+  <h1>horizontal scroll view</h1>
+
+  <h3>Default</h3>
+
+  <div class="row mb8">
+    {{#scroll-header-sly
+      items=model
+      as |item|
+    }}
+      <div class="scroll-header-sly">
+        {{item}}
+      </div>
+    {{/scroll-header-sly}}
+  </div>
+
+  <h3>Centered</h3>
+
+  <div class="row mb8">
+    {{#scroll-header-sly
+      active-item-alignment="centered"
+      items=model
+      as |item|
+    }}
+      <div class="scroll-header-sly">
+        {{item}}
+      </div>
+    {{/scroll-header-sly}}
+  </div>
+
+  <h3>Stiff</h3>
+
+  <div class="row mb8">
+    {{#scroll-header-sly
+      active-item-alignment="centered"
+      stiffness=0.2
+      items=model
+      as |item|
+    }}
+      <div class="scroll-header-sly">
+        {{item}}
+      </div>
+    {{/scroll-header-sly}}
+  </div>
+
+</div>

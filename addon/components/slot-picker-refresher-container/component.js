@@ -1,5 +1,5 @@
-import {Promise as EmberPromise} from 'rsvp';
-import {later, cancel} from '@ember/runloop';
+import { Promise as EmberPromise } from 'rsvp';
+import { later, cancel } from '@ember/runloop';
 import Component from '@ember/component';
 import layout from './template';
 
@@ -70,7 +70,7 @@ export default Component.extend({
             resolve();
           };
 
-          const action = this.attrs.onrefresh();
+          const action = this.get('onrefresh')();
 
           const isActionPromise = !!action.then;
 

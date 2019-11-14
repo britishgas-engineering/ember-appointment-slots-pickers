@@ -1,16 +1,19 @@
-import {filter} from '@ember/object/computed';
+import { filter } from '@ember/object/computed';
 import Component from '@ember/component';
 import layout from './template';
-import {computed} from '@ember/object';
+import { computed } from '@ember/object';
 
 export default Component.extend({
   layout,
-  appointmentSlots: [],
+  init() {
+    this._super(...arguments);
+    this.appointmentSlots = this.appointmentSlots || [];
+  },
   appointmentSlotsNotEmpty: filter('appointmentSlots', function (appointmentSlot) {
     return !!appointmentSlot;
   }),
-  startMoment: computed('appointmentSlotsNotEmpty.firstObject.startMoment', function () {
-    return this.get('appointmentSlotsNotEmpty.firstObject.startMoment');
+  startMoment: computed('appointmentSlotsNotEmpty.firstObject.slotPickerStartMoment', function () {
+    return this.get('appointmentSlotsNotEmpty.firstObject.slotPickerStartMoment');
   }).readOnly(),
   dayOfWeek: computed('startMoment', function () {
     const startMoment = this.get('startMoment');

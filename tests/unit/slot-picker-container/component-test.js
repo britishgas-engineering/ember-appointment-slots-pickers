@@ -1,54 +1,54 @@
 import moment from 'moment';
 import EmberObject from '@ember/object';
 import ObjectProxy from '@ember/object/proxy';
-import {module, test} from 'qunit';
-import {setupTest} from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import RSVP from 'rsvp';
 import DS from 'ember-data';
-import {run} from '@ember/runloop';
-import {settled} from '@ember/test-helpers';
+import { run } from '@ember/runloop';
+import { settled } from '@ember/test-helpers';
 
 module('Unit | Component | slot-picker-container', function (hooks) {
   setupTest(hooks);
 
   const today = moment();
   const twoDaysAgoDateNotDisplayable = EmberObject.create({
-    notDisplayable: true,
-    available: true,
+    slotPickerNotDisplayable: true,
+    slotPickerAvailable: true,
     slotPickerRowLabel: 'bli',
     slotPickerDay: moment(today).add(-2, 'day').format('YYYYMMDD'),
     slotPickerRowId: 'twoDaysAgo bli',
     slotPickerTime: 'twoDaysAgo'
   });
   const yesterdayDate = EmberObject.create({
-    available: true,
+    slotPickerAvailable: true,
     slotPickerRowLabel: 'bla',
     slotPickerDay: moment(today).add(-1, 'day').format('YYYYMMDD'),
     slotPickerTime: 'yesterday'
   });
   const todayDate = EmberObject.create({
-    available: true,
+    slotPickerAvailable: true,
     slotPickerRowLabel: 'bla',
     slotPickerDay: moment(today).add(0, 'day').format('YYYYMMDD'),
     slotPickerRowId: 'today bla',
     slotPickerTime: 'today'
   });
   const tomorrowDate = EmberObject.create({
-    available: true,
+    slotPickerAvailable: true,
     slotPickerRowLabel: 'bla',
     slotPickerDay: moment(today).add(1, 'day').format('YYYYMMDD'),
     slotPickerRowId: 'tomorrow bla',
     slotPickerTime: 'tomorrow'
   });
   const tomorrowDate2 = EmberObject.create({
-    available: true,
+    slotPickerAvailable: true,
     slotPickerRowLabel: 'ble',
     slotPickerDay: moment(today).add(1, 'day').format('YYYYMMDD'),
     slotPickerRowId: 'tomorrow ble',
     slotPickerTime: 'tomorrow2'
   });
   const tomorrowDateUnavailable = EmberObject.create({
-    available: false,
+    slotPickerAvailable: false,
     slotPickerRowLabel: 'blu',
     slotPickerDay: moment(today).add(1, 'day').format('YYYYMMDD'),
     slotPickerRowId: 'tomorrow blu',
@@ -74,7 +74,7 @@ module('Unit | Component | slot-picker-container', function (hooks) {
     assert.equal(component.get('availableAppointmentSlots.length'), 5, '5 days available');
     assert.notOk(
       component.get('cellsPerCol.firstObject.cellsForCol').filter((slot) => !!slot).length,
-      'we added a first column without slots because of the "notDisplayable" slot'
+      'we added a first column without slots because of the "slotPickerNotDisplayable" slot'
     );
 
     component.get('appointmentSlots').removeObject(twoDaysAgoDateNotDisplayable);
@@ -115,9 +115,7 @@ module('Unit | Component | slot-picker-container', function (hooks) {
         todayDate,
         tomorrowDateUnavailable
       ],
-      attrs: {
-        select() {
-        }
+      select() {
       }
     });
     component.send('onSelectSlot', todayDate);

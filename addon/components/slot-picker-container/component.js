@@ -9,7 +9,7 @@ import {
   sort,
   setDiff
 } from '@ember/object/computed';
-import EmberObject, {computed} from '@ember/object';
+import EmberObject, { computed } from '@ember/object';
 import ObjectProxy from '@ember/object/proxy';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
@@ -18,7 +18,10 @@ import layout from './template';
 
 export default Component.extend({
   layout,
-  appointmentSlots: [],
+  init() {
+    this._super(...arguments);
+    this.appointmentSlots = this.appointmentSlots || [];
+  },
   selected: null,
   select: null,
   noSlotLabel: 'Fully booked',
@@ -42,7 +45,7 @@ export default Component.extend({
     });
   }),
 
-  availableAppointmentSlotsWithoutSelected: filterBy('appointmentSlots', 'available', true),
+  availableAppointmentSlotsWithoutSelected: filterBy('appointmentSlots', 'slotPickerAvailable', true),
   hasNoSlots: equal('availableAppointmentSlotsWithoutSelected.length', 0),
   slotsArePending: computed('appointmentSlots.isPending', function () {
     return this.get('appointmentSlots.isPending');
@@ -82,7 +85,7 @@ export default Component.extend({
     });
   }),
 
-  rowsSorting: ['group:desc', 'id:asc'],
+  rowsSorting: ['group:desc', 'id:asc'],//eslint-disable-line
   rows: sort('rowsNotSorted', 'rowsSorting'),
 
   dayIdsWithDuplicates: mapBy('availableAppointmentSlots', 'slotPickerDay'),
@@ -92,7 +95,7 @@ export default Component.extend({
     const appointmentSlots = this.get('availableAppointmentSlots');
     return this.get('dayIds').map((dayId) => {
       const appointmentSlotsForCol = appointmentSlots.filterBy('slotPickerDay', dayId);
-      const dayLabel = appointmentSlotsForCol.get('firstObject.dayLabel');
+      const dayLabel = appointmentSlotsForCol.get('firstObject.slotPickerDayLabel');
       return EmberObject.create({
         dayId,
         dayLabel,
@@ -101,7 +104,7 @@ export default Component.extend({
     });
   }),
 
-  colsSorting: ['dayId:asc'],
+  colsSorting: ['dayId:asc'],//eslint-disable-line
   cols: sort('colsNotSorted', 'colsSorting'),
 
   cellsPerCol: computed(
@@ -113,10 +116,10 @@ export default Component.extend({
         const cellsForCol = this.get('rows').map((row) => {
           const rowId = row.get('id');
           const appointmentSlot = appointmentSlotsForCol.findBy('slotPickerRowId', rowId);
-          //set the "notDisplayable" property of an appointmentSlot to false if you want to create the corresponding
+          //set the "slotPickerNotDisplayable" property of an appointmentSlot to false if you want to create the corresponding
           //row / column without actually showing the appointment as available
           //for example, if you want to display the day before the first available day on the calendar
-          return appointmentSlot && !appointmentSlot.get('notDisplayable') ? appointmentSlot : null;
+          return appointmentSlot && !appointmentSlot.get('slotPickerNotDisplayable') ? appointmentSlot : null;
         });
         return {
           col,
@@ -131,13 +134,13 @@ export default Component.extend({
   }),
 
   //move to: loading mixin
-  notDisplayableAppointmentSlots: filterBy('availableAppointmentSlots', 'notDisplayable', true),
+  notDisplayableAppointmentSlots: filterBy('availableAppointmentSlots', 'slotPickerNotDisplayable', true),
   displayableAppointmentSlots: setDiff('availableAppointmentSlots', 'notDisplayableAppointmentSlots'),
   isLoading: equal('displayableAppointmentSlots.length', 0),
 
   actions: {
     onSelectSlot(slot) {
-      const onSelectSlot = this.attrs.select;
+      const onSelectSlot = this.get('select');
 
       if (onSelectSlot) {
         return onSelectSlot(slot);
@@ -155,7 +158,7 @@ export default Component.extend({
     },
 
     onDeselectSlot(slot) {
-      const onDeselectSlot = this.attrs.deselect;
+      const onDeselectSlot = this.get('deselect');
 
       if (onDeselectSlot) {
         return onDeselectSlot(slot);

@@ -1,6 +1,6 @@
 import EmberObject from '@ember/object';
-import {module, test} from 'qunit';
-import {setupTest} from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
 module('Unit | Component | slot-picker-desktop', function (hooks) {
   setupTest(hooks);
@@ -10,7 +10,7 @@ module('Unit | Component | slot-picker-desktop', function (hooks) {
       baseProps: EmberObject.create({
         multiSelected: [
           EmberObject.create({
-            dayLabel: 'DAY2'
+            slotPickerDayLabel: 'DAY2'
           })
         ],
         cols: [
@@ -27,7 +27,7 @@ module('Unit | Component | slot-picker-desktop', function (hooks) {
     assert.equal(component.get('selectedDayIndex'), 1, 'should return the correct index for a selected day');
 
     component.get('baseProps.multiSelected').pushObject(EmberObject.create({
-      dayLabel: 'DAY1'
+      slotPickerDayLabel: 'DAY1'
     }));
 
     assert.notOk(component.get('selectedDayIndex'), 'should return nothing for multiple selections');

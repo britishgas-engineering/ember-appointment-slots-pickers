@@ -1,0 +1,7 @@
+<ul class="horizontal-swipe-view-list" style="{{style}}">
+  {{#each items as |item index|}}
+    <li class="horizontal-swipe-view-item" style="{{styleItem}}">
+      {{yield item index}}
+    </li>
+  {{/each}}
+</ul>

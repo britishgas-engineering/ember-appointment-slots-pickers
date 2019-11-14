@@ -1,12 +1,12 @@
-import {test} from 'qunit';
+import { test } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
-import {generateAppointmentSlots} from 'dummy/tests/helpers/generate-appointment-slots';
-import {module} from 'qunit';
-import {setupRenderingTest} from 'ember-qunit';
-import {run} from '@ember/runloop';
+import { generateAppointmentSlots } from 'ember-appointment-slots-pickers/test-support/helpers/generate-appointment-slots';
+import { module } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { run } from '@ember/runloop';
 import $ from 'jquery';
 
-import {render, settled, click, findAll} from '@ember/test-helpers';
+import { render, settled, click, findAll } from '@ember/test-helpers';
 
 module('Integration | Component | slot-picker-mobile', function (hooks) {
   setupRenderingTest(hooks);
@@ -66,7 +66,7 @@ module('Integration | Component | slot-picker-mobile', function (hooks) {
 
     const generatedSlots = this.get('generatedAppointmentSlots');
     const firstAvailableSlot = generatedSlots.find((slot) => slot.get('available'));
-    const firstDayLabel = `${firstAvailableSlot.get('startTimeLabel')} - ${firstAvailableSlot.get('endTimeLabel')}`;
+    const firstDayLabel = `${firstAvailableSlot.get('slotPickerStartTimeLabel')} - ${firstAvailableSlot.get('slotPickerEndTimeLabel')}`;
 
     assert.notOk(
       this.$('.horizontal-swipe-view ul li:eq(0)').is(':offscreen'),

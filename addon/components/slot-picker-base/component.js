@@ -1,11 +1,15 @@
-import {computed} from '@ember/object';
+import { computed } from '@ember/object';
 import Component from '@ember/component';
-import {assert} from '@ember/debug';
-import {run} from '@ember/runloop';
+import { assert } from '@ember/debug';
+import { run } from '@ember/runloop';
 import moment from 'moment';
 
 export default Component.extend({
-  baseProps: {},
+  classNames: ['ember-appointment-slots-pickers'],
+  init() {
+    this._super(...arguments);
+    this.baseProps = this.baseProps || {};
+  },
   days: computed('baseProps.days', function () {
     return this.get('baseProps.days');
   }).readOnly(),

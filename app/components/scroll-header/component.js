@@ -1,1 +1,1 @@
-export {default} from 'ember-commons/components/scroll-header/component';
+export {default} from 'ember-appointment-slots-pickers/components/scroll-header/component';
