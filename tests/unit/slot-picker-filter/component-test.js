@@ -2,85 +2,87 @@ import { module } from 'qunit';
 import {
   test} from 'qunit'; import {setupTest
 } from 'ember-qunit';
+import EmberObject from '@ember/object';
 
 module('Unit | Component | slot-picker-filter', function (hooks) {
   setupTest(hooks);
 
-  test('filterButtonClick should toggle the areTimeSlotsHidden property', function (assert) {
-    const component = this.owner.factoryFor('component:slot-picker-filter').create();
-    assert.ok(
-      component.get('areTimeSlotsHidden'),
-      'areTimeSlotsHidden should be true'
-    );
-    component.send('filterButtonClick');
-    assert.notOk(
-      component.get('areTimeSlotsHidden'),
-      'areTimeSlotsHidden should be false'
-    );
-  });
+  const appointmentSlots = [
+    EmberObject.create({
+      slotPickerRowId: '08001000'
+    }),
+    EmberObject.create({
+      slotPickerRowId: '10001200'
+    }),
+    EmberObject.create({
+      slotPickerRowId: '12001400'
+    }),
+    EmberObject.create({
+      slotPickerRowId: '14001600'
+    }),
+    EmberObject.create({
+      slotPickerRowId: '08001000'
+    }),
+    EmberObject.create({
+      slotPickerRowId: '10001200'
+    }),
+    EmberObject.create({
+      slotPickerRowId: '12001400'
+    }),
+    EmberObject.create({
+      slotPickerRowId: '14001600'
+    })
+  ];
 
-  test('timeSlotButtonClick should reset areTimeSlotsHidden and call changeFilter', function (assert) {
-    const changeFilter = sinon.stub();
-    const timeSlots = [
-      {
+  test('filteredAppointmentSlots is appointment-slots filtered by selectedFilter', function (assert) {
+    const component = this.owner.factoryFor('component:slot-picker-filter').create({
+      appointmentSlots,
+      selectedFilter: {
         id: '08001000'
-      },
-      {
-        id: '10001200'
-      },
-      {
-        id: '12001400'
-      },
-      {
-        id: '14001600'
       }
-    ];
-    const component = this.owner.factoryFor('component:slot-picker-filter').create({
-      changeFilter,
-      timeSlots
     });
-    component.send('timeSlotButtonClick', {
-      get: () => '08001000'
-    });
-    assert.ok(
-      component.get('areTimeSlotsHidden'),
-      'areTimeSlotsHidden should be true'
+    assert.equal(
+      component.get('filteredAppointmentSlots').length,
+      2,
+      'filteredAppointmentSlots has 2 items'
     );
     assert.equal(
-      changeFilter.args.length,
-      1,
-      'changeFilter should be called once'
-    );
-    const changeFilterArgs = changeFilter.args[0];
-    assert.equal(
-      changeFilterArgs.length,
-      1,
-      'changeFilter should be called with one argument'
+      component.get('filteredAppointmentSlots')[0],
+      appointmentSlots[0],
+      'the 1st element of filteredAppointmentSlots is the 1st element of appointmentSlots'
     );
     assert.equal(
-      changeFilterArgs[0].get('id'),
-      '08001000',
-      'changeFilter should be called with the clicked time slot as second argument'
+      component.get('filteredAppointmentSlots')[1],
+      appointmentSlots[4],
+      'the 2nd element of filteredAppointmentSlots is the 5th element of appointmentSlots'
     );
   });
 
-  test('areSlotsEven should be true when the number of filter options is even', function (assert) {
+  test('filteredAppointmentSlots is simply appointment-slots if selectedFilter is not defined', function (assert) {
     const component = this.owner.factoryFor('component:slot-picker-filter').create({
-      timeSlots: [{}, {}, {}]
+      appointmentSlots
     });
-    assert.ok(
-      component.get('areSlotsEven'),
-      'areSlotsEven should be true when 3+"Show all" filter slots are present'
+    assert.equal(
+      component.get('filteredAppointmentSlots').length,
+      appointmentSlots.length,
+      'filteredAppointmentSlots and appointmentSlots have the same length'
     );
+    component.get('filteredAppointmentSlots').forEach((filteredAppointmentSlot, index) => {
+      assert.equal(
+        filteredAppointmentSlot,
+        appointmentSlots[index],
+        `the element ${index} of filteredAppointmentSlots is the element ${index} of appointmentSlots`
+      );
+    });
   });
 
-  test('areSlotsEven should be false when the number of filter options is odd', function (assert) {
+  test('changeFilter action', function (assert) {
     const component = this.owner.factoryFor('component:slot-picker-filter').create({
-      timeSlots: [{}, {}, {}, {}]
+      onFilter: sinon.stub()
     });
-    assert.notOk(
-      component.get('areSlotsEven'),
-      'areSlotsEven should be false when 4+"Show all" filter slots are present'
-    );
+
+    component.send('changeFilter', true);
+
+    assert.ok(component.get('onFilter').called, 'should call the onFilter callback');
   });
 });

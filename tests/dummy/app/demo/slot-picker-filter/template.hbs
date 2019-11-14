@@ -3,7 +3,7 @@
   <div class="slot-picker-filter">
     <div class="even-odd-slots">
       <h2>Odd number of time slot options</h2>
-      {{#slot-picker-filter-container
+      {{#slot-picker-filter
         appointmentSlots=model.appointmentSlots
         as |filteredAppointmentSlots changeFilter selectedFilter|
       }}
@@ -12,7 +12,7 @@
         {{else}}
           <p>No time slot selected</p>
         {{/if}}
-        {{#slot-picker-container
+        {{#slot-picker
           appointmentSlots=model.fourTimeSlots
           selected=model.selected
           noSlotLabel="Not available"
@@ -20,17 +20,17 @@
           select=(action (mut model.selected))
           as |baseProps onSelectSlot|
         }}
-          {{slot-picker-filter
+          {{slot-picker-filter/ui
             timeSlots=baseProps.rows
             changeFilter=changeFilter
             selectedFilter=selectedFilter
           }}
-        {{/slot-picker-container}}
-      {{/slot-picker-filter-container}}
+        {{/slot-picker}}
+      {{/slot-picker-filter}}
     </div>
     <div class="even-odd-slots">
       <h2>Even number of time slot options</h2>
-      {{#slot-picker-filter-container
+      {{#slot-picker-filter
         appointmentSlots=model.appointmentSlots
         as |filteredAppointmentSlots changeFilter selectedFilter|
       }}
@@ -39,7 +39,7 @@
         {{else}}
           <p>No time slot selected</p>
         {{/if}}
-        {{#slot-picker-container
+        {{#slot-picker
           appointmentSlots=model.threeTimeSlots
           selected=model.selected
           noSlotLabel="Not available"
@@ -47,13 +47,13 @@
           select=(action (mut model.selected))
           as |baseProps onSelectSlot|
         }}
-          {{slot-picker-filter
+          {{slot-picker-filter/ui
             timeSlots=baseProps.rows
             changeFilter=changeFilter
             selectedFilter=selectedFilter
           }}
-        {{/slot-picker-container}}
-      {{/slot-picker-filter-container}}
+        {{/slot-picker}}
+      {{/slot-picker-filter}}
     </div>
   </div>
 </div>

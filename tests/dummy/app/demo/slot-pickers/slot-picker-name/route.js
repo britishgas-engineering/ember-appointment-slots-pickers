@@ -3,7 +3,7 @@ import Route from '@ember/routing/route';
 export default Route.extend({
   model(params) {
     const model = this.modelFor('demo.slot-pickers');
-    model.set('slotPickerName', `slot-picker-${params['slot-picker-name']}`);
+    model.set('slotPickerName', `slot-picker/${params['slot-picker-name']}`);
     return model;
   },
   afterModel(model, transition) {

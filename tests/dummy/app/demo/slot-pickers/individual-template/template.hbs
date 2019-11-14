@@ -4,7 +4,7 @@
 
   <h3>Default</h3>
   <div class="mb8">
-    {{#slot-picker-container
+    {{#slot-picker
       appointmentSlots=model.showableSlots
       selected=model.selected
       noSlotLabel="Not available"
@@ -15,8 +15,8 @@
         baseProps=baseProps
         onSelectSlot=onSelectSlot
       }}
-      {{slot-picker-selection-single baseProps=baseProps}}
-    {{/slot-picker-container}}
+      {{slot-picker/selection-single baseProps=baseProps}}
+    {{/slot-picker}}
   </div>
 
   <hr>
@@ -27,7 +27,7 @@
       onrefresh=(route-action "resetSlots" delay)
       as |isExpired refresh|
     }}
-      {{#slot-picker-container
+      {{#slot-picker
         appointmentSlots=model.showableSlots
         selected=model.selected
         noSlotLabel="Not available"
@@ -41,8 +41,8 @@
         {{#if isExpired}}
           {{slot-picker-overlay title="<h3>Hello World</h3>" refresh=(action refresh)}}
         {{/if}}
-        {{slot-picker-selection-single baseProps=baseProps}}
-      {{/slot-picker-container}}
+        {{slot-picker/selection-single baseProps=baseProps}}
+      {{/slot-picker}}
     {{/slot-picker-refresher-container}}
   </div>
   <hr>
@@ -50,7 +50,7 @@
   <hr>
   <h4>Default loader (if exists)</h4>
   <div class="mb8">
-    {{#slot-picker-container
+    {{#slot-picker
       appointmentSlots=model.asyncSlots
       selected=model.selected
       noSlotLabel="Not available"
@@ -61,13 +61,13 @@
         baseProps=baseProps
         onSelectSlot=onSelectSlot
       }}
-      {{slot-picker-selection-single baseProps=baseProps}}
-    {{/slot-picker-container}}
+      {{slot-picker/selection-single baseProps=baseProps}}
+    {{/slot-picker}}
   </div>
   <hr>
   <h4>Custom loading template</h4>
   <div class="mb8">
-    {{#slot-picker-container
+    {{#slot-picker
       appointmentSlots=model.asyncSlots
       selected=model.selected
       noSlotLabel="Not available"
@@ -82,18 +82,18 @@
           onSelectSlot=onSelectSlot
         }}
       {{/if}}
-      {{slot-picker-selection-single baseProps=baseProps}}
-    {{/slot-picker-container}}
+      {{slot-picker/selection-single baseProps=baseProps}}
+    {{/slot-picker}}
   </div>
   <hr>
   <h3>Filter slots</h3>
   <div class="mb8">
-    {{#slot-picker-filter-container
+    {{#slot-picker-filter
       appointmentSlots=model.showableSlots
       onFilter=(action (mut model.selected null))
       as |filteredAppointmentSlots changeFilter selectedFilter|
     }}
-      {{#slot-picker-container
+      {{#slot-picker
         appointmentSlots=filteredAppointmentSlots
         selected=model.selected
         noSlotLabel="Not available"
@@ -101,7 +101,7 @@
         select=(action (mut model.selected))
         as |baseProps onSelectSlot|
       }}
-        {{slot-picker-filter
+        {{slot-picker-filter/ui
           timeSlots=baseProps.rows
           changeFilter=changeFilter
           selectedFilter=selectedFilter
@@ -110,16 +110,16 @@
           baseProps=baseProps
           onSelectSlot=onSelectSlot
         }}
-        {{slot-picker-selection-single baseProps=baseProps}}
-      {{/slot-picker-container}}
-    {{/slot-picker-filter-container}}
+        {{slot-picker/selection-single baseProps=baseProps}}
+      {{/slot-picker}}
+    {{/slot-picker-filter}}
   </div>
 
-  {{#if (not (eq model.slotPickerName "slot-picker-pickadate"))}}
+  {{#if (not (eq model.slotPickerName "slot-picker/pickadate"))}}
     <hr>
     <h3>Multiple slots</h3>
     <div class="mb8">
-      {{#slot-picker-container
+      {{#slot-picker
         appointmentSlots=model.showableSlots
           selected=selectedSlots
           canSelectMultipleSlots=true
@@ -133,8 +133,8 @@
           onSelectSlot=onSelectSlot
           onDeselectSlot=onDeselectSlot
         }}
-        {{slot-picker-selection-multi baseProps=baseProps onDeselectSlot=onDeselectSlot}}
-      {{/slot-picker-container}}
+        {{slot-picker/selection-multi baseProps=baseProps onDeselectSlot=onDeselectSlot}}
+      {{/slot-picker}}
     </div>
   {{/if}}
 </div>

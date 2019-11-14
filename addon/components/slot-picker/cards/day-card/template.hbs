@@ -1,0 +1,23 @@
+<div class="shadow appointment-slot-picker">
+  <p class="white font-size-8 background-dark-blue py1 border-radius-top4">
+    {{dayOfWeek}}
+  </p>
+  <p class="font-size-2 light">
+    {{day}}
+  </p>
+  <p class="font-size-9">
+    {{month}}
+  </p>
+  <div class="p3">
+    {{#each appointmentSlotsNotEmpty as |appointmentSlot|}}
+      {{slot-picker/button
+        class="mb2"
+        appointmentSlot=appointmentSlot
+        multiSelected=multiSelected
+        canSelectMultipleSlots=canSelectMultipleSlots
+        select=(action select)
+        deselect=(optional-action deselect)
+      }}
+    {{/each}}
+  </div>
+</div>
