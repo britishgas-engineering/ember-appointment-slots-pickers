@@ -1,0 +1,59 @@
+<div class="container-fluid">
+  <h1>Slots filter</h1>
+  <div class="slots-filter">
+    <div class="even-odd-slots">
+      <h2>Odd number of time slot options</h2>
+      {{#slots-filter
+        appointmentSlots=model.appointmentSlots
+        as |filteredAppointmentSlots changeFilter selectedFilter|
+      }}
+        {{#if selectedFilter}}
+          <p>Selected time slot: {{selectedFilter.startTimeLabel}} - {{selectedFilter.endTimeLabel}}</p>
+        {{else}}
+          <p>No time slot selected</p>
+        {{/if}}
+        {{#slots-picker
+          appointmentSlots=model.fourTimeSlots
+          selected=model.selected
+          noSlotLabel="Not available"
+          selectedFilter=selectedFilter
+          select=(action (mut model.selected))
+          as |baseProps onSelectSlot|
+        }}
+          {{slots-filter/ui
+            timeSlots=baseProps.rows
+            changeFilter=changeFilter
+            selectedFilter=selectedFilter
+          }}
+        {{/slots-picker}}
+      {{/slots-filter}}
+    </div>
+    <div class="even-odd-slots">
+      <h2>Even number of time slot options</h2>
+      {{#slots-filter
+        appointmentSlots=model.appointmentSlots
+        as |filteredAppointmentSlots changeFilter selectedFilter|
+      }}
+        {{#if selectedFilter}}
+          <p>Selected time slot: {{selectedFilter.startTimeLabel}} - {{selectedFilter.endTimeLabel}}</p>
+        {{else}}
+          <p>No time slot selected</p>
+        {{/if}}
+        {{#slots-picker
+          appointmentSlots=model.threeTimeSlots
+          selected=model.selected
+          noSlotLabel="Not available"
+          selectedFilter=selectedFilter
+          select=(action (mut model.selected))
+          as |baseProps onSelectSlot|
+        }}
+          {{slots-filter/ui
+            timeSlots=baseProps.rows
+            changeFilter=changeFilter
+            selectedFilter=selectedFilter
+          }}
+        {{/slots-picker}}
+      {{/slots-filter}}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="container-fluid">
+  <h1>clock-reloader</h1>
+
+    <div class="mb8">
+    {{#clock-reloader
+      delay=3000
+      onrefresh=(route-action "refresh")
+      as |isExpired refresh|
+    }}
+      <div class="refresher-overlay">
+        {{#if isExpired}}
+          {{#if isExpired}}
+            {{clock-reloader/overlay title="<h2>Your data has expired!</h2>" refresh=(action refresh)}}
+          {{/if}}
+        {{else}}
+          <h2>Your data will expire in 3 seconds..</h2>
+        {{/if}}
+      </div>
+
+      {{#bg-button
+        action=(action refresh)
+        disabled=(unless isExpired true)
+        theme="secondary"
+      }}
+        Refresh
+      {{/bg-button}}
+
+    {{/clock-reloader}}
+  </div>
+
+</div>
