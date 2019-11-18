@@ -1,7 +1,7 @@
-<div class="row animated mt3">
+<div class="row mt3">
 
   {{#date-picker/mobile dates=days selectedSlots=multiSelected onDateChange=(action 'onDateChange') as |selectPrevNextDate width currentIndex|}}
-    {{#horizontal-swipe-view items=cellsPerCol width=width index=currentIndex onswipe=selectPrevNextDate as |item|}}
+    {{#horizontal-list-swiper/gesture2 items=cellsPerCol width=width index=currentIndex onswipe=selectPrevNextDate as |item|}}
 
       <div class="asp-table">
         <div class="asp-col font-size-8 {{if slotsAreLoading 'slots-are-loading'}}">
@@ -31,7 +31,7 @@
         </div>
       </div>
 
-    {{/horizontal-swipe-view}}
+    {{/horizontal-list-swiper/gesture2}}
   {{/date-picker/mobile}}
 
 </div>
