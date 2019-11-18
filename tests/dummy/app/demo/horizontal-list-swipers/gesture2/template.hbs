@@ -1,0 +1,18 @@
+<div class="container-fluid">
+
+  <h2>horizontal-list-swiper/gesture2</h2>
+
+  <div class="mb8" style="position:relative; transition: all 0.4s;">
+    {{#horizontal-list-swiper/gesture2
+      items=model
+      width=300
+      onswipe=(action "selectPrevNextItem")
+      index=currentIndex as |item|
+    }}
+      <div class="cell" style="width:50px; height:100px; float:left;">
+        {{item}}
+      </div>
+    {{/horizontal-list-swiper/gesture2}}
+  </div>
+
+</div>

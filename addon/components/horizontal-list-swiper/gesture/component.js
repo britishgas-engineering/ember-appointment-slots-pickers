@@ -6,21 +6,33 @@ import Ember from 'ember';
 import RecognizerMixin from 'ember-gestures/mixins/recognizers';
 import layout from './template';
 import { run } from '@ember/runloop';
+import {getOwner} from '@ember/application';
 
 const {
   String
 } = Ember;
 
 export default Component.extend(RecognizerMixin, {
-
+  window: window,
   layout,
   viewport: service(),
   recognizers: 'swipe',
+  classNameBindings: ['isTestLike'],
 
   init() {
     this._super(...arguments);
     this.items = this.items || [];
   },
+
+  config: computed(function () {
+    return getOwner(this).resolveRegistration('config:environment');
+  }),
+  isTestLike: computed('config', function () {
+    const config = this.get('config');
+    return config.environment === 'test' ||
+      config.environment === 'development' &&
+      this.get('window.location.pathname') === '/tests';
+  }),
 
   swipeLeft() {
     this.goToNextItem();
