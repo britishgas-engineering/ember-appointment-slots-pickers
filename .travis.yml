@@ -14,18 +14,18 @@ cache:
 
 env:
   # we recommend testing LTS's and latest stable release (bonus points to beta/canary)
-  - EMBER_TRY_SCENARIO=ember-3.4.0
-  - EMBER_TRY_SCENARIO=ember-3.5.0
-  - EMBER_TRY_SCENARIO=ember-3.6.0
-  - EMBER_TRY_SCENARIO=ember-3.7.0
-  - EMBER_TRY_SCENARIO=ember-3.8.0
+  - EMBER_TRY_SCENARIO=ember-3.4
+  - EMBER_TRY_SCENARIO=ember-3.5
+  - EMBER_TRY_SCENARIO=ember-3.6
+  - EMBER_TRY_SCENARIO=ember-3.7
+  - EMBER_TRY_SCENARIO=ember-3.8
 
 matrix:
   fast_finish: true
   allow_failures:
-    - env: EMBER_TRY_SCENARIO=ember-3.6.0
-    - env: EMBER_TRY_SCENARIO=ember-3.7.0
-    - env: EMBER_TRY_SCENARIO=ember-3.8.0
+    - env: EMBER_TRY_SCENARIO=ember-3.6
+    - env: EMBER_TRY_SCENARIO=ember-3.7
+    - env: EMBER_TRY_SCENARIO=ember-3.8
 
 before_install:
   - npm config set spin false
