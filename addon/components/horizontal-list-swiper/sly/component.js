@@ -1,5 +1,4 @@
 import { computed } from '@ember/object';
-//import Component from '@ember/component';
 import noDelayOnTransitionsInTest from '../no-delay-on-transitions-in-test/component';
 import { inject as service } from '@ember/service';
 import { run } from '@ember/runloop';
