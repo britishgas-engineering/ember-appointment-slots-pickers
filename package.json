@@ -27,12 +27,14 @@
     "ember-component-css": "github:ConnectedHomes/ember-component-css#experimental"
   },
   "devDependencies": {
+    "@ember/jquery": "^0.6.1",
     "bootstrap": "3.4.1",
     "broccoli-asset-rev": "3.0.0",
     "ember-cli": "~3.4.3",
     "ember-cli-app-version": "3.0.0",
     "ember-cli-dependency-checker": "3.1.0",
     "ember-cli-eslint": "4.2.3",
+    "ember-cli-github-pages": "^0.2.2",
     "ember-cli-inject-live-reload": "2.0.1",
     "ember-cli-moment-shim": "3.7.1",
     "ember-cli-qunit": "4.4.0",
@@ -51,7 +53,7 @@
     "eslint-plugin-ember": "7.4.0",
     "eslint-plugin-node": "^7.0.1",
     "loader.js": "4.7.0",
-    "@ember/jquery": "^0.6.1"
+    "font-awesome": "4.5.0"
   },
   "engines": {
     "node": ">= 0.12.0"
