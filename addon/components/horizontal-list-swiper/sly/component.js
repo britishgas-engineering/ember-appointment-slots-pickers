@@ -1,11 +1,11 @@
 import { computed } from '@ember/object';
-import Component from '@ember/component';
+import noDelayOnTransitionsInTest from '../no-delay-on-transitions-in-test/component';
 import { inject as service } from '@ember/service';
 import { run } from '@ember/runloop';
 import $ from 'jquery';
 import layout from './template';
 
-export default Component.extend({
+export default noDelayOnTransitionsInTest.extend({
   layout: layout,
   classNames: ['scroll-header-sly', 'ember-appointment-slots-pickers'],
 
@@ -14,7 +14,10 @@ export default Component.extend({
 
   index: null, //day at the middle
   indexUpdate: null,
-  speed: 300,
+  speed: computed('isTestLike', function () {
+    const isTestLike = this.get('isTestLike');
+    return isTestLike ? 0 : 300;
+  }),
   swingSpeed: 0.2,
   isDragging: true,
   'active-item-alignment': 'basic',

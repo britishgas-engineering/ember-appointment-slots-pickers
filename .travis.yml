@@ -14,18 +14,18 @@ cache:
 
 env:
   # we recommend testing LTS's and latest stable release (bonus points to beta/canary)
-  - EMBER_TRY_SCENARIO=ember-3.4.0
-  - EMBER_TRY_SCENARIO=ember-3.5.0
-  - EMBER_TRY_SCENARIO=ember-3.6.0
-  - EMBER_TRY_SCENARIO=ember-3.7.0
-  - EMBER_TRY_SCENARIO=ember-3.8.0
+  - EMBER_TRY_SCENARIO=ember-3.4
+  - EMBER_TRY_SCENARIO=ember-3.5
+  - EMBER_TRY_SCENARIO=ember-3.6
+  - EMBER_TRY_SCENARIO=ember-3.7
+  - EMBER_TRY_SCENARIO=ember-3.8
 
 matrix:
   fast_finish: true
   allow_failures:
-    - env: EMBER_TRY_SCENARIO=ember-3.6.0
-    - env: EMBER_TRY_SCENARIO=ember-3.7.0
-    - env: EMBER_TRY_SCENARIO=ember-3.8.0
+    - env: EMBER_TRY_SCENARIO=ember-3.6
+    - env: EMBER_TRY_SCENARIO=ember-3.7
+    - env: EMBER_TRY_SCENARIO=ember-3.8
 
 before_install:
   - npm config set spin false
@@ -34,5 +34,16 @@ install:
   - npm install
 
 script:
-script:
   - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
+  - npm run build -- -prod # https://medium.com/@veelenga/deploy-ember-js-app-to-github-pages-via-travis-262183e816e6
+
+# deploy master branch to GitHub pages https://medium.com/@veelenga/deploy-ember-js-app-to-github-pages-via-travis-262183e816e6
+# deploy:
+#   provider: pages
+#   skip-cleanup: true
+#   github-token: $GITHUB_TOKEN
+#   keep-history: true
+#   on:
+#     branch: feature/transfer-slot-pickers-to-open-source
+#   local-dir: dist
+#   verbose: true

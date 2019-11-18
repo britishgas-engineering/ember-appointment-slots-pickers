@@ -20,6 +20,7 @@ Router.map(function() {
     this.route('horizontal-list-swipers', function () {
       this.route('sly');
       this.route('gesture');
+      this.route('gesture2');
     });
   });
 });

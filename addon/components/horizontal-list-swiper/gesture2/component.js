@@ -13,6 +13,7 @@ const HorizontalSwipeView = Component.extend(RecognizerMixin, {
   width: 0,
   index: 0,
   onswipe: null,
+
   init() {
     this._super(...arguments);
     this.items = this.items || [];
