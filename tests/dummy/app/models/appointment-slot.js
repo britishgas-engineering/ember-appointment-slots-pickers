@@ -42,6 +42,18 @@ export default DS.Model.extend({
     }
   }),
 
+  _timeLabel: computed('_startMoment', '_endMoment', function () {
+    const startMoment = this.get('_startMoment');
+
+    const endMoment = this.get('_endMoment');
+
+    const start = startMoment.format('mm') === '00' ? startMoment.format('ha') : startMoment.format('h:mma');
+
+    const end = endMoment.format('mm') === '00' ? endMoment.format('ha') : endMoment.format('h:mma');
+
+    return `${start} - ${end}`;
+  }),
+
   slotPickerTime: computed('_startMoment', '_endMoment', function () {
     const _startMoment = this.get('_startMoment');
 
@@ -80,10 +92,10 @@ export default DS.Model.extend({
     return this.get('_timeId') + (this.get('_variantLabel') || '');
   }),
 
-  slotPickerRowLabel: computed('_variantLabel', 'timeLabel', function () {
+  slotPickerRowLabel: computed('_variantLabel', '_timeLabel', function () {
     const _variantLabel = this.get('_variantLabel');
-    const timeLabel = this.get('timeLabel');
-    return _variantLabel || timeLabel;
+    const _timeLabel = this.get('_timeLabel');
+    return _variantLabel || _timeLabel;
   }),
 
   slotPickerRowLabelClassName: computed('_variantLabel', function () {
