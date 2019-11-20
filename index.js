@@ -1,5 +1,8 @@
 /* jshint node: true */
 'use strict';
+const MergeTrees = require('broccoli-merge-trees');
+
+const Funnel = require('broccoli-funnel');
 
 module.exports = {
   name: 'ember-appointment-slots-pickers',
@@ -19,5 +22,29 @@ module.exports = {
       return false;
     }
     return true;
-  }
+  },
+  _treeShakingEmber(tree) {
+    const options = this.app.options[this.name];
+    let treeShakingOptions = {};
+
+    if (options) {
+      treeShakingOptions = Object.assign({}, {
+        enabled: true,
+        include: options.include || null,
+        exclude: options.exclude || null
+      });
+    }
+    return new Funnel(tree, treeShakingOptions);
+  },
+  treeForAddon() {
+    const tree = this._super.treeForAddon.apply(this, arguments);
+    return this._treeShakingEmber(tree);
+  },
+
+  treeForApp(appTree) {
+    const trees = [this._treeShakingEmber(appTree)];
+    return new MergeTrees(trees, {
+      overwrite: true
+    });
+  },
 };
