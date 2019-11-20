@@ -2,7 +2,7 @@
 
 {{#if selected}}
   <p class="bold font-size-6 mt4">
-    Arriving {{selected.slotPickerLongDayLabel}} between
+    Arriving {{or selected.slotPickerLongDayLabel selected.slotPickerDayLabel}} between
     {{selected.slotPickerStartTimeLabel}} and {{selected.slotPickerEndTimeLabel}}
   </p>
 {{/if}}

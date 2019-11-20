@@ -13,7 +13,7 @@ const {
 } = Ember;
 
 export default Component.extend(RecognizerMixin, {
-  window: window,
+  window,
   layout,
   viewport: service(),
   recognizers: 'swipe',
