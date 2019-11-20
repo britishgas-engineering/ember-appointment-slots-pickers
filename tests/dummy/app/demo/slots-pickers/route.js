@@ -41,7 +41,8 @@ export default Route.extend({
         endTime: startMoment.hours(s.endHour).minutes(0).seconds(0).format(),
         variant: s.variant,
         available: Math.random() > 0.75 || notDisplayable,
-        slotPickerNotDisplayable: notDisplayable
+        slotPickerNotDisplayable: notDisplayable,
+        slotPickerHasTag: Math.random() > 0.75
       }));
     }
     const availableSlots = appointmentSlots.filterBy('available', true);

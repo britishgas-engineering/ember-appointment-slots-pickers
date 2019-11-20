@@ -116,7 +116,7 @@ export default DS.Model.extend({
   slotPickerDayLabel: computed('_startMoment', function () {
     const _startMoment = this.get('_startMoment');
 
-    return _startMoment.format('ddd Do MMM YYYY');
+    return _startMoment.format('ddd Do MMM');
   }),
 
   slotPickerLongDayLabel: computed('_startMoment', function () {
@@ -127,5 +127,6 @@ export default DS.Model.extend({
 
   slotPickerNotAvailable: not('available'),
 
-  slotPickerNotShowable: false
+  slotPickerNotShowable: false,
+  slotPickerHasTag: false
 });

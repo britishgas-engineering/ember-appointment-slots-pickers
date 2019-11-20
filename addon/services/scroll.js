@@ -70,7 +70,7 @@ export default Service.extend({
    * @return {undefined}
    */
   to: function (name, options, callback) {
-    if (!this.get('configService.isTestLike')) {
+    if (!this.get('isTestLike')) {
       //console.log('scroll to', name);
       scheduleOnce('afterRender', this, this.afterRenderTo, name, options, callback);
     }

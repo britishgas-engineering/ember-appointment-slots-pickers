@@ -100,7 +100,8 @@ const appointmentSlot = EmberObject.extend({
   slotPickerLongDayLabel: 'Thursday 28th November' , // optional (defaults to slotPickerDayLabel) (used in slots-picker/selection-single)
 
   slotPickerNotAvailable: false, // optional (default false), to filter out the slots passed to the set of all slots in the components
-  slotPickerNotDisplayable: false // optional (default false), to filter out the slots you want to show, while still including them in the global (to show empty days, for example)
+  slotPickerNotDisplayable: false // optional (default false), to filter out the slots you want to show, while still including them in the global (to show empty days, for example),
+  slotPickerHasTag: false // optional (default false), will display an `fa-tag` icon on slots buttons when true
 });
 ```
 

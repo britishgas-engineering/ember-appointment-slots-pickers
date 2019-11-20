@@ -9,5 +9,10 @@
       <span class="bg-button-icon fa fa-angle-right" aria-hidden="true"></span>
     {{/if}}
   {{/if}}
+
   {{yield}}
+
+  {{#if isTagged}}
+    <span class="bg-button-icon fa fa-tag" aria-labelledby="tagInfo"></span>
+  {{/if}}
 {{/if}}
