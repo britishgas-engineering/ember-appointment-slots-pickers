@@ -11,6 +11,8 @@ export default Component.extend({
   classNameBindings: ['bgTheme'],
   attributeBindings: ['isDisabled:disabled', 'type', 'tabindex'],
 
+  isTagged: false,
+
   // attributes
   // whether the button is disabled or not
   disabled: false,
