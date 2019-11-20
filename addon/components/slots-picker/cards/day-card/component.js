@@ -2,6 +2,7 @@ import { filter } from '@ember/object/computed';
 import Component from '@ember/component';
 import layout from './template';
 import { computed } from '@ember/object';
+import moment from 'moment';
 
 export default Component.extend({
   layout,
@@ -12,19 +13,19 @@ export default Component.extend({
   appointmentSlotsNotEmpty: filter('appointmentSlots', function (appointmentSlot) {
     return !!appointmentSlot;
   }),
-  startMoment: computed('appointmentSlotsNotEmpty.firstObject.slotPickerStartMoment', function () {
-    return this.get('appointmentSlotsNotEmpty.firstObject.slotPickerStartMoment');
+  dayMoment: computed('appointmentSlotsNotEmpty.firstObject.slotPickerDay', function () {
+    return moment(this.get('appointmentSlotsNotEmpty.firstObject.slotPickerDay'));
   }).readOnly(),
-  dayOfWeek: computed('startMoment', function () {
-    const startMoment = this.get('startMoment');
+  dayOfWeek: computed('dayMoment', function () {
+    const startMoment = this.get('dayMoment');
     return startMoment.format('dddd');
   }),
-  day: computed('startMoment', function () {
-    const startMoment = this.get('startMoment');
+  day: computed('dayMoment', function () {
+    const startMoment = this.get('dayMoment');
     return startMoment.format('Do');
   }),
-  month: computed('startMoment', function () {
-    const startMoment = this.get('startMoment');
+  month: computed('dayMoment', function () {
+    const startMoment = this.get('dayMoment');
     return startMoment.format('MMMM');
   })
 });

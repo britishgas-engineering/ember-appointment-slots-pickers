@@ -1,4 +1,5 @@
 import {
+  filter,
   filterBy,
   equal,
   or,
@@ -45,7 +46,9 @@ export default Component.extend({
     });
   }),
 
-  availableAppointmentSlotsWithoutSelected: filterBy('appointmentSlots', 'slotPickerAvailable', true),
+  availableAppointmentSlotsWithoutSelected: filter('appointmentSlots', function (appointmentSlot) {
+    return !appointmentSlot.get('slotPickerNotAvailable');
+  }),
   hasNoSlots: equal('availableAppointmentSlotsWithoutSelected.length', 0),
   slotsArePending: computed('appointmentSlots.isPending', function () {
     return this.get('appointmentSlots.isPending');

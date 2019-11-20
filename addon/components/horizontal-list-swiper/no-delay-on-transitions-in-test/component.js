@@ -5,7 +5,7 @@ import { computed } from '@ember/object';
 
 export default Component.extend({
   layout,
-  window: window,
+  window,
   classNameBindings: ['isTestLike'],
   config: computed(function () {
     return getOwner(this).resolveRegistration('config:environment');

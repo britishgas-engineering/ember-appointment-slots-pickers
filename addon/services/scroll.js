@@ -8,7 +8,7 @@ import {getOwner} from '@ember/application';
 export default Service.extend({
 
   viewport: service(),
-  window: window,//TODO: use window service
+  window,//TODO: use window service
 
   config: computed(function () {
     return getOwner(this).resolveRegistration('config:environment');
