@@ -28,6 +28,24 @@ module.exports = {
     let treeShakingOptions = {};
 
     if (options) {
+      if (options.bundles) {
+        options.exclude = options.exclude || [];
+        const bundles = options.bundles;
+        if (bundles.includes('bg')) {
+          options.exclude.push(
+            /services\/scroll/,
+            /services\/viewport/,
+            /helpers/,
+            /styles\/global-rules/,
+            /styles\/mixins/,
+            /styles\/variables/,
+            /components\/application-pre-loader/,
+            /components\/bg-button/,
+            /components\/scroll-anchor/
+          )
+        }
+        delete options.bundles;
+      }
       treeShakingOptions = Object.assign({}, {
         enabled: true,
         include: options.include || null,
