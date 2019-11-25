@@ -32,6 +32,7 @@ module.exports = {
         options.exclude = options.exclude || [];
         const bundles = options.bundles;
         if (bundles.includes('bg')) {
+          console.log('includes bg');
           options.exclude.push(
             /services\/scroll/,
             /services\/viewport/,
@@ -43,6 +44,8 @@ module.exports = {
             /components\/bg-button/,
             /components\/scroll-anchor/
           )
+        } else {
+          console.log('not includes bg');
         }
         delete options.bundles;
       }
