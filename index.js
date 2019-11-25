@@ -36,7 +36,7 @@ module.exports = {
             /services\/scroll/,
             /services\/viewport/,
             /helpers/,
-            /styles\/global-rules/,
+            /global-rules/,
             /styles\/mixins/,
             /styles\/variables/,
             /components\/application-pre-loader/,
