@@ -26,7 +26,7 @@ module.exports = {
   _treeShakingEmber(tree) {
     const options = this.app.options[this.name];
     let treeShakingOptions = {};
-
+    console.log('options', options, this.app.options, this.name);
     if (options) {
       if (options.bundles) {
         options.exclude = options.exclude || [];
