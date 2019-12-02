@@ -46,55 +46,58 @@ module.exports = {
     let treeShakingOptions = {};
     if (options) {
       if (options.bundles) {
-        [/*'include', */'exclude'].forEach((clude) => {
-          options[clude] = options[clude] || [];
-          const bundlesClude = options.bundles[clude];
-          bundlesClude.forEach((bundleName) => {
-            let patterns = [];
-            switch(bundleName) {
-              case 'bg':
-                patterns = [
-                  /services\/scroll/,
-                  /services\/viewport/,
-                  /helpers/,
-                  '**/global-rules.less',
-                  '**/variable.less',
-                  /components\/application-pre-loader/,
-                  /components\/bg-button/,
-                  /components\/scroll-anchor/
-                ];
-                break;
-              case 'mobile':
-                patterns = [
-                  /horizontal-list-swiper\/sly/,
-                  /components\/date-picker\/mobile/,
-                  /components\/date-picker\/mobile\/styles/,
-                  /horizontal-list-swiper\/gesture2/,
-                  /components\/slots-picker\/mobile/
-                ];
-                break;
-              case 'pickadate':
-                patterns = [
-                  /components\/pickadate-input/,
-                  /components\/slots-picker\/pickadate/
-                ];
-                break;
-              case 'desktop':
-                patterns = [
-                  /horizontal-list-swiper\/gesture/,
-                  /components\/slots-picker\/desktop/
-                ];
-                break;
-              case 'cards':
-                patterns = [
-                  /components\/slots-picker\/cards/
-                ];
-                break;
-              default:
-                console.error('unrecognized bundle for ember-appointment-slots-pickers tree-shaking'); break;//eslint-disable-line
-            }
-            Array.prototype.push.apply(options[clude], patterns);
-          });
+        options.include = options.include || [];
+        Array.prototype.push.apply(options.include, [
+          '**/addon.less'
+        ]);
+
+        options.exclude = options.exclude || [];
+        const bundlesExclude = options.bundles.exclude || [];
+        bundlesExclude.forEach((bundleName) => {
+          let patterns = [];
+          switch(bundleName) {
+            case 'bg':
+              patterns = [
+                /services\/scroll/,
+                /services\/viewport/,
+                /helpers/,
+                '**/global-rules.less',
+                '**/variable.less',
+                /components\/application-pre-loader/,
+                /components\/bg-button/,
+                /components\/scroll-anchor/
+              ];
+              break;
+            case 'mobile':
+              patterns = [
+                /horizontal-list-swiper\/sly/,
+                /components\/date-picker\/mobile/,
+                /components\/date-picker\/mobile\/styles/,
+                /horizontal-list-swiper\/gesture2/,
+                /components\/slots-picker\/mobile/
+              ];
+              break;
+            case 'pickadate':
+              patterns = [
+                /components\/pickadate-input/,
+                /components\/slots-picker\/pickadate/
+              ];
+              break;
+            case 'desktop':
+              patterns = [
+                /horizontal-list-swiper\/gesture/,
+                /components\/slots-picker\/desktop/
+              ];
+              break;
+            case 'cards':
+              patterns = [
+                /components\/slots-picker\/cards/
+              ];
+              break;
+            default:
+              console.error('unrecognized bundle for ember-appointment-slots-pickers tree-shaking'); break;//eslint-disable-line
+          }
+          Array.prototype.push.apply(options.exclude, patterns);
         });
         delete options.bundles;
       }
