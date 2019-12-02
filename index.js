@@ -45,11 +45,12 @@ module.exports = {
     const options = this.app.options[this.name];
     let treeShakingOptions = {};
     if (options) {
+      options.include = options.include || [];
+      Array.prototype.push.apply(options.include, [
+        '**/addon.less',
+        '**/mixins.less'
+      ]);
       if (options.bundles) {
-        options.include = options.include || [];
-        Array.prototype.push.apply(options.include, [
-          '**/addon.less'
-        ]);
 
         options.exclude = options.exclude || [];
         const bundlesExclude = options.bundles.exclude || [];
@@ -101,6 +102,7 @@ module.exports = {
         });
         delete options.bundles;
       }
+      console.log('options.include', options.include);
       treeShakingOptions = Object.assign({}, {
         enabled: true,
         include: options.include || null,
