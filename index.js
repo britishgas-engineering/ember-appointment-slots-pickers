@@ -46,10 +46,6 @@ module.exports = {
     let treeShakingOptions = {};
     if (options) {
       options.include = options.include || [];
-      Array.prototype.push.apply(options.include, [
-        '**/addon.less',
-        '**/mixins.less'
-      ]);
       if (options.bundles) {
 
         options.exclude = options.exclude || [];
@@ -101,8 +97,14 @@ module.exports = {
           Array.prototype.push.apply(options.exclude, patterns);
         });
         delete options.bundles;
+
       }
-      console.log('options.include', options.include);
+      if (options.include.length) {
+        Array.prototype.push.apply(options.include, [
+          '**/addon.less',
+          '**/mixins.less'
+        ]);
+      } //otherwise everything is included by default
       treeShakingOptions = Object.assign({}, {
         enabled: true,
         include: options.include || null,
