@@ -63,6 +63,14 @@
     "configPath": "tests/dummy/config",
     "versionCompatibility": {
       "ember": ">=2.18.0 <=3.8.0"
-    }
+    },
+    "after": [
+      "bg-vi",
+      "ember-cli-styles-preprocessor",
+      "ember-cli-less",
+      "ember-cli-sass",
+      "ember-cli-stylus",
+      "ember-cli-postcss"
+    ]
   }
 }
