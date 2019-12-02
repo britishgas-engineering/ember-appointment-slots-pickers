@@ -27,6 +27,7 @@
     "ember-component-css": "github:ConnectedHomes/ember-component-css#experimental"
   },
   "devDependencies": {
+    "broccoli-funnel": "2.0.2",
     "@ember/jquery": "^0.6.1",
     "bootstrap": "3.4.1",
     "broccoli-asset-rev": "3.0.0",

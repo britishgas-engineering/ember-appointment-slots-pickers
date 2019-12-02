@@ -22,21 +22,17 @@ export default DS.Model.extend({
     }
   }),
 
-  _startMoment: computed('convertToUKTimezone', 'startTime', function () {
+  _startMoment: computed('startTime', function () {
     if (this.get('startTime')) {
-      return this.get('convertToUKTimezone') ?
-        moment(this.get('startTime')).tz('Europe/London') :
-        moment(this.get('startTime'));
+      return moment(this.get('startTime'));
     } else {
       return null;//NB. moment(undefined) or moment(null) returns current/now's date time.
     }
   }),
 
-  _endMoment: computed('convertToUKTimezone', 'endTime', function () {
+  _endMoment: computed('endTime', function () {
     if (this.get('endTime')) {
-      return this.get('convertToUKTimezone') ?
-        moment(this.get('endTime')).tz('Europe/London') :
-        moment(this.get('endTime'));
+      return moment(this.get('endTime'));
     } else {
       return null;//NB. moment(undefined) or moment(null) returns current/now's date time.
     }
