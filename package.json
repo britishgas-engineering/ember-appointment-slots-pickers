@@ -70,7 +70,8 @@
       "ember-cli-less",
       "ember-cli-sass",
       "ember-cli-stylus",
-      "ember-cli-postcss"
+      "ember-cli-postcss",
+      "bootstrap"
     ]
   }
 }
