@@ -41,17 +41,40 @@ module.exports = {
 
     return this._findHost();
   },
+  _debug() {
+    //console.log(...arguments);
+  },
   _treeShakingEmber(tree) {
     const options = this.app.options[this.name];
     let treeShakingOptions = {};
     if (options) {
       options.include = options.include || [];
       if (options.bundles) {
+
+        if (options.bundles.include && options.bundles.include.length) { //files needed for any calendar
+          Array.prototype.push.apply(options.include, [
+            /components\/slots-picker\/base/,
+            /components\/slots-picker\/button/,
+            /components\/slots-picker\/loader/,
+            /components\/slots-picker\/selection-multi/,
+            /components\/slots-picker\/selection-single/,
+            /components\/horizontal-list-swiper\/no-delay-on-transitions-in-test/,
+            /slots-picker\/component/,
+            /slots-picker\/styles/,
+            /slots-picker\/template/,
+            /components\/bg-button/,
+            /services/,
+            /helpers/,
+            '**/styles.less',
+            '**/ember-appointment-slots-pickers.css'
+          ]);
+        }
+
         ['exclude', 'include'].forEach((includeOrExclude) => {
           options[includeOrExclude] = options[includeOrExclude] || [];
           let bundles = options.bundles[includeOrExclude] || [];
           if (bundles.includes('easy')) {
-            bundles = bundles.filter((elt) => elt !== 'easy');
+            //bundles = bundles.filter((elt) => elt !== 'easy');
             bundles.push('desktop', 'mobile');
             options[includeOrExclude].push(/components\/easy-slot-picker/);
           }
@@ -64,7 +87,7 @@ module.exports = {
                   /services\/viewport/,
                   /helpers/,
                   '**/global-rules.less',
-                  '**/variable.less',
+                  '**/variables.less',
                   /components\/application-pre-loader/,
                   /components\/bg-button/,
                   /components\/scroll-anchor/
@@ -97,27 +120,11 @@ module.exports = {
                 ];
                 break;
               default:
-                console.error('unrecognized bundle for ember-appointment-slots-pickers tree-shaking'); break;//eslint-disable-line
+                console.error('unrecognized bundle for ember-appointment-slots-pickers tree-shaking: ', bundleName); break;//eslint-disable-line
             }
             Array.prototype.push.apply(options[includeOrExclude], patterns);
           });
         })
-        if (options.bundles.include.length) { //files needed for any calendar
-          Array.prototype.push.apply(options.include, [
-            /components\/slots-picker\/base/,
-            /components\/slots-picker\/button/,
-            /components\/slots-picker\/loader/,
-            /components\/slots-picker\/selection-multi/,
-            /components\/slots-picker\/selection-single/,
-            /components\/horizontal-list-swiper\/no-delay-on-transitions-in-test/,
-            /slots-picker\/component/,
-            /slots-picker\/styles/,
-            /slots-picker\/template/,
-            /components\/bg-button/,
-            /services/,
-            /helpers/
-          ]);
-        }
         delete options.bundles;
       }
       if (options.include.length) {
@@ -126,10 +133,11 @@ module.exports = {
           '**/mixins.less'
         ]);
       } //otherwise everything is included by default
+      this._debug('ember-appointment-slots-pickers treeShaking debug:', options);
       treeShakingOptions = Object.assign({}, {
         enabled: true,
         include: options.include || null,
-        exclude: options.exclude || null
+        exclude: /*options.exclude ||*/ null
       });
     }
     const funnel = new Funnel(tree, treeShakingOptions);
