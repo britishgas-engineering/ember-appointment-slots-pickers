@@ -65,7 +65,6 @@ module.exports = {
             /components\/bg-button/,
             /services/,
             /helpers/,
-            '**/styles.less',
             '**/ember-appointment-slots-pickers.css'
           ]);
         }
