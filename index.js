@@ -47,57 +47,78 @@ module.exports = {
     if (options) {
       options.include = options.include || [];
       if (options.bundles) {
-
-        options.exclude = options.exclude || [];
-        const bundlesExclude = options.bundles.exclude || [];
-        bundlesExclude.forEach((bundleName) => {
-          let patterns = [];
-          switch(bundleName) {
-            case 'bg':
-              patterns = [
-                /services\/scroll/,
-                /services\/viewport/,
-                /helpers/,
-                '**/global-rules.less',
-                '**/variable.less',
-                /components\/application-pre-loader/,
-                /components\/bg-button/,
-                /components\/scroll-anchor/
-              ];
-              break;
-            case 'mobile':
-              patterns = [
-                /horizontal-list-swiper\/sly/,
-                /components\/date-picker\/mobile/,
-                /components\/date-picker\/mobile\/styles/,
-                /horizontal-list-swiper\/gesture2/,
-                /components\/slots-picker\/mobile/
-              ];
-              break;
-            case 'pickadate':
-              patterns = [
-                /components\/pickadate-input/,
-                /components\/slots-picker\/pickadate/
-              ];
-              break;
-            case 'desktop':
-              patterns = [
-                /horizontal-list-swiper\/gesture/,
-                /components\/slots-picker\/desktop/
-              ];
-              break;
-            case 'cards':
-              patterns = [
-                /components\/slots-picker\/cards/
-              ];
-              break;
-            default:
-              console.error('unrecognized bundle for ember-appointment-slots-pickers tree-shaking'); break;//eslint-disable-line
+        ['exclude', 'include'].forEach((includeOrExclude) => {
+          options[includeOrExclude] = options[includeOrExclude] || [];
+          let bundles = options.bundles[includeOrExclude] || [];
+          if (bundles.includes('easy')) {
+            bundles = bundles.filter((elt) => elt !== 'easy');
+            bundles.push('desktop', 'mobile');
+            options[includeOrExclude].push(/components\/easy-slot-picker/);
           }
-          Array.prototype.push.apply(options.exclude, patterns);
-        });
+          bundles.forEach((bundleName) => {
+            let patterns = [];
+            switch(bundleName) {
+              case 'bg':
+                patterns = [
+                  /services\/scroll/,
+                  /services\/viewport/,
+                  /helpers/,
+                  '**/global-rules.less',
+                  '**/variable.less',
+                  /components\/application-pre-loader/,
+                  /components\/bg-button/,
+                  /components\/scroll-anchor/
+                ];
+                break;
+              case 'mobile':
+                patterns = [
+                  /horizontal-list-swiper\/sly/,
+                  /components\/date-picker\/mobile/,
+                  /components\/date-picker\/mobile\/styles/,
+                  /horizontal-list-swiper\/gesture2/,
+                  /components\/slots-picker\/mobile/
+                ];
+                break;
+              case 'pickadate':
+                patterns = [
+                  /components\/pickadate-input/,
+                  /components\/slots-picker\/pickadate/
+                ];
+                break;
+              case 'desktop':
+                patterns = [
+                  /horizontal-list-swiper\/gesture/,
+                  /components\/slots-picker\/desktop/
+                ];
+                break;
+              case 'cards':
+                patterns = [
+                  /components\/slots-picker\/cards/
+                ];
+                break;
+              default:
+                console.error('unrecognized bundle for ember-appointment-slots-pickers tree-shaking'); break;//eslint-disable-line
+            }
+            Array.prototype.push.apply(options[includeOrExclude], patterns);
+          });
+        })
+        if (options.bundles.include.length) { //files needed for any calendar
+          Array.prototype.push.apply(options.include, [
+            /components\/slots-picker\/base/,
+            /components\/slots-picker\/button/,
+            /components\/slots-picker\/loader/,
+            /components\/slots-picker\/selection-multi/,
+            /components\/slots-picker\/selection-single/,
+            /components\/horizontal-list-swiper\/no-delay-on-transitions-in-test/,
+            /slots-picker\/component/,
+            /slots-picker\/styles/,
+            /slots-picker\/template/,
+            /components\/bg-button/,
+            /services/,
+            /helpers/
+          ]);
+        }
         delete options.bundles;
-
       }
       if (options.include.length) {
         Array.prototype.push.apply(options.include, [
