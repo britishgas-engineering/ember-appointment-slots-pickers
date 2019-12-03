@@ -42,7 +42,7 @@ module.exports = {
     return this._findHost();
   },
   _debug() {
-    //console.log(...arguments);
+    console.log(...arguments);
   },
   _treeShakingEmber(tree) {
     const options = this.app.options[this.name];
@@ -136,11 +136,10 @@ module.exports = {
       treeShakingOptions = Object.assign({}, {
         enabled: true,
         include: options.include || null,
-        exclude: /*options.exclude ||*/ null
+        exclude: options.exclude || null
       });
     }
     const funnel = new Funnel(tree, treeShakingOptions);
-    //console.log('funnel', funnel, funnel.files);
     return funnel;
   },
   treeForAddon() {
