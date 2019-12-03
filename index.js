@@ -42,7 +42,7 @@ module.exports = {
     return this._findHost();
   },
   _debug() {
-    console.log(...arguments);
+    //console.log(...arguments);
   },
   _treeShakingEmber(tree) {
     const options = this.app.options[this.name];
