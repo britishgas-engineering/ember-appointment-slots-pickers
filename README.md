@@ -406,9 +406,9 @@ You may have a better design in mind, or want to do things better than us and us
 
 ## Tree-shaking ##
 
-Based on https://github.com/broccolijs/broccoli-funnel, and extended with `bundles` that you can include or exclude. The available keys for bundles correspond to the different calendars (`easy`, `mobile`, `desktop`, `cards`, `pickadate`) and also a `bg` bundle that you have to exclude if you work for British Gas (otherwise just ignore this bundle).
+Based on [broccoli-funnel](https://github.com/broccolijs/broccoli-funnel), and extended with `bundles` that you can include or exclude. The available keys for bundles correspond to the different calendars (`easy`, `mobile`, `desktop`, `cards`, `pickadate`) and also a `bg` bundle that you have to exclude if you work for British Gas (otherwise just ignore this bundle).
 
-For example:
+Some examples:
 
 _The below will only load the `easy-slot-picker` component and associated files, including stylesheets:_
 ```javascript
