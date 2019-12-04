@@ -383,9 +383,9 @@ This component's primary use is to transform the array of `appointmentSlots` pro
 }}
 ```
 
-#### slots-picker/base class ####
+#### slots-picker/base component ####
 
-This component-base just aliases the `baseProps.xx` objects given by the parent `slots-picker` container to similarly names properties in the children calendar components:
+This base component just aliases the `baseProps.xx` objects given by the parent `slots-picker` container to similarly names properties in the children calendar components:
 
 ```javascript
 days: computed('baseProps.days', function () {
@@ -402,7 +402,43 @@ Each child `slots-picker/xx` calendar component is then built by extending this 
 
 You may have a better design in mind, or want to do things better than us and use ember-animation to build new calendars. In that case, all you have to do is create a new `slots-picker/better-calendar` component extending `slots-picker/base` and add it to the suite!
 
-**Any better idea of how to do things? Just tell us or even better send a PR!**
+**Any better idea of how to do things? Create an issue or even better create a PR!**
+
+## Tree-shaking ##
+
+Based on `https://github.com/broccolijs/broccoli-funnel`, extended with `bundles` that you can include or exclude. Possible keys for bundles correspond to the different calendars (`easy`, `mobile`, `desktop`, `cards`, `pickadate`) and also a `bg` bundle that you have to exclude if you work for British Gas (otherwise just ignore this bundle). Some examples,
+
+The below will only load the `easy-slot-picker` component and associated files, including stylesheets:
+```javascript
+options['ember-appointment-slots-pickers'] = {
+  bundles: {
+    include: ['easy']
+  }
+};
+```
+
+The below will exclude the files and libraries needed for the `mobile` and `cards` calendars, and also the `clock-reloader` component suite, and keep everything else:
+```javascript
+//ember-cli-build.js
+options['ember-appointment-slots-pickers'] = {
+  bundles: {
+    exclude: ['mobile', 'cards']
+  },
+  exclude: [
+    /clock-reloader/
+  ]
+},
+```
+
+The below will only load the `pickadate-input` component and stylesheets, and mandatory services / helpers:
+```javascript
+//ember-cli-build.js
+options['ember-appointment-slots-pickers'] = {
+  include: [
+    /components\/pickadate-input/
+  ]
+};
+```
 
 ## Installation
 
