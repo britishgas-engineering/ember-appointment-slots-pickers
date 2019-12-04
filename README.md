@@ -25,6 +25,7 @@ At the time of writing, you can use any of the following children calendar compo
             <th colspan="2">Device:</th>
             <th colspan="2">Slots selection:</th>
             <th colspan="2">Composable with:</th>
+            <th></th>
         </tr>
         <tr>
             <th>slots-picker calendar</th>
@@ -34,6 +35,7 @@ At the time of writing, you can use any of the following children calendar compo
             <th>Multi</th>
             <th>slots-filter</th>
             <th>clock-reloader</th>
+            <th>extendable</th>
         </tr>
     </thead>
     <tbody>
@@ -42,6 +44,7 @@ At the time of writing, you can use any of the following children calendar compo
           <td>&#10004;</td>
           <td>&#10004;</td>
           <td>&#10004;</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -54,10 +57,12 @@ At the time of writing, you can use any of the following children calendar compo
             <td>&#10004;</td>
             <td>&#10004;</td>
             <td>&#10004;</td>
+            <td>&#10004;</td>
         </tr>
         <tr>
             <td>slots-picker/desktop</td>
             <td></td>
+            <td>&#10004;</td>
             <td>&#10004;</td>
             <td>&#10004;</td>
             <td>&#10004;</td>
@@ -72,9 +77,11 @@ At the time of writing, you can use any of the following children calendar compo
             <td></td>
             <td>&#10004;</td>
             <td>&#10004;</td>
+            <td>&#10004;</td>
         </tr>
         <tr>
             <td>slots-picker/cards</td>
+            <td>&#10004;</td>
             <td>&#10004;</td>
             <td>&#10004;</td>
             <td>&#10004;</td>
@@ -123,11 +130,11 @@ noSlotLabel: 'Not Available' //optional, defaults to 'Fully Booked'
 
 ## Leveraging composition to give power to the developers ##
 
-You will find in the dummy app lots of examples on how to use these components, some of them are also summarized below:
+You will find in the [dummy app](https://britishgas-engineering.github.io/ember-appointment-slots-pickers/#/demo) lots of examples on how to use these components, some of them are also summarized below:
 
 ### Easy slot picker ###
 
-For those who want to run fast, we created an easy to use but non-customizable and non-extendable default slot picker, that you can just drop in your app like so:
+For those who are on a rush, we created an easy to use but non-customizable and non-extendable default slot picker, that you can just drop in your app like so:
 ```hbs
   {{easy-slot-picker
     appointmentSlots=model.appointmentSlots
@@ -136,7 +143,7 @@ For those who want to run fast, we created an easy to use but non-customizable a
   }}
 ```
 
-Under the hood, `easy-slot-picker` is using a particular combination of `slots-picker/desktop`, `slots-picker/mobile` and `slots-picker/loader` which can be replicated and refined in the steps below:
+Under the hood, `easy-slot-picker` is using a particular combination of `slots-picker/desktop`, `slots-picker/mobile` and `slots-picker/loader` which can be replicated and extended in the steps below:
 
 ### Basic setup ###
 
@@ -187,7 +194,7 @@ One of those `baseProps` properties is the `slotsAreLoading` property, set to `t
 
 One of the things you will have to maintain if you move away from `easy-slot-picker` is to choose in your app which calendars to display for the different screen sizes. [Some calendars are only available on mobile, some others only on desktop, some on both](https://github.com/britishgas-engineering/ember-appointment-slots-pickers/blob/feature/transfer-slot-pickers-to-open-source/README.md#choose-your-own-calendventure).
 
-The `easy-slot-picker` code is doing jut that, by changing the child component name depending on the viewport size:
+The `easy-slot-picker` code is doing just that, by changing the child component name depending on the viewport size:
 
 ```javascript
 //appointment-slot-picker/component.js
@@ -391,7 +398,7 @@ It also contains patterns common to all calendars, for example the action called
 Each child `slots-picker/xx` calendar component is then built by extending this base class.
 
 
-#### add your own calendar ####
+#### Add your own calendar ####
 
 You may have a better design in mind, or want to do things better than us and use ember-animation to build new calendars. In that case, all you have to do is create a new `slots-picker/better-calendar` component extending `slots-picker/base` and add it to the suite!
 
