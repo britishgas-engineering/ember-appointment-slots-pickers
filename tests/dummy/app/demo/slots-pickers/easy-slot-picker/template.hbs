@@ -1,0 +1,28 @@
+<div class="container-fluid">
+
+  <h1>easy-slot-picker</h1>
+  <h2> Very simple to implement, with default functionalities: </h2>
+  <h2>desktop + mobile hybrid, single selection, default loader</h2>
+  <h2>Not customizable nor composable.</h2>
+
+  <h3>Default</h3>
+    <hr>
+  <div class="mb8">
+    {{easy-slot-picker
+      appointmentSlots=model.showableSlots
+      selected=model.selected
+      onSelect=(action (mut model.selected))
+    }}
+  </div>
+
+  <h3>Loading state ({{delay}} ms, change with queryParam ?delay=10000)</h3>
+  <hr>
+  <div class="mb8">
+    {{easy-slot-picker
+      appointmentSlots=model.asyncSlots
+      selected=model.selected
+      onSelect=(action (mut model.selected))
+    }}
+  </div>
+  <hr>
+</div>

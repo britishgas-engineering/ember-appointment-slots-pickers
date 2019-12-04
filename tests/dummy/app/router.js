@@ -10,6 +10,7 @@ Router.map(function() {
   this.route('demo', function () {
     this.route('slots-filter');
     this.route('slots-pickers', function () {
+      this.route('easy-slot-picker');
       this.route('slot-picker-name', {path: '/:slot-picker-name'});//eslint-disable-line
     });
     this.route('clock-reloader');

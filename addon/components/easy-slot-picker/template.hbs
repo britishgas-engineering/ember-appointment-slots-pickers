@@ -1,0 +1,18 @@
+{{#slots-picker
+  appointmentSlots=appointmentSlots
+  selected=selected
+  noSlotLabel=noSlotLabel
+  select=(action 'select')
+  as |baseProps onSelectSlot onDeselectSlot|
+}}
+  {{#if baseProps.slotsAreLoading}}
+    {{slots-picker/loader title=loaderSentence}}
+  {{else}}
+    {{component slotPickerComponentName
+      baseProps=baseProps
+      onSelectSlot=onSelectSlot
+      onDeselectSlot=onDeselectSlot
+    }}
+    {{slots-picker/selection-single baseProps=baseProps}}
+  {{/if}}
+{{/slots-picker}}
