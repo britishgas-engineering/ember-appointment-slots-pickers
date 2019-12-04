@@ -38,21 +38,6 @@ export default Component.extend({
     return this.get('baseProps.canSelectMultipleSlots');
   }).readOnly(),
 
-  didInsertElement() {
-    this._super(...arguments);
-
-    run.next(this, '_checkForLoadingComponentPresence');
-  },
-
-  _checkForLoadingComponentPresence() {
-    if (!this.isDestroyed) {
-      assert(
-        'this component has no default loader defined, please insert a loading component before this one in your implementation',
-        !this.get('slotsAreLoading')
-      );
-    }
-  },
-
   actions: {
     onDateChange(date) {
       if (this.baseProps.selectedFilter) {

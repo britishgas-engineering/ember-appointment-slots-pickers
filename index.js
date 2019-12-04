@@ -56,6 +56,7 @@ module.exports = {
             /components\/slots-picker\/base/,
             /components\/slots-picker\/button/,
             /components\/slots-picker\/loader/,
+            /components\/application-pre-loader/,
             /components\/slots-picker\/selection-multi/,
             /components\/slots-picker\/selection-single/,
             /components\/horizontal-list-swiper\/no-delay-on-transitions-in-test/,
@@ -87,6 +88,7 @@ module.exports = {
                   /helpers/,
                   '**/global-rules.less',
                   '**/variables.less',
+                  /components\/slots-picker\/loader/,
                   /components\/application-pre-loader/,
                   /components\/bg-button/,
                   /components\/scroll-anchor/

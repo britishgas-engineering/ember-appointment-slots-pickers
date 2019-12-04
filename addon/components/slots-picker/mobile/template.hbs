@@ -1,37 +1,41 @@
-<div class="row mt3">
+{{#if slotsAreLoading}}
+  {{slots-picker/loader}}
+{{else}}
+  <div class="row mt3">
 
-  {{#date-picker/mobile dates=days selectedSlots=multiSelected onDateChange=(action 'onDateChange') as |selectPrevNextDate width currentIndex|}}
-    {{#horizontal-list-swiper/gesture2 items=cellsPerCol width=width index=currentIndex onswipe=selectPrevNextDate as |item|}}
+    {{#date-picker/mobile dates=days selectedSlots=multiSelected onDateChange=(action 'onDateChange') as |selectPrevNextDate width currentIndex|}}
+      {{#horizontal-list-swiper/gesture2 items=cellsPerCol width=width index=currentIndex onswipe=selectPrevNextDate as |item|}}
 
-      <div class="asp-table">
-        <div class="asp-col font-size-8 {{if slotsAreLoading 'slots-are-loading'}}">
-          <div class="py1">
+        <div class="asp-table">
+          <div class="asp-col font-size-8">
+            <div class="py1">
 
-            {{#each item.cellsForCol as |cell|}}
-              <div class="asp-row p1 border-right border-light-grey">
-                <div class="asp-cell">
-                  {{#if cell}}
-                    {{slots-picker/button
-                      appointmentSlot=cell
-                      multiSelected=multiSelected
-                      canSelectMultipleSlots=canSelectMultipleSlots
-                      select=(action onSelectSlot)
-                      deselect=(optional-action onDeselectSlot)
-                    }}
-                  {{else}}
-                    <div class="no-slot-label">
-                      {{cell.slotPickerRowLabel}} ({{if noSlotLabel noSlotLabel 'Fully booked'}})
-                    </div>
-                  {{/if}}
+              {{#each item.cellsForCol as |cell|}}
+                <div class="asp-row p1 border-right border-light-grey">
+                  <div class="asp-cell">
+                    {{#if cell}}
+                      {{slots-picker/button
+                        appointmentSlot=cell
+                        multiSelected=multiSelected
+                        canSelectMultipleSlots=canSelectMultipleSlots
+                        select=(action onSelectSlot)
+                        deselect=(optional-action onDeselectSlot)
+                      }}
+                    {{else}}
+                      <div class="no-slot-label">
+                        {{cell.slotPickerRowLabel}} ({{if noSlotLabel noSlotLabel 'Fully booked'}})
+                      </div>
+                    {{/if}}
+                  </div>
                 </div>
-              </div>
-            {{/each}}
+              {{/each}}
 
+            </div>
           </div>
         </div>
-      </div>
 
-    {{/horizontal-list-swiper/gesture2}}
-  {{/date-picker/mobile}}
+      {{/horizontal-list-swiper/gesture2}}
+    {{/date-picker/mobile}}
 
-</div>
+  </div>
+{{/if}}

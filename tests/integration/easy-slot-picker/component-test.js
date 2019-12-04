@@ -2,23 +2,11 @@ import {module, test} from 'qunit';
 import {setupRenderingTest} from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { generateAppointmentSlots } from 'ember-appointment-slots-pickers/test-support/helpers/generate-appointment-slots';
-import Ember from 'ember';
 
 import {render, settled, findAll} from '@ember/test-helpers';
 
-const emberAssertCp = Ember.assert; // eslint-disable-line
-
 module('Integration | Component | easy-slot-picker', function (hooks) {
   setupRenderingTest(hooks);
-
-  hooks.beforeEach(function () {
-    //silence Ember.assert for other components presence, check didInsertElement hook of the component
-    Ember.assert = () => {}; // eslint-disable-line
-  });
-
-  hooks.afterEach(function () {
-    Ember.assert = emberAssertCp; // eslint-disable-line
-  });
 
   test('should bind appointment slots to component and not scroll', async function (assert) {
     assert.expect(6);
