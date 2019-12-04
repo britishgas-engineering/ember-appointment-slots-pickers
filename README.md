@@ -406,9 +406,11 @@ You may have a better design in mind, or want to do things better than us and us
 
 ## Tree-shaking ##
 
-Based on `https://github.com/broccolijs/broccoli-funnel`, extended with `bundles` that you can include or exclude. Possible keys for bundles correspond to the different calendars (`easy`, `mobile`, `desktop`, `cards`, `pickadate`) and also a `bg` bundle that you have to exclude if you work for British Gas (otherwise just ignore this bundle). Some examples,
+Based on https://github.com/broccolijs/broccoli-funnel, and extended with `bundles` that you can include or exclude. The available keys for bundles correspond to the different calendars (`easy`, `mobile`, `desktop`, `cards`, `pickadate`) and also a `bg` bundle that you have to exclude if you work for British Gas (otherwise just ignore this bundle).
 
-The below will only load the `easy-slot-picker` component and associated files, including stylesheets:
+For example:
+
+_The below will only load the `easy-slot-picker` component and associated files, including stylesheets:_
 ```javascript
 options['ember-appointment-slots-pickers'] = {
   bundles: {
@@ -417,7 +419,7 @@ options['ember-appointment-slots-pickers'] = {
 };
 ```
 
-The below will exclude the files and libraries needed for the `mobile` and `cards` calendars, and also the `clock-reloader` component suite, and keep everything else:
+_This will exclude the files and libraries needed for the `mobile` and `cards` calendars, and also the `clock-reloader` component suite, and keep everything else:_
 ```javascript
 //ember-cli-build.js
 options['ember-appointment-slots-pickers'] = {
@@ -430,7 +432,7 @@ options['ember-appointment-slots-pickers'] = {
 },
 ```
 
-The below will only load the `pickadate-input` component and stylesheets, and mandatory services / helpers:
+_This will only load the `pickadate-input` component and stylesheets, and mandatory services / helpers:_
 ```javascript
 //ember-cli-build.js
 options['ember-appointment-slots-pickers'] = {
