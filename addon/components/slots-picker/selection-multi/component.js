@@ -1,5 +1,5 @@
 import { sort } from '@ember/object/computed';
-import Component from 'ember-appointment-slots-pickers/components/slots-picker/base/component';
+import Component from 'ember-appointment-slots-pickers/components/slots-picker/base/component-base';
 import layout from './template';
 
 export default Component.extend({

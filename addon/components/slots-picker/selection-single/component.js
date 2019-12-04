@@ -1,4 +1,4 @@
-import Component from 'ember-appointment-slots-pickers/components/slots-picker/base/component';
+import Component from 'ember-appointment-slots-pickers/components/slots-picker/base/component-base';
 import { computed } from '@ember/object';
 import layout from './template';
 

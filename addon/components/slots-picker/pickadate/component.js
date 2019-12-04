@@ -1,6 +1,6 @@
 import { bool, map } from '@ember/object/computed';
 import layout from './template';
-import slotPickerBase from 'ember-appointment-slots-pickers/components/slots-picker/base/component';
+import slotPickerBase from 'ember-appointment-slots-pickers/components/slots-picker/base/component-base';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import moment from 'moment';
