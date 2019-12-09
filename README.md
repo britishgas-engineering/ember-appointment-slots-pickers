@@ -8,7 +8,7 @@ You can choose to only pick up the components and dependencies you need from the
 
 ## Choose your own calendventure ##
 
-At the time of writing, you can use any of the following children calendar components (screenshots are at the end of the issue):
+At the time of writing, you can use any of the following children calendar components:
 
 * [easy-slot-picker](https://britishgas-engineering.github.io/ember-appointment-slots-pickers/#/demo/slots-pickers/easy-slot-picker)
 * [slots-picker/desktop](https://britishgas-engineering.github.io/ember-appointment-slots-pickers/#/demo/slots-pickers/desktop)
@@ -180,7 +180,7 @@ The basic use case is to use one of the `slots-picker/xx` individual calendars (
 
 ### Add a loading template ###
 
-One of those `baseProps` properties is the `slotsAreLoading` property, set to `true` when `appointmentSlots` is a `isPending` promiseArray, or an array with `null` length. You will **have** to use a custom loading template for the slot-pickers in your app, except for the children slotPicker components that have a custom loading behaviour (none of them at the time of writing). We created a `slots-picker/loader` default loading template that you can reuse if you have nothing better:
+One of those `baseProps` properties is the `slotsAreLoading` property, set to `true` when `appointmentSlots` is a `isPending` promiseArray, or an array with `null` length. You can customize the loading template for the slot-pickers in your app (a default one is provided). We created a `slots-picker/loader` default loading template that you can customize if you have nothing better:
 
 ```hbs
     {{#slots-picker
@@ -267,7 +267,7 @@ To show an overlay on the calendars once some time has expired, and ask customer
 
 ### Filter the slots by time-range
 
-Some components (`slots-picker/pickadate`, `slots-picker/mobile` ) show the dates before the times, so in that case it can be very useful to add a capability for customers to filter the available dates by time-range. This is what our `slots-filter` / `slots-filter/ui` components do:
+Some components (`slots-picker/pickadate`, `slots-picker/mobile` ) show the dates before the times, so in that case it can be very useful to add a capability for customers to filter the available dates by time-range. This is what our `slots-filter` and `slots-filter/ui` components do:
 
 ```hbs
     {{#slots-filter
