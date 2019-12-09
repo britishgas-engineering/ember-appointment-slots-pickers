@@ -25,7 +25,8 @@ At the time of writing, you can use any of the following children calendar compo
             <th colspan="2">Device:</th>
             <th colspan="2">Slots selection:</th>
             <th colspan="2">Composable with:</th>
-            <th></th>
+            <th>Extendable:</th>
+            <th colspan="3">Use when slots availability is:</th>
         </tr>
         <tr>
             <th>slots-picker calendar</th>
@@ -35,7 +36,10 @@ At the time of writing, you can use any of the following children calendar compo
             <th>Multi</th>
             <th>slots-filter</th>
             <th>clock-reloader</th>
-            <th>extendable</th>
+            <th></th>
+            <th>Low</th>
+            <th>Medium</th>
+            <th>High/th>
         </tr>
     </thead>
     <tbody>
@@ -48,6 +52,9 @@ At the time of writing, you can use any of the following children calendar compo
           <td></td>
           <td></td>
           <td></td>
+          <td></td>
+          <td>&#10004;</td>
+          <td>&#10004;</td>
       </tr>
         <tr>
             <td>slots-picker/mobile</td>
@@ -58,10 +65,16 @@ At the time of writing, you can use any of the following children calendar compo
             <td>&#10004;</td>
             <td>&#10004;</td>
             <td>&#10004;</td>
+            <td></td>
+            <td>&#10004;</td>
+            <td>&#10004;</td>
         </tr>
         <tr>
             <td>slots-picker/desktop</td>
             <td></td>
+            <td>&#10004;</td>
+            <td>&#10004;</td>
+            <td>&#10004;</td>
             <td>&#10004;</td>
             <td>&#10004;</td>
             <td>&#10004;</td>
@@ -78,6 +91,9 @@ At the time of writing, you can use any of the following children calendar compo
             <td>&#10004;</td>
             <td>&#10004;</td>
             <td>&#10004;</td>
+            <td>&#10004;</td>
+            <td>&#10004;</td>
+            <td>&#10004;</td>
         </tr>
         <tr>
             <td>slots-picker/cards</td>
@@ -88,6 +104,9 @@ At the time of writing, you can use any of the following children calendar compo
             <td>&#10004;</td>
             <td>&#10004;</td>
             <td>&#10004;</td>
+            <td>&#10004;</td>
+            <td></td>
+            <td></td>
         </tr>
     </tbody>
 </table>
