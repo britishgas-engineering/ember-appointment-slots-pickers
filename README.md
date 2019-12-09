@@ -37,7 +37,7 @@ At the time of writing, you can use any of the following children calendar compo
             <th>clock-reloader</th>
             <th>Low</th>
             <th>Medium</th>
-            <th>High/th>
+            <th>High</th>
         </tr>
     </thead>
     <tbody>
