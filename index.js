@@ -18,7 +18,6 @@ module.exports = {
     if (!exclude.includes('mobile')) {
       this.import('node_modules/sly-shim/dist/sly.min.js');
     }
-    console.log('include bootstrap?', this.env, this.app.env, this.app);
     this.import('node_modules/bootstrap/dist/css/bootstrap.min.css');
   },
   isDevelopingAddon: function () {
