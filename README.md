@@ -4,7 +4,7 @@ ember-appointment-slot<strong>S</strong>-picker<strong>S</strong> provides four 
 
 We transferred _as is_ the components from a British Gas private addon, some of them consuming old javascript libraries that would helpfully be rewritten using ember-animation.
 
-You can pick up only the components you need from the suite AND only the dependencies you need (hopefully, otherwise will need to split into several children addons) using tree-shaking.
+You can choose to only pick up the components and dependencies you need from the suite using tree-shaking.
 
 ## Choose your own calendventure ##
 
