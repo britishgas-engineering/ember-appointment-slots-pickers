@@ -35,7 +35,6 @@ At the time of writing, you can use any of the following children calendar compo
             <th>Multi</th>
             <th>slots-filter</th>
             <th>clock-reloader</th>
-            <th></th>
             <th>Low</th>
             <th>Medium</th>
             <th>High/th>
