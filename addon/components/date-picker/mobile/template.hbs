@@ -44,7 +44,9 @@
 </div>
 
 <div class="date-picker-mobile-current-month text-center font-size-8">
-  {{moment-format tempCurrentDay.date "MMMM YYYY"}}
+  {{#if (not slotsAreLoading)}}
+    {{moment-format tempCurrentDay.date "MMMM YYYY"}}
+  {{/if}}
 </div>
 
 <div class="date-picker-mobile-scroll text-center font-size-1">

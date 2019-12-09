@@ -18,7 +18,6 @@ module.exports = {
     if (!exclude.includes('mobile')) {
       this.import('node_modules/sly-shim/dist/sly.min.js');
     }
-    this.import('node_modules/bootstrap/dist/js/bootstrap.js');
     this.import('node_modules/bootstrap/dist/css/bootstrap.min.css');
   },
   isDevelopingAddon: function () {
@@ -56,6 +55,7 @@ module.exports = {
             /components\/slots-picker\/base/,
             /components\/slots-picker\/button/,
             /components\/slots-picker\/loader/,
+            /components\/application-pre-loader/,
             /components\/slots-picker\/selection-multi/,
             /components\/slots-picker\/selection-single/,
             /components\/horizontal-list-swiper\/no-delay-on-transitions-in-test/,
@@ -73,7 +73,7 @@ module.exports = {
           options[includeOrExclude] = options[includeOrExclude] || [];
           let bundles = options.bundles[includeOrExclude] || [];
           if (bundles.includes('easy')) {
-            //bundles = bundles.filter((elt) => elt !== 'easy');
+            bundles = bundles.filter((elt) => elt !== 'easy');
             bundles.push('desktop', 'mobile');
             options[includeOrExclude].push(/components\/easy-slot-picker/);
           }
@@ -87,6 +87,7 @@ module.exports = {
                   /helpers/,
                   '**/global-rules.less',
                   '**/variables.less',
+                  /components\/slots-picker\/loader/,
                   /components\/application-pre-loader/,
                   /components\/bg-button/,
                   /components\/scroll-anchor/

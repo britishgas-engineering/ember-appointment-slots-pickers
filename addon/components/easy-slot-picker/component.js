@@ -22,7 +22,7 @@ export default Component.extend({
       'slots-picker/desktop'
     ].forEach((templateName) => {
       assert(
-        `You now need to add ${templateName} in your tree-shaking to consume easy-slot-picker`,
+        `You need to add ${templateName} in your tree-shaking to consume easy-slot-picker`,
         owner.lookup(`component:${templateName}`)
       );
     });

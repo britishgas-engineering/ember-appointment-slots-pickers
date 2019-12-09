@@ -1,7 +1,5 @@
 import { computed } from '@ember/object';
 import Component from '@ember/component';
-import { assert } from '@ember/debug';
-import { run } from '@ember/runloop';
 import moment from 'moment';
 
 export default Component.extend({
@@ -37,21 +35,6 @@ export default Component.extend({
   canSelectMultipleSlots: computed('baseProps.canSelectMultipleSlots', function () {
     return this.get('baseProps.canSelectMultipleSlots');
   }).readOnly(),
-
-  didInsertElement() {
-    this._super(...arguments);
-
-    run.next(this, '_checkForLoadingComponentPresence');
-  },
-
-  _checkForLoadingComponentPresence() {
-    if (!this.isDestroyed) {
-      assert(
-        'this component has no default loader defined, please insert a loading component before this one in your implementation',
-        !this.get('slotsAreLoading')
-      );
-    }
-  },
 
   actions: {
     onDateChange(date) {
