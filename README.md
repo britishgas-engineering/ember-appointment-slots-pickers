@@ -52,7 +52,6 @@ At the time of writing, you can use any of the following children calendar compo
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
           <td>&#10004;</td>
           <td>&#10004;</td>
       </tr>
@@ -64,7 +63,6 @@ At the time of writing, you can use any of the following children calendar compo
             <td>&#10004;</td>
             <td>&#10004;</td>
             <td>&#10004;</td>
-            <td>&#10004;</td>
             <td></td>
             <td>&#10004;</td>
             <td>&#10004;</td>
@@ -72,7 +70,6 @@ At the time of writing, you can use any of the following children calendar compo
         <tr>
             <td>slots-picker/desktop</td>
             <td></td>
-            <td>&#10004;</td>
             <td>&#10004;</td>
             <td>&#10004;</td>
             <td>&#10004;</td>
@@ -93,11 +90,9 @@ At the time of writing, you can use any of the following children calendar compo
             <td>&#10004;</td>
             <td>&#10004;</td>
             <td>&#10004;</td>
-            <td>&#10004;</td>
         </tr>
         <tr>
             <td>slots-picker/cards</td>
-            <td>&#10004;</td>
             <td>&#10004;</td>
             <td>&#10004;</td>
             <td>&#10004;</td>
