@@ -1,6 +1,6 @@
 # ember-appointment-slots-pickers
 
-ember-appointment-slot<strong>s</strong>-picker<strong>s</strong> provides four different picker<strong>s</strong> components to select one or several slot<strong>s</strong>, plus a suite of optional composable components to customize them.
+ember-appointment-slot<strong>S</strong>-picker<strong>S</strong> provides four different picker<strong>S</strong> components to select one or several slot<strong>S</strong>, plus a suite of optional composable components to customize the experience.
 
 We transferred _as is_ the components, some of them consuming old javascript libraries that would helpfully be rewritten using ember-animation.
 
