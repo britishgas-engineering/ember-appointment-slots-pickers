@@ -18,7 +18,7 @@ module.exports = {
     if (!exclude.includes('mobile')) {
       this.import('node_modules/sly-shim/dist/sly.min.js');
     }
-    this.import('node_modules/bootstrap/dist/js/bootstrap.js');
+    console.log('include bootstrap?', this.env, this.app.env, this.app);
     this.import('node_modules/bootstrap/dist/css/bootstrap.min.css');
   },
   isDevelopingAddon: function () {
@@ -74,7 +74,7 @@ module.exports = {
           options[includeOrExclude] = options[includeOrExclude] || [];
           let bundles = options.bundles[includeOrExclude] || [];
           if (bundles.includes('easy')) {
-            //bundles = bundles.filter((elt) => elt !== 'easy');
+            bundles = bundles.filter((elt) => elt !== 'easy');
             bundles.push('desktop', 'mobile');
             options[includeOrExclude].push(/components\/easy-slot-picker/);
           }

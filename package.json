@@ -24,7 +24,8 @@
     "pickadate": "3.6.4",
     "sly-shim": "1.6.1",
     "ember-cli-less": "2.0.1",
-    "ember-component-css": "github:ConnectedHomes/ember-component-css#experimental"
+    "ember-component-css": "github:ConnectedHomes/ember-component-css#experimental",
+    "ember-truth-helpers": "2.1.0"
   },
   "devDependencies": {
     "broccoli-funnel": "2.0.2",
