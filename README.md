@@ -25,7 +25,6 @@ At the time of writing, you can use any of the following children calendar compo
             <th colspan="2">Device:</th>
             <th colspan="2">Slots selection:</th>
             <th colspan="2">Composable with:</th>
-            <th>Extendable:</th>
             <th colspan="3">Use when slots availability is:</th>
         </tr>
         <tr>
