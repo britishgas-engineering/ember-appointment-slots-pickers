@@ -18,7 +18,9 @@ module.exports = {
     if (!exclude.includes('mobile')) {
       this.import('node_modules/sly-shim/dist/sly.min.js');
     }
-    this.import('node_modules/bootstrap/dist/css/bootstrap.min.css');
+    if (!exclude.includes('bg') && !exclude.includes('bootstrap') ) {
+      this.import('node_modules/bootstrap/dist/css/bootstrap.min.css');
+    }
   },
   isDevelopingAddon: function () {
     if (this.env === 'test') {
