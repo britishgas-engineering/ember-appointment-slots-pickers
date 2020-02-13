@@ -1,0 +1,5 @@
+.horizontal-gradient (@startColor: #eee, @endColor: white) {
+	// the auto-prefixer was breaking when non-prefixed version not provided,
+	// use the non-prefixed version only and let the auto-prefixer do its job
+	background-image: linear-gradient(to right, @startColor, @endColor);
+}

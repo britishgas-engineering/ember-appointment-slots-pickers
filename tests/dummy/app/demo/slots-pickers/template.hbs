@@ -1,0 +1,8 @@
+<h1>slots pickers</h1>
+
+{{link-to "easy" "demo.slots-pickers.easy-slot-picker" class="m3 btn btn-primary"}}
+{{#each slotPickerNames as |slotPickerName|}}
+  {{link-to slotPickerName "demo.slots-pickers.slot-picker-name" slotPickerName class="m3 btn btn-primary" }}
+{{/each}}
+
+{{outlet}}

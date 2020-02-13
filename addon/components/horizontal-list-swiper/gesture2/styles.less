@@ -1,0 +1,24 @@
+& {
+  width: 100%;
+  overflow: hidden;
+  .horizontal-swipe-view-list {
+    height: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    transition-property: all;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+    .horizontal-swipe-view-item {
+      float: left;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    &:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  }
+}
