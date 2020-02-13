@@ -1,7 +1,7 @@
 {
   "name": "ember-appointment-slots-pickers",
-  "version": "0.1.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "version": "0.1.1",
+  "description": "Appointment slot pickers component suite written in Ember.",
   "keywords": [
     "ember-addon"
   ],
@@ -11,7 +11,7 @@
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "",
+  "repository": "github:britishgas-engineering/ember-appointment-slots-pickers",
   "scripts": {
     "build": "ember build",
     "start": "ember server",
