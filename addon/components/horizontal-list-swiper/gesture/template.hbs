@@ -1,0 +1,27 @@
+{{#horizontal-list-swiper/no-delay-on-transitions-in-test}}
+  {{#unless isFirstPage}}
+    <button {{action (action 'prev') on="click"}} class="asp-scroll-btn asp-scroll-btn-prev m0 text-center">
+      <span class="fa fa-chevron-circle-left white" aria-hidden="true"></span>
+      <span class="sr-only">Go to previous page</span>
+    </button>
+  {{/unless}}
+  {{#unless isLastPage}}
+    <button {{action (action 'next') on="click"}} class="asp-scroll-btn asp-scroll-btn-next m0 text-center more-dates">
+      <span class="white mr2">More dates</span>
+      <span class="fa fa-chevron-circle-right white" aria-hidden="true"></span>
+    </button>
+  {{/unless}}
+  <div class="asp-scroll-area-wrapper">
+    <div style="{{scrollAreaStyle}}" class="asp-scroll-area animated">
+      {{#each items as |item|}}
+        {{yield item}}
+      {{/each}}
+    </div>
+    {{#unless isLastPage}}
+      <div class="asp-fade-right"></div>
+    {{/unless}}
+    {{#unless isFirstPage}}
+      <div class="asp-fade-left"></div>
+    {{/unless}}
+  </div>
+{{/horizontal-list-swiper/no-delay-on-transitions-in-test}}

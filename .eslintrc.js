@@ -9,7 +9,9 @@ module.exports = {
     'plugin:ember/recommended'
   ],
   env: {
-    browser: true
+    browser: true,
+    node: true,
+    es6: true
   },
   rules: {
   },

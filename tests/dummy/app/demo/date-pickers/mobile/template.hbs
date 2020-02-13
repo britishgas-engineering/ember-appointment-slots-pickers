@@ -1,0 +1,10 @@
+<h2>date picker mobile</h2>
+<div class="container-fluid">
+  <div class="row mb8 fix-container">
+    {{date-picker/mobile
+      selected=model.selectedDate
+      onselect=(action (mut model.selectedDate))
+      dates=model.dates
+    }}
+  </div>
+</div>

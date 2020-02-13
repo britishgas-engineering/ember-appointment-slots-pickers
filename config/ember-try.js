@@ -1,60 +1,52 @@
 /*jshint node:true*/
 module.exports = {
+  useVersionCompatibility: false,
   scenarios: [
     {
-      name: 'ember-lts-2.4',
-      bower: {
-        dependencies: {
-          'ember': 'components/ember#lts-2-4'
-        },
-        resolutions: {
-          'ember': 'lts-2-4'
+      name: 'ember-3.4',
+      npm: {
+        devDependencies: {
+          'ember-source': '~3.4.0',
+          'ember-data': '~3.4.0'
         }
       }
     },
     {
-      name: 'ember-lts-2.8',
-      bower: {
-        dependencies: {
-          'ember': 'components/ember#lts-2-8'
-        },
-        resolutions: {
-          'ember': 'lts-2-8'
+      name: 'ember-3.5',
+      npm: {
+        devDependencies: {
+          'ember-source': '~3.5.0',
+          'ember-data': '~3.5.0'
         }
       }
     },
     {
-      name: 'ember-release',
-      bower: {
-        dependencies: {
-          'ember': 'components/ember#release'
-        },
-        resolutions: {
-          'ember': 'release'
+      name: 'ember-3.6',
+      npm: {
+        devDependencies: {
+          'ember-source': '~3.6.0',
+          'ember-data': '~3.6.0'
         }
       }
     },
     {
-      name: 'ember-beta',
-      bower: {
-        dependencies: {
-          'ember': 'components/ember#beta'
-        },
-        resolutions: {
-          'ember': 'beta'
+      name: 'ember-3.7',
+      npm: {
+        devDependencies: {
+          'ember-source': '~3.7.0',
+          'ember-data': '~3.7.0'
         }
       }
     },
     {
-      name: 'ember-canary',
-      bower: {
-        dependencies: {
-          'ember': 'components/ember#canary'
-        },
-        resolutions: {
-          'ember': 'canary'
+      name: 'ember-3.8',
+      npm: {
+        devDependencies: {
+          'ember-source': '~3.8.0',
+          'ember-data': '~3.8.0'
         }
       }
     }
   ]
+
 };

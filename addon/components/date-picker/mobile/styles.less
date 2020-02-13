@@ -1,0 +1,144 @@
+& {
+ .date-picker-mobile {
+   position: relative;
+ }
+ .date-picker-mobile-current-day {
+   margin-bottom: 10px;
+   font-weight: 600;
+ }
+ .date-picker-mobile-days {
+   .scroll-header-sly-item.active {
+     margin-right: 5px;
+     .date-picker-mobile-day-month {
+       top: 58px;
+     }
+     button {
+       height: 52px;
+       width: 52px;
+       border-radius: 26px;
+       margin-top: 0px;
+       font-size: 19px;
+       line-height: 21px;
+       font-size: 21px;
+       font-weight: 500;
+       &:disabled {
+         font-size: 16px;
+         font-weight: 300;
+         height: 40px;
+         width: 40px;
+         border-radius: 20px;
+         border: none;
+         margin-top: 6px;
+       }
+     }
+   }
+   .date-picker-mobile-day {
+     padding-bottom: 45px;
+     position: relative;
+     max-width: 56px;
+     button {
+       //nice to have, but sly doesn't compute the right width on first render if switched on
+       //(and worried about performance on mobile)
+       //transition: all .1s ease-in-out;
+       font-weight: 300;
+       background: none;
+       height: 40px;
+       width: 40px;
+       border-radius: 20px;
+       display: block;
+       border: 2px solid @dark-blue;
+       color: @dark-blue;
+       outline: none;
+       margin-top: 6px;
+       &:disabled {
+         color: @dark-grey;
+         border: none;
+       }
+       &:not(:disabled) {
+         &:hover {
+           background: none;
+           color: @dark-blue;
+         }
+         &.active, &.active:hover {
+           background-color: @dark-blue;
+           color: @white;
+           font-weight: 500;
+         }
+       }
+     }
+     .day {
+       margin-left: -100%;
+       margin-right: -100%;
+       text-align: center;
+     }
+   }
+   .date-picker-mobile-day-month {
+     position: absolute;
+     top: 52px;
+     width: 200%;
+     left: -50%;
+     text-align: center;
+   }
+ }
+ .date-picker-mobile-current-month {
+   position: absolute;
+   top: 84px;
+   right: 0;
+   left: 0;
+   //hotfix for safari mobile: https://stackoverflow.com/questions/11829410/css3-gradient-rendering-issues-from-transparent-to-white
+   background-image: -webkit-linear-gradient(90deg, rgba(255,255,255,0.001), @white, @white, rgba(255,255,255,0.001));
+   background-image: -moz-linear-gradient(90deg, rgba(255,255,255,0.001), @white, @white, rgba(255,255,255,0.001));
+   background-image: -ms-linear-gradient(90deg, rgba(255,255,255,0.001), @white, @white, rgba(255,255,255,0.001));
+   background-image: -o-linear-gradient(90deg, rgba(255,255,255,0.001), @white, @white, rgba(255,255,255,0.001));
+   background-image: linear-gradient(90deg, rgba(255,255,255,0.001), @white, @white, rgba(255,255,255,0.001));
+   width: 150px;
+   margin: 10px auto 0;
+ }
+ .date-picker-mobile-scroll {
+   position: relative;
+
+   .date-picker-mobile-button {
+     color: @dark-blue;
+     font-size: 40px;
+     font-weight: 600;
+     position: absolute;
+     top: 50%;
+     z-index: 10;
+     padding: 0 20px;
+     transform: translateY(-50%);
+
+     &.fa-angle-left {
+       left: 0px;
+     }
+
+     &.fa-angle-right {
+       right: 0px;
+     }
+
+     //on mobile style is changed otherwise
+     background-color: @white;
+     border: none;
+   }
+ }
+ @months: January, February, March, April, May, June, July, August, September, October, November, December;
+
+ // mixin to iterate over colors and create CSS class for each one
+ .make-month-classes(@i: length(@months)) when (@i > 0) {
+   .make-month-classes(@i - 1);
+   @month: extract(@months, @i);
+   .date-picker-mobile-days.month-@{month} {
+     .date-picker-mobile-day-month.month-@{month} {
+       display: none;
+     }
+   }
+ }
+
+ .make-month-classes();
+ .scroll-header-sly-frame {
+   height: 97px;
+   overflow: visible;
+   //because the currentIndex bubble radius is 6 px bigger than the other small bubbles
+   //margin-left: -6px;
+   //padding-right: 6px;
+ }
+}
