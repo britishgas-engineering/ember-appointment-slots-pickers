@@ -17,12 +17,14 @@ Router.map(function() {
     this.route('horizontal-scroll-view');
     this.route('date-pickers', function () {
       this.route('mobile');
+      this.route('pickadate');
     });
     this.route('horizontal-list-swipers', function () {
       this.route('sly');
       this.route('gesture');
       this.route('gesture2');
     });
+    this.route('slots-selections', function () {});
   });
 });
 

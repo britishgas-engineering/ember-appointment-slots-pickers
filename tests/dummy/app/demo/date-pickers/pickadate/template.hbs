@@ -1,0 +1,16 @@
+<h2>date picker pickadate</h2>
+<h3>(to be renamed from pickadate-input)</h3>
+<div class="container-fluid">
+  <div class="row mb8 fix-container">
+    {{!-- TODO: rename to date-picker/pickadate https://github.com/britishgas-engineering/ember-appointment-slots-pickers/issues/20 --}}
+    {{pickadate-input
+      min=min
+      max=max
+      select=(route-action "select")
+      hideToday=true
+      selected=model.selectedDate
+      jsDays=jsDays
+      setShorterDays=true
+    }}
+  </div>
+</div>
