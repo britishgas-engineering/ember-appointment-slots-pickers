@@ -1,6 +1,6 @@
 {
   "name": "ember-appointment-slots-pickers",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Appointment slot pickers component suite written in Ember.",
   "keywords": [
     "ember-addon"
