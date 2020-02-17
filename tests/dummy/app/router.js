@@ -24,10 +24,7 @@ Router.map(function() {
       this.route('gesture');
       this.route('gesture2');
     });
-    this.route('slots-selections', function () {
-      this.route('single');
-      this.route('multi');
-    })
+    this.route('slots-selections', function () {});
   });
 });
 
