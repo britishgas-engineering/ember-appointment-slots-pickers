@@ -7,7 +7,7 @@ import EmberObject from '@ember/object';
 export default Route.extend({
   model() {
     const dates = [];
-
+    //buld a calendar schedule for any timeframe between 2 weeks and one Year
     for (let i = 0; i < Math.round(Math.random() * 305) + 15; i = i + 1) {
       if (Math.random() > 0.5) {
         dates.push(moment().add(i, 'days'));
