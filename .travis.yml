@@ -19,6 +19,12 @@ env:
   - EMBER_TRY_SCENARIO=ember-3.6
   - EMBER_TRY_SCENARIO=ember-3.7
   - EMBER_TRY_SCENARIO=ember-3.8
+  - EMBER_TRY_SCENARIO=ember-3.9
+  - EMBER_TRY_SCENARIO=ember-3.10
+  - EMBER_TRY_SCENARIO=ember-3.11
+  - EMBER_TRY_SCENARIO=ember-3.12
+  - EMBER_TRY_SCENARIO=ember-3.13
+  - EMBER_TRY_SCENARIO=ember-3.14
 
 matrix:
   fast_finish: true
@@ -26,6 +32,12 @@ matrix:
     - env: EMBER_TRY_SCENARIO=ember-3.6
     - env: EMBER_TRY_SCENARIO=ember-3.7
     - env: EMBER_TRY_SCENARIO=ember-3.8
+    - env: EMBER_TRY_SCENARIO=ember-3.9
+    - env: EMBER_TRY_SCENARIO=ember-3.10
+    - env: EMBER_TRY_SCENARIO=ember-3.11
+    - env: EMBER_TRY_SCENARIO=ember-3.12
+    - env: EMBER_TRY_SCENARIO=ember-3.13
+    - env: EMBER_TRY_SCENARIO=ember-3.14
 
 before_install:
   - npm config set spin false
