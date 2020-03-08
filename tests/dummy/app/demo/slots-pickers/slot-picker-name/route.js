@@ -7,7 +7,7 @@ export default Route.extend({
     return model;
   },
   afterModel(model, transition) {
-    transition.send('resetAsyncSlots', transition.queryParams.delay || 30000);
+    transition.send('resetAsyncSlots', transition.to.queryParams.delay || 30000);
   },
   setupController(controller, model) {
     const parentController = this.controllerFor('demo.slots-pickers');
