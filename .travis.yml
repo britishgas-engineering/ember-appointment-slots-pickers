@@ -29,6 +29,12 @@ env:
 matrix:
   fast_finish: true
   allow_failures:
+    - env: EMBER_TRY_SCENARIO=ember-3.4
+    - env: EMBER_TRY_SCENARIO=ember-3.5
+    - env: EMBER_TRY_SCENARIO=ember-3.6
+    - env: EMBER_TRY_SCENARIO=ember-3.7
+    - env: EMBER_TRY_SCENARIO=ember-3.8
+    - env: EMBER_TRY_SCENARIO=ember-3.9
     - env: EMBER_TRY_SCENARIO=ember-3.11
     - env: EMBER_TRY_SCENARIO=ember-3.12
     - env: EMBER_TRY_SCENARIO=ember-3.13

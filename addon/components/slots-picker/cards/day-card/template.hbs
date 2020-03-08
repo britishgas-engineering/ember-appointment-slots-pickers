@@ -10,14 +10,14 @@
   </p>
   <div class="p3">
     {{#each appointmentSlotsNotEmpty as |appointmentSlot|}}
-      {{slots-picker/button
+      <SlotsPicker::button
         class="mb2"
-        appointmentSlot=appointmentSlot
-        multiSelected=multiSelected
-        canSelectMultipleSlots=canSelectMultipleSlots
-        select=(action select)
-        deselect=(optional-action deselect)
-      }}
+        @appointmentSlot={{appointmentSlot}}
+        @multiSelected={{this.multiSelected}}
+        @canSelectMultipleSlots={{this.canSelectMultipleSlots}}
+        @select={{action this.select}}
+        @deselect={{optional-action this.deselect}}
+      />
     {{/each}}
   </div>
 </div>
