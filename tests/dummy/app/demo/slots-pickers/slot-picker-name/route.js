@@ -7,7 +7,8 @@ export default Route.extend({
     return model;
   },
   afterModel(model, transition) {
-    transition.send('resetAsyncSlots', transition.queryParams.delay || 30000);
+    const queryParams = transition.queryParams || transition.to.queryParams; //Ember <3.10 || Ember >=3.10
+    transition.send('resetAsyncSlots', queryParams.delay || 30000);
   },
   setupController(controller, model) {
     const parentController = this.controllerFor('demo.slots-pickers');
