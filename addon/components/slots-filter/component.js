@@ -9,9 +9,9 @@ export default Component.extend({
   },
   selectedFilter: undefined,
   layout: layout,
-  filteredAppointmentSlots: filter('appointmentSlots', function (appointmentSlot) {
+  filteredAppointmentSlots: filter('appointmentSlots', ['selectedFilter'], function (appointmentSlot) {
     return this.get('selectedFilter') ? appointmentSlot.get('slotPickerRowId') === this.get('selectedFilter.id') : true;
-  }).property('selectedFilter'),
+  }),
 
   actions: {
     changeFilter(selectedFilter) {
