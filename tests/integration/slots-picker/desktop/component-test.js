@@ -24,16 +24,17 @@ module('Integration | Component | slots-picker/desktop', function (hooks) {
 
     await render(hbs`
       <div>
-        {{#slots-picker
-          appointmentSlots=generatedAppointmentSlots
-          select=(action testSelect)
+        <SlotsPicker
+          @appointmentSlots={{this.generatedAppointmentSlots}}
+          @select={{action this.testSelect}}
+          @selected={{this.selected}}
           as |baseProps onSelectSlot|
-        }}
-          {{slots-picker/desktop
-            baseProps=baseProps
-            onSelectSlot=onSelectSlot
-          }}
-        {{/slots-picker}}
+        >
+          <SlotsPicker::Desktop
+            @baseProps={{baseProps}}
+            @onSelectSlot={{onSelectSlot}}
+          />
+        </SlotsPicker>
       </div>
     `);
 
@@ -62,7 +63,7 @@ module('Integration | Component | slots-picker/desktop', function (hooks) {
     generateAppointmentSlots.call(this, {
       numberOfAppointments: 50
     });
-    this.actions.testSelect = () => {};
+    this.set('testSelect', () => {});
     const generatedAppointmentSlots = this.get('generatedAppointmentSlots');
     const selectedSlot = generatedAppointmentSlots[generatedAppointmentSlots.length - 1];
     let availableAppointmentSlots;
@@ -73,17 +74,17 @@ module('Integration | Component | slots-picker/desktop', function (hooks) {
     this.set('selected', selectedSlot);
     await render(hbs`
       <div>
-        {{#slots-picker
-          appointmentSlots=generatedAppointmentSlots
-          select=(action 'testSelect')
-          selected=selected
+        <SlotsPicker
+          @appointmentSlots={{this.generatedAppointmentSlots}}
+          @select={{action this.testSelect}}
+          @selected={{this.selected}}
           as |baseProps onSelectSlot|
-        }}
-          {{slots-picker/desktop
-            baseProps=baseProps
-            onSelectSlot=onSelectSlot
-          }}
-        {{/slots-picker}}
+        >
+          <SlotsPicker::Desktop
+            @baseProps={{baseProps}}
+            @onSelectSlot={{onSelectSlot}}
+          />
+        </SlotsPicker>
       </div>
     `);
     return settled().then(() => {

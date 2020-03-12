@@ -17,8 +17,11 @@
           </div>
         {{/each}}
       </div>
-
-      {{#horizontal-list-swiper/gesture index=selectedDayIndex items=cellsPerCol as |item|}}
+      <HorizontalListSwiper::Gesture
+        @index={{selectedDayIndex}}
+        @items={{cellsPerCol}}
+        as |item|
+      >
 
         <div class="asp-col font-size-8">
 
@@ -51,7 +54,7 @@
 
         </div>
 
-      {{/horizontal-list-swiper/gesture}}
+      </HorizontalListSwiper::Gesture>
     </div>
   </div>
 {{/if}}

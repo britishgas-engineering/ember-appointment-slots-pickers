@@ -29,14 +29,22 @@ module('Integration | Component | horizontal-list-swiper/gesture', function (hoo
     this.set('isFirstPage', true);
     this.set('isLastPage', true);
 
-    await render(hbs`{{horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}`);
+    await render(hbs`
+      <HorizontalListSwiper::Gesture
+        @isFirstPage={{this.isFirstPage}}
+        @isLastPage={{this.isLastPage}}
+      />
+    `);
 
     assert.equal(find('*').textContent.trim(), '');
 
     // Template block usage:
     await render(hbs`
-      {{#horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}
-      {{/horizontal-list-swiper/gesture}}
+      <HorizontalListSwiper::Gesture
+        @isFirstPage={{this.isFirstPage}}
+        @isLastPage={{this.isLastPage}}
+      >
+      </HorizontalListSwiper::Gesture>
     `);
     assert.equal(find('*').textContent.trim(), '');
   });
@@ -47,7 +55,12 @@ module('Integration | Component | horizontal-list-swiper/gesture', function (hoo
     this.set('isFirstPage', false);
     this.set('isLastPage', false);
 
-    await render(hbs`{{horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}`);
+    await render(hbs`
+      <HorizontalListSwiper::Gesture
+        @isFirstPage={{this.isFirstPage}}
+        @isLastPage={{this.isLastPage}}
+      />
+    `);
     assert.ok(findAll('.asp-scroll-btn-prev').length, 'The previous dates button exists');
 
     this.set('isFirstPage', true);
@@ -60,7 +73,12 @@ module('Integration | Component | horizontal-list-swiper/gesture', function (hoo
     this.set('isFirstPage', true);
     this.set('isLastPage', true);
 
-    await render(hbs`{{horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}`);
+    await render(hbs`
+      <HorizontalListSwiper::Gesture
+        @isFirstPage={{this.isFirstPage}}
+        @isLastPage={{this.isLastPage}}
+      />
+    `);
 
     assert.notOk(this.$('div:contains("More dates")').length, 'Does not show "More dates" button');
 
@@ -75,7 +93,12 @@ module('Integration | Component | horizontal-list-swiper/gesture', function (hoo
     this.set('isFirstPage', false);
     this.set('isLastPage', false);
 
-    await render(hbs`{{horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}`);
+    await render(hbs`
+      <HorizontalListSwiper::Gesture
+        @isFirstPage={{this.isFirstPage}}
+        @isLastPage={{this.isLastPage}}
+      />
+    `);
     assert.ok(findAll('.asp-fade-left').length, 'The left fade is shown when not first page');
     assert.ok(findAll('.asp-fade-right').length, 'The right fade is shown when not last page');
 
@@ -88,11 +111,19 @@ module('Integration | Component | horizontal-list-swiper/gesture', function (hoo
   test('selected cell is on-screen', async function (assert) {
     const items = new Array(200);
     this.set('items', items);
-    await render(hbs`<div class="is-test-env" style="height:10px;">
-      {{#horizontal-list-swiper/gesture items=items index=100 as |item|}}
-        <div class="cell" style="width:50px; height:10px; float:left;">{{item}}</div>
-        {{/horizontal-list-swiper/gesture}}
-      </div>`);
+    await render(hbs`
+      <div class="is-test-env" style="height:10px;">
+        <HorizontalListSwiper::Gesture
+          @items={{this.items}}
+          @index=100
+          as |item|
+        >
+          <div class="cell" style="width:50px; height:10px; float:left;">
+            {{item}}
+          </div>
+        </HorizontalListSwiper::Gesture>
+      </div>
+    `);
     assert.notOk(this.$('.cell:eq(100)').is(':offscreen'), 'selected cell is on screen');
     assert.ok(this.$('.cell:eq(0)').is(':offscreen'), 'first cell is not on screen');
     assert.ok(this.$('.asp-fade-right'), 'is not last page');

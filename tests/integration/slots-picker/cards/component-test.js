@@ -10,35 +10,30 @@ import { render, settled, findAll } from '@ember/test-helpers';
 module('Integration | Component | slot-picker-cards', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function () {
-    this.actions = {};
-    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
-  });
-
   test('with slots available, no slot selected', async function (assert) {
     generateAppointmentSlots.call(this, {
       numberOfAppointments: 50
     });
 
-    this.actions.select = (selected) => {
+    this.set('select', (selected) => {
       this.get('selected').pushObject(selected);
-    };
+    });
 
     this.set('selected', []);
 
     await render(hbs`
       <div>
-        {{#slots-picker
-          appointmentSlots=generatedAppointmentSlots
-          select=(action 'select')
-          selected=selected
+        <SlotsPicker
+          @appointmentSlots={{this.generatedAppointmentSlots}}
+          @select={{action this.select}}
+          @selected={{this.selected}}
           as |baseProps onSelectSlot|
-        }}
-          {{slots-picker/cards
-            baseProps=baseProps
-            onSelectSlot=onSelectSlot
-          }}
-        {{/slots-picker}}
+        >
+          <SlotsPicker::Cards
+            @baseProps={{baseProps}}
+            @onSelectSlot={{onSelectSlot}}
+          />
+        </SlotsPicker>
       </div>
     `);
 
@@ -72,7 +67,7 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
       numberOfAppointments: 50
     });
 
-    this.actions.testSelect = () => {};
+    this.set('testSelect', () => {});
 
     const availableAppointmentSlots = this.get('availableAppointmentSlots');
     const lastAvailableSlot = availableAppointmentSlots.get('lastObject');
@@ -81,17 +76,17 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
 
     await render(hbs`
       <div>
-        {{#slots-picker
-          appointmentSlots=generatedAppointmentSlots
-          select=(action 'testSelect')
-          selected=selected
+        <SlotsPicker
+          @appointmentSlots={{this.generatedAppointmentSlots}}
+          @select={{action this.testSelect}}
+          @selected={{this.selected}}
           as |baseProps onSelectSlot|
-        }}
-          {{slots-picker/cards
-            baseProps=baseProps
-            onSelectSlot=onSelectSlot
-          }}
-        {{/slots-picker}}
+        >
+          <SlotsPicker::Cards
+            @baseProps={{baseProps}}
+            @onSelectSlot={{onSelectSlot}}
+          />
+        </SlotsPicker>
       </div>
     `);
 
@@ -116,8 +111,8 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
       numberOfAppointments: 50
     });
 
-    this.actions.onSelect = (slot) => this.get('selected').pushObject(slot);
-    this.actions.onDeselect = (slot) => this.get('selected').removeObject(slot);
+    this.set('onSelect', (slot) => this.get('selected').pushObject(slot));
+    this.set('onDeselect', (slot) => this.get('selected').removeObject(slot));
 
     const availableAppointmentSlots = this.get('availableAppointmentSlots');
     const lastAvailableSlot = availableAppointmentSlots.get('lastObject');
@@ -126,20 +121,20 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
 
     await render(hbs`
       <div>
-        {{#slots-picker
-          appointmentSlots=generatedAppointmentSlots
-          selected=selected
-          canSelectMultipleSlots=true
-          select=(action 'onSelect')
-          deselect=(action 'onDeselect')
+        <SlotsPicker
+          @appointmentSlots={{this.generatedAppointmentSlots}}
+          @selected={{this.selected}}
+          @select={{action this.onSelect}}
+          @deselect={{action this.onDeselect}}
+          @canSelectMultipleSlots={{true}}
           as |baseProps onSelectSlot onDeselectSlot|
-        }}
-          {{slots-picker/cards
-            baseProps=baseProps
-            onSelectSlot=onSelectSlot
-            onDeselectSlot=onDeselectSlot
-          }}
-        {{/slots-picker}}
+        >
+          <SlotsPicker::Cards
+            @baseProps={{baseProps}}
+            @onSelectSlot={{onSelectSlot}}
+            @onDeselectSlot={{onDeselectSlot}}
+          />
+        </SlotsPicker>
       </div>
     `);
 

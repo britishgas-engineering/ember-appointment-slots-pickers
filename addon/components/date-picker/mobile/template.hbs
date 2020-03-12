@@ -9,15 +9,15 @@
 </div>
 
 <div class="date-picker-mobile-days month-{{currentMonth.month}}">
-  {{#horizontal-list-swiper/sly
-    itemsUpdate=days
-    indexUpdate=currentIndex
-    active-item-alignment="forceCentered"
-    onmove=(action "onmove")
-    onmoveend=(action "onmoveend")
-    cacheKey=cacheKey
+  <HorizontalListSwiper::Sly
+    @itemsUpdate={{days}}
+    @indexUpdate={{currentIndex}}
+    @active-item-alignment="forceCentered"
+    @onmove={{action "onmove"}}
+    @onmoveend={{action "onmoveend"}}
+    @cacheKey={{cacheKey}}
     as |day|
-    }}
+  >
     <div class="date-picker-mobile-day">
 
       {{#if day.isBoundaryDayOfTheMonth}}
@@ -40,7 +40,7 @@
       </div>
 
     </div>
-  {{/horizontal-list-swiper/sly}}
+  </HorizontalListSwiper::Sly>
 </div>
 
 <div class="date-picker-mobile-current-month text-center font-size-8">
