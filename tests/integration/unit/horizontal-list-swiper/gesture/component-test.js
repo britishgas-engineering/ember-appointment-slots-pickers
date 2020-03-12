@@ -139,14 +139,13 @@ module('Unit | Component | horizontal-list-swiper/gesture', function (hooks) {
     assert.expect(1);
     const component = this.owner.factoryFor('component:horizontal-list-swiper/gesture').create({
       recognizers: null,
-      currentItem: 0,
       itemsPerPage: 5,
       index: 0
     });
 
     component.didInsertElement();
 
-    run.next(this, function () {
+    return run.next(this, function () {
       component.set('index', 11);
       assert.equal(component.get('currentItem'), 10, 'currentItem is updated');
     });

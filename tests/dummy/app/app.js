@@ -1,22 +1,17 @@
 import Application from '@ember/application';
-import Ember from 'ember';
-import Resolver from './resolver';
+import Resolver from 'ember-resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 import {on} from 'rsvp';
 import {run} from '@ember/runloop';
 
-let App;
-
-Ember.MODEL_FACTORY_INJECTIONS = true;
-
-App = Application.extend({
-  modulePrefix: config.modulePrefix,
-  podModulePrefix: config.podModulePrefix,
-  Resolver,
-  LOG_TRANSITIONS: ['development', 'test'].includes(config.environment),
-  LOG_TRANSITIONS_INTERNAL: ['development', 'test'].includes(config.environment),
-});
+export default class App extends Application {
+  modulePrefix = config.modulePrefix;
+  podModulePrefix = config.podModulePrefix;
+  Resolver = Resolver;
+  LOG_TRANSITIONS = ['development', 'test'].includes(config.environment);
+  LOG_TRANSITIONS_INTERNAL = ['development', 'test'].includes(config.environment);
+}
 
 if (config.environment === 'development') {
   run.backburner.DEBUG = true;// slow
@@ -25,12 +20,7 @@ if (config.environment === 'development') {
   on('error', function (error) {
     console.error(error);//eslint-disable-line
   });
-  Ember.onerror = function (error) {
-    console.error(error);//eslint-disable-line
-  };
 }
 
 
 loadInitializers(App, config.modulePrefix);
-
-export default App;
