@@ -11,7 +11,7 @@ module('Integration | Component | slots-picker/selection-single', function (hook
   test('it renders with no selection', async function (assert) {
     assert.expect(1);
 
-    await render(hbs`{{slots-picker/selection-single}}`);
+    await render(hbs`<SlotsPicker::SelectionSingle />`);
 
     assert.notOk(findAll('p').length, 'should not render any message');
   });
@@ -29,7 +29,7 @@ module('Integration | Component | slots-picker/selection-single', function (hook
       ]
     }));
 
-    await render(hbs`{{slots-picker/selection-single baseProps=this.baseProps}}`);
+    await render(hbs`<SlotsPicker::SelectionSingle @baseProps={{this.baseProps}} />`);
 
     assert.ok(findAll('p').length, 'should render a p tag if there is a selection');
     assert.ok(find('p').textContent.trim().match(/LABEL/), 'should contain longDayLabel');

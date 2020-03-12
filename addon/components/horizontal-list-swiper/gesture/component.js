@@ -44,13 +44,13 @@ export default Component.extend(RecognizerMixin, {
 
   goToNextItem() {
     if (!this.get('isLastPage')) {
-      this.incrementProperty('currentItem', this.get('itemsPerPage'));
+      this.incrementProperty('_currentItem', this.get('itemsPerPage'));
     }
   },
 
   goToPreviousItem() {
     if (!this.get('isFirstPage')) {
-      this.decrementProperty('currentItem', this.get('itemsPerPage'));
+      this.decrementProperty('_currentItem', this.get('itemsPerPage'));
     }
   },
 
@@ -63,7 +63,7 @@ export default Component.extend(RecognizerMixin, {
    * item currently and entirely in view
    * @type {Number}
    */
-  currentItemInit: computed('index', 'itemsPerPage', function () {
+  _currentItemInit: computed('index', 'itemsPerPage', function () {
     const index = this.get('index');
     //case where appointment.appointmentSlot resolves later (appointment.appointmentSlot.content is initially null)
     if (index !== undefined) {
@@ -73,7 +73,7 @@ export default Component.extend(RecognizerMixin, {
     }
   }),
 
-  currentItem: oneWay('currentItemInit'),
+  _currentItem: oneWay('_currentItemInit'),
 
   width: computed('isRendered', 'viewport.width', function () {
     this.get('viewport.width');
@@ -91,7 +91,7 @@ export default Component.extend(RecognizerMixin, {
   }), // 120
 
   scrollAreaOffset: computed(
-    'currentItem',
+    '_currentItem',
     'currentPage',
     'itemWidth',
     'itemsPerPage',
@@ -105,7 +105,7 @@ export default Component.extend(RecognizerMixin, {
       if (this.get('isLastPage') && !this.get('isFirstPage')) {
         offset = this.get('scrollAreaWidth') - this.get('width');
       } else {
-        offset = this.get('currentItem') * this.get('itemWidth');
+        offset = this.get('_currentItem') * this.get('itemWidth');
       }
       return -offset;
     }
@@ -129,8 +129,8 @@ export default Component.extend(RecognizerMixin, {
     return Math.ceil(this.get('items.length') / this.get('itemsPerPage'));
   }),
 
-  currentPage: computed('currentItem', 'itemsPerPage', function () {
-    return Math.floor(this.get('currentItem') / this.get('itemsPerPage'));
+  currentPage: computed('_currentItem', 'itemsPerPage', function () {
+    return Math.floor(this.get('_currentItem') / this.get('itemsPerPage'));
   }),
 
   itemsPerPage: computed('width', 'itemWidth', function () {

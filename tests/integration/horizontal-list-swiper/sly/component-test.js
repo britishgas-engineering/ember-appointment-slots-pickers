@@ -15,11 +15,6 @@ module('Integration | Component | horizontal-list-swiper/sly', function (hooks) 
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function () {
-    this.actions = {};
-    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
-  });
-
-  hooks.beforeEach(function () {
     slyConstructorStub = sinon.stub();
     windowMock = {
       Sly: function () {
@@ -40,9 +35,9 @@ module('Integration | Component | horizontal-list-swiper/sly', function (hooks) 
   test('initializes sly', async function (assert) {
     this.set('window', windowMock);
     await render(hbs`
-      {{horizontal-list-swiper/sly
-        window=window
-      }}
+      <HorizontalListSwiper::Sly
+        @window={{this.window}}
+      />
     `);
     assert.ok(slyConstructorStub.called, 'A new instance of Sly was created');
     assert.ok(sly.init.called, 'sly was initialized');
@@ -53,14 +48,14 @@ module('Integration | Component | horizontal-list-swiper/sly', function (hooks) 
     this.set('items', [1, 2, 3]);
     this.set('indexUpdate', 0);
     await render(hbs`
-      {{#horizontal-list-swiper/sly
-        window=window
-        indexUpdate=indexUpdate
-        itemsUpdate=items
+      <HorizontalListSwiper::Sly
+        @window={{this.window}}
+        @indexUpdate={{this.indexUpdate}}
+        @itemsUpdate={{this.items}}
         as |item|
-      }}
+      >
         {{item}}
-      {{/horizontal-list-swiper/sly}}
+      </HorizontalListSwiper::Sly>
     `);
     assert.ok(sly.toCenter.calledWith(0, true), 'Center on selected element index on first render without animation');
     this.set('indexUpdate', 1);
@@ -75,14 +70,14 @@ module('Integration | Component | horizontal-list-swiper/sly', function (hooks) 
     this.set('items', [1, 2, 3]);
     this.set('indexUpdate', 0);
     await render(hbs`
-      {{#horizontal-list-swiper/sly
-        window=window
-        indexUpdate=indexUpdate
-        itemsUpdate=items
+      <HorizontalListSwiper::Sly
+        @window={{this.window}}
+        @indexUpdate={{this.indexUpdate}}
+        @itemsUpdate={{this.items}}
         as |item|
-      }}
+      >
         {{item}}
-      {{/horizontal-list-swiper/sly}}
+      </HorizontalListSwiper::Sly>
     `);
     assert.equal(
       findAll('.scroll-header-sly-item').length,
@@ -102,14 +97,14 @@ module('Integration | Component | horizontal-list-swiper/sly', function (hooks) 
     const onmove = sinon.stub();
     const onmoveend = sinon.stub();
     this.set('window', windowMock);
-    this.actions.onmove = onmove;
-    this.actions.onmoveend = onmoveend;
+    this.set('onmove', onmove);
+    this.set('onmoveend', onmoveend);
     await render(hbs`
-      {{horizontal-list-swiper/sly
-        window=window
-        onmove=(action "onmove")
-        onmoveend=(action "onmoveend")
-      }}
+      <HorizontalListSwiper::Sly
+        @window={{this.window}}
+        @onmove={{action this.onmove}}
+        @onmoveend={{action this.onmoveend}}
+      />
     `);
     const slyOnMoveCallback = sly.on.args.find((arg) => arg[0] === 'move')[1];
     const slyOnMoveEndCallback = sly.on.args.find((arg) => arg[0] === 'moveEnd')[1];
@@ -131,12 +126,12 @@ module('Integration | Component | horizontal-list-swiper/sly', function (hooks) 
   test('reacts to activate events', async function (assert) {
     const onactive = sinon.stub();
     this.set('window', windowMock);
-    this.actions.onactive = onactive;
+    this.set('onactive', onactive);
     await render(hbs`
-      {{horizontal-list-swiper/sly
-        window=window
-        onactive=(action "onactive")
-      }}
+      <HorizontalListSwiper::Sly
+        @window={{this.window}}
+        @onactive={{action this.onactive}}
+      />
     `);
     const slyOnActiveCallback = sly.on.args.find((arg) => arg[0] === 'active')[1];
     run(() => {

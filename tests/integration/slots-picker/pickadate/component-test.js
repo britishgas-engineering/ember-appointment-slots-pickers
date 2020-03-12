@@ -18,11 +18,6 @@ import {
 module('Integration | Component | slots-picker/pickadate', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function () {
-    this.actions = {};
-    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
-  });
-
   test('displays available appointment days and time slots.', async function (assert) {
     generateAppointmentSlots.call(this, {
       numberOfAppointments: 50
@@ -31,27 +26,27 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
     const secondAvailableDay = this.get('secondAvailableDay');
     const slotsOfDate1 = this.get('slotsOfDate1');
     const availableDaysOfFirstMonth = this.get('availableDaysOfFirstMonth');
-    this.actions.select = (selected) => {
+    this.set('select', (selected) => {
       this.set('selected', selected);
-    };
+    });
     this.set('noSlotLabel', 'Fully booked');
     //this.set('appointmentSlots', appointmentSlots);
     this.set('selected', null);
     await render(hbs`
       <div class="my-test-container" style="width:400px">
-        {{#slots-picker
-          appointmentSlots=generatedAppointmentSlots
-          selected=selected
-          noSlotLabel=noSlotLabel
-          select=(action 'select')
+        <SlotsPicker
+          @appointmentSlots={{this.generatedAppointmentSlots}}
+          @noSlotLabel={{noSlotLabel}}
+          @select={{action this.select}}
+          @selected={{this.selected}}
           as |baseProps onSelectSlot onSelectDate|
-        }}
-          {{slots-picker/pickadate
-            baseProps=baseProps
-            onSelectSlot=onSelectSlot
-            onSelectDate=onSelectDate
-          }}
-        {{/slots-picker}}
+        >
+          <SlotsPicker::Pickadate
+            @baseProps={{baseProps}}
+            @onSelectSlot={{onSelectSlot}}
+            @onSelectDate={{onSelectDate}}
+          />
+        </SlotsPicker>
       </div>
     `);
     //I have no clue why or when the calendar starts at the second page instead of the first one
@@ -142,9 +137,9 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
     });
     const availableAppointmentSlots = this.get('availableAppointmentSlots');
     const firstSlot = moment(availableAppointmentSlots[0].get('slotPickerDay'));
-    this.actions.select = (selected) => {
+    this.set('select', (selected) => {
       this.set('selected', selected);
-    };
+    });
     this.set('noSlotLabel', 'Fully booked');
     //this.set('appointmentSlots', appointmentSlots);
     this.set('selected', firstSlot);
@@ -154,20 +149,20 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
     });
     await render(hbs`
       <div class="my-test-container" style="width:400px">
-        {{#slots-picker
-          appointmentSlots=generatedAppointmentSlots
-          selected=selected
-          noSlotLabel=noSlotLabel
-          select=(action 'select')
+        <SlotsPicker
+          @appointmentSlots={{this.generatedAppointmentSlots}}
+          @noSlotLabel={{noSlotLabel}}
+          @select={{action this.select}}
+          @selected={{this.selected}}
           as |baseProps onSelectSlot onSelectDate|
-        }}
-          {{slots-picker/pickadate
-            baseProps=baseProps
-            onSelectSlot=onSelectSlot
-            onSelectDate=onSelectDate
-            scroll=scroll
-          }}
-        {{/slots-picker}}
+        >
+          <SlotsPicker::Pickadate
+            @baseProps={{baseProps}}
+            @onSelectSlot={{onSelectSlot}}
+            @onSelectDate={{onSelectDate}}
+            @scroll={{scroll}}
+          />
+        </SlotsPicker>
       </div>
     `);
     assert.notOk(scrollToStub.called, 'not scrolling on editing journey initially');
@@ -185,9 +180,9 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
     });
     const availableAppointmentSlots = this.get('availableAppointmentSlots');
     const firstSlot = moment(availableAppointmentSlots[0].get('slotPickerDay'));
-    this.actions.select = (selected) => {
+    this.set('select', (selected) => {
       this.set('selected', selected);
-    };
+    });
     this.set('noSlotLabel', 'Fully booked');
     //this.set('appointmentSlots', appointmentSlots);
     this.set('selected', firstSlot);
@@ -200,32 +195,32 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
     }));
     await render(hbs`
       <div class="my-test-container" style="width:400px">
-        {{#slots-filter
-          appointmentSlots=generatedAppointmentSlots
+        <SlotsFilter
+          @appointmentSlots={{this.generatedAppointmentSlots}}
           as |filteredAppointmentSlots changeFilter selectedFilter|
-        }}
-          {{#slots-picker
-            appointmentSlots=filteredAppointmentSlots
-            selected=selected
-            noSlotLabel=noSlotLabel
-            selectedFilter=selectedFilter
-            select=(action 'select')
+        >
+          <SlotsPicker
+            @appointmentSlots={{filteredAppointmentSlots}}
+            @noSlotLabel={{this.noSlotLabel}}
+            @select={{action this.select}}
+            @selected={{this.selected}}
+            @selectedFilter={{selectedFilter}}
             as |baseProps onSelectSlot onSelectDate|
-          }}
-          {{slots-filter/ui
-            timeSlots=baseProps.rows
-            changeFilter=changeFilter
-            selectedFilter=selectedFilter
-            viewport=viewport
-          }}
-            {{slots-picker/pickadate
-              baseProps=baseProps
-              onSelectSlot=onSelectSlot
-              onSelectDate=onSelectDate
-              scroll=scroll
-            }}
-          {{/slots-picker}}
-        {{/slots-filter}}
+          >
+            <SlotsFilter::Ui
+              @timeSlots={{baseProps.rows}}
+              @changeFilter={{changeFilter}}
+              @selectedFilter={{selectedFilter}}
+              @viewport={{this.viewport}}
+            />
+            <SlotsPicker::Pickadate
+              @baseProps={{baseProps}}
+              @onSelectSlot={{onSelectSlot}}
+              @onSelectDate={{onSelectDate}}
+              scroll={{scroll}}
+            />
+          </SlotsPicker>
+        </SlotsFilter>
       </div>
     `);
     await run(() => {
