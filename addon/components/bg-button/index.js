@@ -4,6 +4,7 @@ import Component from '@glimmer/component';
 //import layout from './template';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { oneWay } from '@ember/object/computed';
 // import {
 //   layout as templateLayout,
 // } from '@ember-decorators/component';
@@ -30,7 +31,17 @@ export default class BgButtonComponent extends Component {
   // }
 
   // whether the button is loading state or not
-  @tracked loading;
+  // can not use @trakced with #loadingPrivate, and @tracked is needed for isDisabled template updating test
+  @tracked loadingPrivate = false;
+
+  get isLoading() {
+    return this.args.loading || this.loadingPrivate;
+  }
+
+  // //force 2-ways binding, not quite sure how to do differently (lack of @oneWay computed macro etc.)
+  // set isLoading(loading) {
+  //   this.args.loading = loading;
+  // }
 
   // can be "primary" "secondary" "tertiary"
   get theme() {
@@ -43,7 +54,7 @@ export default class BgButtonComponent extends Component {
   }
 
   // text to display when the button is in loading state
-  get 'loading-text'() {
+  get loadingText() {
      return this.args['loading-text'] || 'Loading...';
   }
 
@@ -64,16 +75,15 @@ export default class BgButtonComponent extends Component {
     return `btn-${this.theme}`;
   }
 
-  constructor({loading}) {
+  constructor() {
     super(...arguments);
-    console.log('bg-button', this);
-    this.loading = loading || false;
+    console.log('constructor', this, this.args);
   }
 
   //computed properties of disable and loading
   //isDisabled: or('disabled', 'loading'),
   get isDisabled() {
-    return this.args.disabled || this.loading;
+    return this.args.disabled || this.isLoading;
   }
 
   @action
@@ -92,10 +102,10 @@ export default class BgButtonComponent extends Component {
         !this.isDestroyed &&
         !this.isDestroying
       ) {
-        this.loading = true;
+        this.loadingPrivate = true;
         promise.finally(() => {
           if (!this.isDestroyed && !this.isDestroying && !this.args.forceLoadingToPersist) {
-            this.loading = false;
+            this.loadingPrivate = false;
           }
         });
       }

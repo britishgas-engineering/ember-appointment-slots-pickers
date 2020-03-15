@@ -26,7 +26,8 @@
     "pickadate": "3.6.4",
     "sly-shim": "1.6.1",
     "@glimmer/component": "^1.0.0",
-    "@glimmer/tracking": "^1.0.0"
+    "@glimmer/tracking": "^1.0.0",
+    "ember-component-css": "github:ConnectedHomes/ember-component-css#experimental"
   },
   "devDependencies": {
     "@ember/jquery": "^0.6.1",

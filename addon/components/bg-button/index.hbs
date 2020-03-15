@@ -1,4 +1,4 @@
-{{!-- <button
+<button
   {{on "click" this.onClick}}
   class="bg-button btn ember-appointment-slots-pickers {{this.bgTheme}}"
   disabled={{if this.isDisabled true false}}
@@ -6,9 +6,9 @@
   tabindex={{@tabindex}}
   ...attributes
 >
-  {{#if this.loading}}
+  {{#if this.isLoading}}
     <span class="fa fa-refresh fa-spin" aria-hidden="true"></span>
-    <LoadingText />
+    {{this.loadingText}}
   {{else}}
     {{#if (not @hide-icon)}}
       {{#if @customIcon}}
@@ -24,5 +24,4 @@
       <span class="bg-button-icon fa fa-tag" aria-labelledby="tagInfo"></span>
     {{/if}}
   {{/if}}
-</button> --}}
-That works mate
+</button>
