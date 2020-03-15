@@ -36,7 +36,7 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
       <div class="my-test-container" style="width:400px">
         <SlotsPicker
           @appointmentSlots={{this.generatedAppointmentSlots}}
-          @noSlotLabel={{noSlotLabel}}
+          @noSlotLabel={{this.noSlotLabel}}
           @select={{action this.select}}
           @selected={{this.selected}}
           as |baseProps onSelectSlot onSelectDate|
@@ -151,7 +151,7 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
       <div class="my-test-container" style="width:400px">
         <SlotsPicker
           @appointmentSlots={{this.generatedAppointmentSlots}}
-          @noSlotLabel={{noSlotLabel}}
+          @noSlotLabel={{this.noSlotLabel}}
           @select={{action this.select}}
           @selected={{this.selected}}
           as |baseProps onSelectSlot onSelectDate|
