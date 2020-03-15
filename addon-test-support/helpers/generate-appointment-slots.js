@@ -1,5 +1,5 @@
 import {run} from '@ember/runloop';
-import {merge} from '@ember/polyfills';
+import {assign} from '@ember/polyfills';
 import moment from 'moment';
 
 export function generateAppointmentSlots(options) {
@@ -8,7 +8,7 @@ export function generateAppointmentSlots(options) {
   const defaults = {
     numberOfAppointments: 50
   };
-  const custom = merge(defaults, options);
+  const custom = assign(defaults, options);
 
   // Schema for generating appoinments
   const schema = [{
