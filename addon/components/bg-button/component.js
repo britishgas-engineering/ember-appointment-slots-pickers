@@ -1,53 +1,87 @@
-import {or} from '@ember/object/computed';
-import {computed} from '@ember/object';
-import Component from '@ember/component';
-import layout from './template';
+//import {or} from '@ember/object/computed';
+//import {computed} from '@ember/object';
+import Component from '@glimmer/component';
+//import layout from './template';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+// import {
+//   layout as templateLayout,
+// } from '@ember-decorators/component';
+// import layout from './template';
 
-export default Component.extend({
-  layout,
+// @templateLayout(layout)
+export default class BgButtonComponent extends Component {
+  //layout = layout;
+  //layout,
 
-  tagName: 'button',
-  classNames: ['bg-button', 'btn', 'ember-appointment-slots-pickers'],
-  classNameBindings: ['bgTheme'],
-  attributeBindings: ['isDisabled:disabled', 'type', 'tabindex'],
+  //tagName: 'button',
+  //classNames: ['bg-button', 'btn', 'ember-appointment-slots-pickers'],
+  //classNameBindings: ['bgTheme'],
+  //attributeBindings: ['isDisabled:disabled', 'type', 'tabindex'],
 
-  isTagged: false,
+  // get isTagged() {
+  //   return this.args.isTagged || false;
+  // }
 
   // attributes
   // whether the button is disabled or not
-  disabled: false,
+  // get disabled() {
+  //   return this.args.disabled || false;
+  // }
 
   // whether the button is loading state or not
-  loading: false,
+  @tracked loading;
 
   // can be "primary" "secondary" "tertiary"
-  theme: 'primary',
+  get theme() {
+    return this.args.theme || 'primary';
+  }
 
   // can be "button" "submit" "reset"
-  type: 'button',
+  get type() {
+    return this.args.type || 'button';
+  }
 
   // text to display when the button is in loading state
-  'loading-text': 'Loading...',
+  get 'loading-text'() {
+     return this.args['loading-text'] || 'Loading...';
+  }
 
   // wheter to hide the left arrow icon
-  'hide-icon': false,
+  // get 'hide-icon'() {
+  //    return this.args['hide-icon'] || false;
+  // }
 
-  customIcon: null,
+  // get customIcon() {
+  //   return this.args.customIcon || null;
+  // }
+  //
+  // get forceLoadingToPersist() {
+  //   return this.args.forceLoadingToPersist || null;
+  // }
 
-  // persist loading even after the promise has returned
-  forceLoadingToPersist: false,
+  get bgTheme() {
+    return `btn-${this.theme}`;
+  }
 
-  bgTheme: computed('theme', function () {
-    return `btn-${this.get('theme')}`;
-  }),
+  constructor({loading}) {
+    super(...arguments);
+    console.log('bg-button', this);
+    this.loading = loading || false;
+  }
 
-  // computed properties of disable and loading
-  isDisabled: or('disabled', 'loading'),
+  //computed properties of disable and loading
+  //isDisabled: or('disabled', 'loading'),
+  get isDisabled() {
+    return this.args.disabled || this.loading;
+  }
 
-  click(...params) {
-    const action = this.get('action');
-    if (action) {
-      const promise = action(...params);
+  @action
+  onClick(...params) {
+    //https://github.com/emberjs/ember.js/issues/18748
+    const aktion = this.args.action;
+    if (aktion) {
+      const promise = aktion(...params);
 
       // if the action is a closure action
       // and a promise set loading state
@@ -55,13 +89,13 @@ export default Component.extend({
       if (
         promise &&
         promise.then &&
-        !this.get('isDestroyed') &&
-        !this.get('isDestroying')
+        !this.isDestroyed &&
+        !this.isDestroying
       ) {
-        this.set('loading', true);
+        this.loading = true;
         promise.finally(() => {
-          if (!this.get('isDestroyed') && !this.get('isDestroying') && !this.get('forceLoadingToPersist')) {
-            this.set('loading', false);
+          if (!this.isDestroyed && !this.isDestroying && !this.args.forceLoadingToPersist) {
+            this.loading = false;
           }
         });
       }
@@ -69,4 +103,4 @@ export default Component.extend({
     return false;
   }
 
-});
+}

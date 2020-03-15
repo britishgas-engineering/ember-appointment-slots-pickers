@@ -1,7 +1,7 @@
 <div class="date-picker-mobile-current-day text-center">
   <div class="font-size-6 day">
-    {{#if tempCurrentDay}}
-      {{to-upper-case (moment-format tempCurrentDay.date "dddd")}}
+    {{#if this.tempCurrentDay}}
+      {{to-upper-case (moment-format this.tempCurrentDay.date "dddd")}}
     {{else}}
       &nbsp;
     {{/if}}
@@ -9,19 +9,19 @@
 </div>
 
 <div class="date-picker-mobile-days month-{{currentMonth.month}}">
-  {{#horizontal-list-swiper/sly
-    itemsUpdate=days
-    indexUpdate=currentIndex
-    active-item-alignment="forceCentered"
-    onmove=(action "onmove")
-    onmoveend=(action "onmoveend")
-    cacheKey=cacheKey
+  <HorizontalListSwiper::Sly
+    @itemsUpdate={{this.days}}
+    @indexUpdate={{this.currentIndex}}
+    @active-item-alignment="forceCentered"
+    @onmove={{action "onmove"}}
+    @onmoveend={{action "onmoveend"}}
+    @cacheKey={{this.cacheKey}}
     as |day|
-    }}
+  >
     <div class="date-picker-mobile-day">
 
       {{#if day.isBoundaryDayOfTheMonth}}
-        {{#if (eq day.month tempCurrentDay.month)}}
+        {{#if (eq day.month this.tempCurrentDay.month)}}
         {{else}}
           <div class="date-picker-mobile-day-month text-center font-size-8 month-{{day.month}}">
             {{moment-format day.date "MMMM"}}
@@ -40,23 +40,23 @@
       </div>
 
     </div>
-  {{/horizontal-list-swiper/sly}}
+  </HorizontalListSwiper::Sly>
 </div>
 
 <div class="date-picker-mobile-current-month text-center font-size-8">
-  {{#if (not slotsAreLoading)}}
-    {{moment-format tempCurrentDay.date "MMMM YYYY"}}
+  {{#if (not this.slotsAreLoading)}}
+    {{moment-format this.tempCurrentDay.date "MMMM YYYY"}}
   {{/if}}
 </div>
 
 <div class="date-picker-mobile-scroll text-center font-size-1">
-  {{yield (action "selectPrevNextDate") width currentDateIndex}}
+  {{yield (action "selectPrevNextDate") this.width this.currentDateIndex}}
 
-  {{#if showLeftArrow}}
+  {{#if this.showLeftArrow}}
     <button class="date-picker-mobile-button fa fa-angle-left" {{action "selectPrevNextDate" -1}}></button>
   {{/if}}
 
-  {{#if showRightArrow}}
+  {{#if this.showRightArrow}}
     <button class="date-picker-mobile-button fa fa-angle-right" {{action "selectPrevNextDate" 1}}></button>
   {{/if}}
 </div>

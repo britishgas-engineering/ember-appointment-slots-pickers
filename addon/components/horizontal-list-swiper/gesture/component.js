@@ -1,7 +1,7 @@
 import { inject as service } from '@ember/service';
-import { equal } from '@ember/object/computed';
+import { equal, oneWay } from '@ember/object/computed';
 import Component from '@ember/component';
-import { computed, observer } from '@ember/object';
+import { computed } from '@ember/object';
 import Ember from 'ember';
 import RecognizerMixin from 'ember-gestures/mixins/recognizers';
 import layout from './template';
@@ -44,13 +44,13 @@ export default Component.extend(RecognizerMixin, {
 
   goToNextItem() {
     if (!this.get('isLastPage')) {
-      this.incrementProperty('currentItem', this.get('itemsPerPage'));
+      this.incrementProperty('_currentItem', this.get('itemsPerPage'));
     }
   },
 
   goToPreviousItem() {
     if (!this.get('isFirstPage')) {
-      this.decrementProperty('currentItem', this.get('itemsPerPage'));
+      this.decrementProperty('_currentItem', this.get('itemsPerPage'));
     }
   },
 
@@ -63,7 +63,17 @@ export default Component.extend(RecognizerMixin, {
    * item currently and entirely in view
    * @type {Number}
    */
-  currentItem: 0,
+  _currentItemInit: computed('index', 'itemsPerPage', function () {
+    const index = this.get('index');
+    //case where appointment.appointmentSlot resolves later (appointment.appointmentSlot.content is initially null)
+    if (index !== undefined) {
+      return Math.floor(index / this.get('itemsPerPage')) * this.get('itemsPerPage');
+    } else {
+      return 0
+    }
+  }),
+
+  _currentItem: oneWay('_currentItemInit'),
 
   width: computed('isRendered', 'viewport.width', function () {
     this.get('viewport.width');
@@ -74,14 +84,14 @@ export default Component.extend(RecognizerMixin, {
     return this.get('itemWidth') * this.get('items.length');
   }),
 
-  itemWidth: computed('isRendered', 'viewport.width', 'items.length', 'currentItem', function () {
+  itemWidth: computed('isRendered', 'viewport.width', 'items.length', function () {
     this.get('viewport.width');//to refresh when viewport is refreshed. A bit strange, but needed
     //items.length is needed, too (when going from 0 to X items)
     return this.get('isRendered') ? this.$('.asp-scroll-area > :first-child').width() : 0;
   }), // 120
 
   scrollAreaOffset: computed(
-    'currentItem',
+    '_currentItem',
     'currentPage',
     'itemWidth',
     'itemsPerPage',
@@ -95,7 +105,7 @@ export default Component.extend(RecognizerMixin, {
       if (this.get('isLastPage') && !this.get('isFirstPage')) {
         offset = this.get('scrollAreaWidth') - this.get('width');
       } else {
-        offset = this.get('currentItem') * this.get('itemWidth');
+        offset = this.get('_currentItem') * this.get('itemWidth');
       }
       return -offset;
     }
@@ -119,8 +129,8 @@ export default Component.extend(RecognizerMixin, {
     return Math.ceil(this.get('items.length') / this.get('itemsPerPage'));
   }),
 
-  currentPage: computed('currentItem', 'itemsPerPage', function () {
-    return Math.floor(this.get('currentItem') / this.get('itemsPerPage'));
+  currentPage: computed('_currentItem', 'itemsPerPage', function () {
+    return Math.floor(this.get('_currentItem') / this.get('itemsPerPage'));
   }),
 
   itemsPerPage: computed('width', 'itemWidth', function () {
@@ -140,7 +150,6 @@ export default Component.extend(RecognizerMixin, {
     if (!this.isDestroyed) {
       this.set('isRendered', true);
       this.notifyPropertyChange('itemWidth');
-      this._onIndexChange();
     }
   },
 
@@ -156,17 +165,6 @@ export default Component.extend(RecognizerMixin, {
     this._super(...arguments);
     run.next(this, '_recomputeItemWidth');
   },
-
-  //case where appointment.appointmentSlot resolves later (appointment.appointmentSlot.content is initially null)
-  _onIndexChange: observer('index', function () {//eslint-disable-line
-    const index = this.get('index');
-    if (!this.isDestroyed && index !== undefined) {
-      this.set(
-        'currentItem',
-        Math.floor(index / this.get('itemsPerPage')) * this.get('itemsPerPage')
-      );
-    }
-  }),
 
   actions: {
 

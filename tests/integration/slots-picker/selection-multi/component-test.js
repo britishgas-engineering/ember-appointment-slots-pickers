@@ -16,7 +16,7 @@ module('Integration | Component | slots-picker/selection-multi', async function 
       canSelectMultipleSlots: []
     }));
 
-    await render(hbs`{{slots-picker/selection-multi baseProps=this.baseProps}}`);
+    await render(hbs`<SlotsPicker::SelectionMulti @baseProps={{this.baseProps}} />`);
 
     assert.notOk(findAll('p').length, 'should not render any message');
   });
@@ -45,7 +45,7 @@ module('Integration | Component | slots-picker/selection-multi', async function 
     }));
     this.set('onDeselectSlot', sinon.stub());
 
-    await render(hbs`{{slots-picker/selection-multi baseProps=this.baseProps onDeselectSlot=this.onDeselectSlot}}`);
+    await render(hbs`<SlotsPicker::SelectionMulti @baseProps={{this.baseProps}} @onDeselectSlot={{this.onDeselectSlot}} />`);
 
     assert.ok(findAll('p').length, 'should render a p tag if there is a selection');
     assert.equal(find('p').textContent.trim(), 'You have chosen:', 'should contain title');

@@ -1,18 +1,28 @@
-{{#if loading}}
-  <span class="fa fa-refresh fa-spin" aria-hidden="true"></span>
-  <LoadingText />
-{{else}}
-  {{#if (not hide-icon)}}
-    {{#if customIcon}}
-      <span class="bg-button-icon {{customIcon}}" aria-hidden="true"></span>
-    {{else}}
-      <span class="bg-button-icon fa fa-angle-right" aria-hidden="true"></span>
+{{!-- <button
+  {{on "click" this.onClick}}
+  class="bg-button btn ember-appointment-slots-pickers {{this.bgTheme}}"
+  disabled={{if this.isDisabled true false}}
+  type={{this.type}}
+  tabindex={{@tabindex}}
+  ...attributes
+>
+  {{#if this.loading}}
+    <span class="fa fa-refresh fa-spin" aria-hidden="true"></span>
+    <LoadingText />
+  {{else}}
+    {{#if (not @hide-icon)}}
+      {{#if @customIcon}}
+        <span class="bg-button-icon {{@customIcon}}" aria-hidden="true"></span>
+      {{else}}
+        <span class="bg-button-icon fa fa-angle-right" aria-hidden="true"></span>
+      {{/if}}
+    {{/if}}
+
+    {{yield}}
+
+    {{#if @isTagged}}
+      <span class="bg-button-icon fa fa-tag" aria-labelledby="tagInfo"></span>
     {{/if}}
   {{/if}}
-
-  {{yield}}
-
-  {{#if isTagged}}
-    <span class="bg-button-icon fa fa-tag" aria-labelledby="tagInfo"></span>
-  {{/if}}
-{{/if}}
+</button> --}}
+That works mate

@@ -33,10 +33,10 @@ module('Integration | Component | slots-filter', function (hooks) {
       isXs: true
     }));
     await render(hbs`
-      {{slots-filter/ui
-        areTimeSlotsHidden=areTimeSlotsHidden
-        viewport=viewport
-      }}
+      <SlotsFilter::Ui
+        @areTimeSlotsHidden={{this.areTimeSlotsHidden}}
+        @viewport={{this.viewport}}
+      />
     `);
     assert.equal(
       findAll('.fa.fa-angle-down').length,
@@ -53,11 +53,11 @@ module('Integration | Component | slots-filter', function (hooks) {
     this.set('timeSlots', timeSlots);
     await clearRender();
     await render(hbs`
-      {{slots-filter/ui
-        areTimeSlotsHidden=areTimeSlotsHidden
-        timeSlots=timeSlots
-        viewport=viewport
-      }}
+      <SlotsFilter::Ui
+        @areTimeSlotsHidden={{this.areTimeSlotsHidden}}
+        @viewport={{this.viewport}}
+        @timeSlots={{this.timeSlots}}
+      />
     `);
     await run(() => this.$('button:contains("Filter by time slots")').click());
 
@@ -130,11 +130,11 @@ module('Integration | Component | slots-filter', function (hooks) {
     }));
     this.set('timeSlots', timeSlots);
     await render(hbs`
-      {{slots-filter/ui
-        areTimeSlotsHidden=areTimeSlotsHidden
-        timeSlots=timeSlots
-        viewport=viewport
-      }}
+      <SlotsFilter::Ui
+        @areTimeSlotsHidden={{this.areTimeSlotsHidden}}
+        @viewport={{this.viewport}}
+        @timeSlots={{this.timeSlots}}
+      />
     `);
 
     assert.equal(
@@ -186,11 +186,11 @@ module('Integration | Component | slots-filter', function (hooks) {
     }));
     this.set('timeSlots', timeSlots);
     await render(hbs`
-      {{slots-filter/ui
-        areTimeSlotsHidden=areTimeSlotsHidden
-        timeSlots=timeSlots
-        viewport=viewport
-      }}
+      <SlotsFilter::Ui
+        @areTimeSlotsHidden={{this.areTimeSlotsHidden}}
+        @viewport={{this.viewport}}
+        @timeSlots={{this.timeSlots}}
+      />
     `);
     await run(() => this.$('button:contains("8am - 10am")').click());
     assert.equal(
