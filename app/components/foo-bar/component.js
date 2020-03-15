@@ -1,1 +1,1 @@
-export { default } from 'ember-appointment-slots-pickers/components/foo-bar/component';
+export { default } from 'ember-appointment-slots-pickers/components/foo-bar/index';
