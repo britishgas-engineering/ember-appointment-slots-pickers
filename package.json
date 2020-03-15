@@ -26,9 +26,11 @@
     "ember-component-css": "github:ConnectedHomes/ember-component-css#experimental",
     "ember-truth-helpers": "2.1.0",
     "pickadate": "3.6.4",
-    "sly-shim": "1.6.1"
+    "sly-shim": "1.6.1",
+    "ember-decorators": "^6.1.1"
   },
   "devDependencies": {
+    "ember-decorators-polyfill": "^1.1.1",
     "@ember/jquery": "^0.6.1",
     "@ember/optional-features": "^1.3.0",
     "@glimmer/component": "^1.0.0",

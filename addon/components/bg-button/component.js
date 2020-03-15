@@ -4,8 +4,14 @@ import Component from '@glimmer/component';
 //import layout from './template';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import {
+  layout as templateLayout,
+} from '@ember-decorators/component';
+import layout from './template';
 
+@templateLayout(layout)
 export default class BgButtonComponent extends Component {
+  //layout = layout;
   //layout,
 
   //tagName: 'button',
