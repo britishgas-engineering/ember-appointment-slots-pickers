@@ -145,22 +145,22 @@ module.exports = {
     const funnel = new Funnel(tree, treeShakingOptions);
     return funnel;
   },
-  treeForAddon() {
-    const tree = this._super.treeForAddon.apply(this, arguments);
+  DIStreeForAddon() {
+    const tree = this._super.DIStreeForAddon.apply(this, arguments);
     return this._treeShakingEmber(tree);
   },
   //https://ember-cli.com/api/files/lib_models_addon.js.html#LINENUM_933
   ////check https://github.com/ember-engines/ember-engines/blob/master/lib/engine-addon.js
   ///https://github.com/ember-engines/ember-engines/blob/master/lib/engine-addon.js#L682
-  treeForStyles(tree) {
+  DIStreeForStyles(tree) {
     if (!tree) {
       return tree;
     }
     const newTree = this._treeShakingEmber(tree);
-    return this._super.treeForStyles.apply(this, newTree);
+    return this._super.DIStreeForStyles.apply(this, newTree);
   },
 
-  treeForApp(appTree) {
+  DIStreeForApp(appTree) {
     const trees = [this._treeShakingEmber(appTree)];
     return new MergeTrees(trees, {
       overwrite: true
@@ -168,14 +168,14 @@ module.exports = {
   },
 
   //this is never run, and I don't know why..
-  /*treeForParentAddonStyles(tree) {
+  /*DIStreeForParentAddonStyles(tree) {
     return tree;
   },*/
 
-  _treeFor(name) {
-    const tree = this._super._treeFor.apply(this, arguments);
+  _DIStreeFor(name) {
+    const tree = this._super._DIStreeFor.apply(this, arguments);
     if (name === 'addon-styles') {
-      //treeForParentAddonStyles hook is never run, I don't know why
+      //DIStreeForParentAddonStyles hook is never run, I don't know why
       const finalTree = this._treeShakingEmber(tree);
       return finalTree;
     }
