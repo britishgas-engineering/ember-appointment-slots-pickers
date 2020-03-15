@@ -1,1 +1,1 @@
-export {default} from 'ember-appointment-slots-pickers/components/bg-button/component';
+export {default} from 'ember-appointment-slots-pickers/components/bg-button/index';
