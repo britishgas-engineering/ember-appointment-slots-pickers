@@ -11,11 +11,6 @@ import { render, settled, click, findAll } from '@ember/test-helpers';
 module('Integration | Component | slots-picker/mobile', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function () {
-    this.actions = {};
-    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
-  });
-
   hooks.before(function () {
     //allows to use $(element).is(:offscreen) in integration tests
     //see https://stackoverflow.com/a/8897628/4325661
@@ -44,18 +39,18 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
 
     await render(hbs`
       <div class="my-test-container" style="width:400px">
-        {{#slots-picker
-          appointmentSlots=generatedAppointmentSlots
-          selected=selected
-          noSlotLabel='Not available'
-          select=(action select)
+        <SlotsPicker
+          @appointmentSlots={{this.generatedAppointmentSlots}}
+          @noSlotLabel='Not available'
+          @select={{action this.select}}
+          @selected={{this.selected}}
           as |baseProps onSelectSlot|
-        }}
-          {{slots-picker/mobile
-            baseProps=baseProps
-            onSelectSlot=onSelectSlot
-          }}
-        {{/slots-picker}}
+        >
+          <SlotsPicker::Mobile
+            @baseProps={{baseProps}}
+            @onSelectSlot={{onSelectSlot}}
+          />
+        </SlotsPicker>
       </div>
     `);
 
@@ -101,27 +96,27 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
     const generatedSlots = this.get('generatedAppointmentSlots');
     const lastAvailableSlot = generatedSlots.filterBy('available', true).get('lastObject');
 
-    this.actions.select = (selected) => {
+    this.set('select', (selected) => {
       this.get('selected').clear().pushObject(selected);
-    };
+    });
 
     this.set('selected', [lastAvailableSlot]);
     this.set('slotsAreLoading', null);
 
     await render(hbs`
       <div class="my-test-container" style="width:400px">
-        {{#slots-picker
-          appointmentSlots=generatedAppointmentSlots
-          selected=selected
-          noSlotLabel='Not available'
-          select=(action 'select')
+        <SlotsPicker
+          @appointmentSlots={{this.generatedAppointmentSlots}}
+          @noSlotLabel='Not available'
+          @select={{action this.select}}
+          @selected={{this.selected}}
           as |baseProps onSelectSlot|
-        }}
-          {{slots-picker/mobile
-            baseProps=baseProps
-            onSelectSlot=onSelectSlot
-          }}
-        {{/slots-picker}}
+        >
+          <SlotsPicker::Mobile
+            @baseProps={{baseProps}}
+            @onSelectSlot={{onSelectSlot}}
+          />
+        </SlotsPicker>
       </div>
     `);
 
@@ -159,33 +154,34 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
       numberOfAppointments: 50
     });
 
-    this.actions.select = (slot) => {
+    this.set('select', (slot) => {
       this.get('selected').pushObject(slot);
-    };
+    });
 
-    this.actions.deselect = (slot) => {
+    this.set('deselect', (slot) => {
       this.get('selected').removeObject(slot);
-    };
+    });
 
     this.set('selected', []);
     this.set('slotsAreLoading', null);
 
     await render(hbs`
       <div class="my-test-container" style="width:400px">
-        {{#slots-picker
-          appointmentSlots=generatedAppointmentSlots
-          selected=selected
-          canSelectMultipleSlots=true
-          select=(action 'select')
-          deselect=(action 'deselect')
+        <SlotsPicker
+          @appointmentSlots={{this.generatedAppointmentSlots}}
+          @noSlotLabel='Not available'
+          @select={{action this.select}}
+          @deselect={{action this.deselect}}
+          @selected={{this.selected}}
+          @canSelectMultipleSlots={{true}}
           as |baseProps onSelectSlot onDeselectSlot|
-        }}
-          {{slots-picker/mobile
-            baseProps=baseProps
-            onSelectSlot=onSelectSlot
-            onDeselectSlot=onDeselectSlot
-          }}
-        {{/slots-picker}}
+        >
+          <SlotsPicker::Mobile
+            @baseProps={{baseProps}}
+            @onSelectSlot={{onSelectSlot}}
+            @onDeselectSlot={{onDeselectSlot}}
+          />
+        </SlotsPicker>
       </div>
     `);
 

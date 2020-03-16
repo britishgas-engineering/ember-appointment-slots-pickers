@@ -1,19 +1,19 @@
 {{#if slotsAreLoading}}
-  {{slots-picker/loader}}
+  <SlotsPicker::Loader />
 {{else}}
   <div class="asp-pickadate text-center">
-    {{pickadate-input
-      min=min
-      max=max
-      select=(action 'onSelectDate')
-      hideToday=true
-      selected=selected
-      jsDays=jsDays
-      setShorterDays=true
-    }}
+    <PickadateInput
+      @min={{this.min}}
+      @max={{this.max}}
+      @select={{action "onSelectDate"}}
+      hideToday={{true}}
+      @selected={{this.selected}}
+      @jsDays={{this.jsDays}}
+      @setShorterDays={{true}}
+    />
 
     {{#if (and (not selectedFilter) currentDay)}}
-      {{scroll-anchor name="time-slots"}}
+      <ScrollAnchor @name="time-slots" />
 
       <h3 class="mt5">
         {{#if editingExistingAppointment}}
@@ -32,12 +32,12 @@
                 {{#each cellsForColOfSelectedDay as |cell|}}
                   <div class="col-xs-6 mb2">
                     {{#if cell}}
-                      {{slots-picker/button
-                        appointmentSlot=cell
-                        multiSelected=multiSelected
-                        canSelectMultipleSlots=false
-                        select=(action onSelectSlot)
-                      }}
+                      <SlotsPicker::Button
+                        @appointmentSlot={{cell}}
+                        @multiSelected={{this.multiSelected}}
+                        @canSelectMultipleSlots={{false}}
+                        @select={{action onSelectSlot}}
+                      />
                     {{else}}
                       <div class="no-slot-label mb2 mt2">
                         {{cell.slotPickerRowLabel}} ({{if noSlotLabel noSlotLabel 'Fully booked'}})

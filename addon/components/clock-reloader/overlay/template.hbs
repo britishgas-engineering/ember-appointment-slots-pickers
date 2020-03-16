@@ -1,9 +1,9 @@
 <div class="p4 refresher-overlay text-center">
   {{{title}}}
-  {{#bg-button
-    theme="secondary"
-    action=(action refresh)
-  }}
+  <BgButton
+    @theme="secondary"
+    @action={{action this.refresh}}
+  >
     Refresh
-  {{/bg-button}}
+  </BgButton>
 </div>

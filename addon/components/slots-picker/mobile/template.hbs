@@ -1,10 +1,20 @@
 {{#if slotsAreLoading}}
-  {{slots-picker/loader}}
+  <SlotsPicker::Loader />
 {{else}}
   <div class="row mt3">
-
-    {{#date-picker/mobile dates=days selectedSlots=multiSelected onDateChange=(action 'onDateChange') as |selectPrevNextDate width currentIndex|}}
-      {{#horizontal-list-swiper/gesture2 items=cellsPerCol width=width index=currentIndex onswipe=selectPrevNextDate as |item|}}
+    <DatePicker::Mobile
+      @dates={{days}}
+      @selectedSlots={{multiSelected}}
+      @onDateChange={{action "onDateChange"}}
+      as |selectPrevNextDate width currentIndex|
+    >
+      <HorizontalListSwiper::Gesture2
+        @items={{cellsPerCol}}
+        @width={{width}}
+        @index={{currentIndex}}
+        @onswipe={{selectPrevNextDate}}
+        as |item|
+      >
 
         <div class="asp-table">
           <div class="asp-col font-size-8">
@@ -14,13 +24,13 @@
                 <div class="asp-row p1 border-right border-light-grey">
                   <div class="asp-cell">
                     {{#if cell}}
-                      {{slots-picker/button
-                        appointmentSlot=cell
-                        multiSelected=multiSelected
-                        canSelectMultipleSlots=canSelectMultipleSlots
-                        select=(action onSelectSlot)
-                        deselect=(optional-action onDeselectSlot)
-                      }}
+                      <SlotsPicker::Button
+                        @appointmentSlot={{cell}}
+                        @multiSelected={{this.multiSelected}}
+                        @canSelectMultipleSlots={{this.canSelectMultipleSlots}}
+                        @select={{action this.onSelectSlot}}
+                        @deselect={{optional-action this.onDeselectSlot}}
+                      />
                     {{else}}
                       <div class="no-slot-label">
                         {{cell.slotPickerRowLabel}} ({{if noSlotLabel noSlotLabel 'Fully booked'}})
@@ -34,8 +44,8 @@
           </div>
         </div>
 
-      {{/horizontal-list-swiper/gesture2}}
-    {{/date-picker/mobile}}
+      </HorizontalListSwiper::Gesture2>
+    </DatePicker::Mobile>
 
   </div>
 {{/if}}

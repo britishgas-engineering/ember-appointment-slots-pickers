@@ -9,11 +9,6 @@ import { render, settled, click, findAll } from '@ember/test-helpers';
 module('Integration | Component | slots-picker/button', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function () {
-    this.actions = {};
-    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
-  });
-
   test('single selection with slot selected', async function (assert) {
     assert.expect(2);
 
@@ -23,20 +18,19 @@ module('Integration | Component | slots-picker/button', function (hooks) {
     this.set('appointmentSlots', appointmentSlots);
     this.set('appointmentSlot', appointmentSlot);
 
-    this.actions.onSelectSlot = () => {
+    this.set('onSelectSlot', () => {
       assert.ok(false, 'onSelectSlot shouldnt be run');
-    };
+    });
 
     await render(hbs`
       <div>
-        {{slots-picker/button
-          appointmentSlot=appointmentSlot
-          multiSelected=appointmentSlots
-          select=(action 'onSelectSlot')
-        }}
+        <SlotsPicker::Button
+          @appointmentSlot={{this.appointmentSlot}}
+          @multiSelected={{this.appointmentSlots}}
+          @select={{action this.onSelectSlot}}
+        />
       </div>
     `);
-
     assert.ok(
       findAll('.asp-appointment-slot-selected').length,
       'has asp-appointment-slot-selected class'
@@ -49,7 +43,6 @@ module('Integration | Component | slots-picker/button', function (hooks) {
   });
 
   test('multi selection with slots selected', async function (assert) {
-    // assert.expect(2);
 
     const appointmentSlots = [
       {slotPickerTime: 'myTime'},
@@ -63,13 +56,13 @@ module('Integration | Component | slots-picker/button', function (hooks) {
 
     await render(hbs`
       <div>
-        {{slots-picker/button
-          appointmentSlot=appointmentSlot
-          multiSelected=appointmentSlots
-          canSelectMultipleSlots=true
-          select=(action onSelectSlot)
-          deselect=(action onDeselectSlot)
-        }}
+        <SlotsPicker::Button
+          @appointmentSlot={{this.appointmentSlot}}
+          @multiSelected={{this.appointmentSlots}}
+          @canSelectMultipleSlots={{true}}
+          @select={{action this.onSelectSlot}}
+          @deselect={{action this.onDeselectSlot}}
+        />
       </div>
     `);
 
@@ -98,17 +91,17 @@ module('Integration | Component | slots-picker/button', function (hooks) {
     this.set('appointmentSlot', appointmentSlot);
     this.set('selectedSlots', selectedSlots);
 
-    this.actions.onSelectSlot = (slot) => {
+    this.set('onSelectSlot', (slot) => {
       assert.equal(slot, appointmentSlot, 'appointmentSlot is selected');
-    };
+    });
 
     await render(hbs`
       <div>
-        {{slots-picker/button
-          appointmentSlot=appointmentSlot
-          multiSelected=selectedSlots
-          select=(action 'onSelectSlot')
-        }}
+        <SlotsPicker::Button
+          @appointmentSlot={{this.appointmentSlot}}
+          @multiSelected={{this.selectedSlots}}
+          @select={{action this.onSelectSlot}}
+        />
       </div>
     `);
 

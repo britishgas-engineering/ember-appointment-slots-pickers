@@ -16,11 +16,6 @@ module('Integration | Component | clock-reloader', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function () {
-    this.actions = {};
-    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
-  });
-
-  hooks.beforeEach(function () {
     this.owner.register('service:config-service', configServiceStub);
     this.configService = this.owner.lookup('service:config-service');
   });
@@ -33,22 +28,22 @@ module('Integration | Component | clock-reloader', function (hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#clock-reloader
-        configService=configService
-        delay=1000000000
-        onrefresh=(action refresh)
+      <ClockReloader
+        @configService={{this.configService}}
+        @delay=1000000000
+        @onrefresh={{action this.refresh}}
         as |isExpired refresh|
-      }}
+      >
         {{#if isExpired}}
           <button
-            {{action (action refresh)}}
+            {{action refresh}}
           >
             Refresh Me
             </button>
         {{else}}
           <div class='not-expired'></div>
         {{/if}}
-      {{/clock-reloader}}
+      </ClockReloader>
     `);
     assert.ok(findAll('.not-expired').length, 'The template is showing properly in its non expired version');
     assert.notOk(find('button'), 'The template is indeed showing properly in its non expired version');
@@ -61,26 +56,26 @@ module('Integration | Component | clock-reloader', function (hooks) {
 
     const onrefresh = sinon.stub();
 
-    this.actions.refresh = onrefresh;
+    this.set('refresh', onrefresh);
 
     // Template block usage:
     await render(hbs`
-      {{#clock-reloader
-        configService=configService
-        delay=0
-        onrefresh=(action "refresh")
+      <ClockReloader
+        @configService={{this.configService}}
+        @delay=0
+        @onrefresh={{action this.refresh}}
         as |isExpired refresh|
-      }}
+      >
         {{#if isExpired}}
           <button
-            {{action (action refresh)}}
+            {{action refresh}}
           >
             Refresh Me
             </button>
         {{else}}
           <div class='not-expired'></div>
         {{/if}}
-      {{/clock-reloader}}
+      </ClockReloader>
     `);
     return settled().then(async () => {
       await click('button');

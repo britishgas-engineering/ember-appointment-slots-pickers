@@ -1,5 +1,5 @@
 {{#if slotsAreLoading}}
-  {{slots-picker/loader}}
+  <SlotsPicker::Loader />
 {{else}}
   <div class="asp-desktop">
     <div class="asp-table">
@@ -17,8 +17,11 @@
           </div>
         {{/each}}
       </div>
-
-      {{#horizontal-list-swiper/gesture index=selectedDayIndex items=cellsPerCol as |item|}}
+      <HorizontalListSwiper::Gesture
+        @index={{selectedDayIndex}}
+        @items={{cellsPerCol}}
+        as |item|
+      >
 
         <div class="asp-col font-size-8">
 
@@ -32,13 +35,13 @@
             <div class="asp-row border-right border-light-grey {{if (has-a-delimiter rows index) 'delimiter'}}">
               <div class="asp-cell">
                 {{#if cell}}
-                  {{slots-picker/button
-                    appointmentSlot=cell
-                    multiSelected=multiSelected
-                    canSelectMultipleSlots=canSelectMultipleSlots
-                    select=(action onSelectSlot)
-                    deselect=(optional-action onDeselectSlot)
-                  }}
+                  <SlotsPicker::Button
+                    @appointmentSlot={{cell}}
+                    @multiSelected={{this.multiSelected}}
+                    @canSelectMultipleSlots={{this.canSelectMultipleSlots}}
+                    @select={{action this.onSelectSlot}}
+                    @deselect={{optional-action this.onDeselectSlot}}
+                  />
                 {{else}}
                   <div class="no-slot-label">
                     {{if noSlotLabel noSlotLabel 'Fully booked'}}
@@ -51,7 +54,7 @@
 
         </div>
 
-      {{/horizontal-list-swiper/gesture}}
+      </HorizontalListSwiper::Gesture>
     </div>
   </div>
 {{/if}}

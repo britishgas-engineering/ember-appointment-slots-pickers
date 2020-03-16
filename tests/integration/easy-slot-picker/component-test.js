@@ -21,7 +21,7 @@ module('Integration | Component | easy-slot-picker', function (hooks) {
     // Render the component //NB. set width to replicate small desktop screens scroll bug #2342
     await render(hbs`
       <div>
-        {{easy-slot-picker appointmentSlots=generatedAppointmentSlots}}
+        <EasySlotPicker @appointmentSlots={{this.generatedAppointmentSlots}} />
       </div>
     `);
 
@@ -57,10 +57,10 @@ module('Integration | Component | easy-slot-picker', function (hooks) {
     });
     await render(hbs`
       <div style="width:460px">
-        {{easy-slot-picker
-          slotPickerComponentName=slotPickerComponentName
-          appointmentSlots=generatedAppointmentSlots
-        }}
+        <EasySlotPicker
+          @slotPickerComponentName={{this.slotPickerComponentName}}
+          @appointmentSlots={{this.generatedAppointmentSlots}}
+        />
       </div>
     `);
     assert.equal(
