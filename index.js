@@ -95,6 +95,17 @@ module.exports = {
                   /components\/scroll-anchor/
                 ];
                 break;
+              case 'non-bg-vi':
+                patterns = [
+                  /services\/scroll/,
+                  /services\/viewport/,
+                  /helpers/,
+                  /components\/slots-picker\/loader/,
+                  /components\/application-pre-loader/,
+                  /components\/bg-button/,
+                  /components\/scroll-anchor/
+                ];
+                break;
               case 'mobile':
                 patterns = [
                   /horizontal-list-swiper\/sly/,
