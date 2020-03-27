@@ -18,7 +18,11 @@ module.exports = {
     if (!exclude.includes('mobile')) {
       this.import('node_modules/sly-shim/dist/sly.min.js');
     }
-    if (!exclude.includes('bg') && !exclude.includes('bootstrap') ) {
+
+    const includeBootstrap = !exclude.includes('bg') &&
+      !exclude.includes('bg-non-vi') &&
+      !exclude.includes('bootstrap');
+    if (includeBootstrap) {
       this.import('node_modules/bootstrap/dist/css/bootstrap.min.css');
     }
   },
@@ -95,7 +99,7 @@ module.exports = {
                   /components\/scroll-anchor/
                 ];
                 break;
-              case 'non-bg-vi':
+              case 'bg-non-vi':
                 patterns = [
                   /services\/scroll/,
                   /services\/viewport/,
