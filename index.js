@@ -100,6 +100,7 @@ module.exports = {
                   /services\/scroll/,
                   /services\/viewport/,
                   /helpers/,
+                  '**/global-rules.less',
                   /components\/slots-picker\/loader/,
                   /components\/application-pre-loader/,
                   /components\/bg-button/,
