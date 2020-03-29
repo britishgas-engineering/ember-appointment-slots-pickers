@@ -449,8 +449,14 @@ _This will only load the `pickadate-input` component and stylesheets, and mandat
 //ember-cli-build.js
 options['ember-appointment-slots-pickers'] = {
   include: [
-    /components\/pickadate-input/
-  ]
+    /components\/pickadate-input/,
+      '**/ember-appointment-slots-pickers.css'
+  ],
+  bundles: {
+    exclude: [
+      'mobile'
+    ]
+  }
 };
 ```
 
