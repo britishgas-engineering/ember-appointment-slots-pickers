@@ -18,7 +18,11 @@ module.exports = {
     if (!exclude.includes('mobile')) {
       this.import('node_modules/sly-shim/dist/sly.min.js');
     }
-    if (!exclude.includes('bg') && !exclude.includes('bootstrap') ) {
+
+    const includeBootstrap = !exclude.includes('bg') &&
+      !exclude.includes('bg-except-bg-vi') &&
+      !exclude.includes('bootstrap');
+    if (includeBootstrap) {
       this.import('node_modules/bootstrap/dist/css/bootstrap.min.css');
     }
   },
@@ -89,6 +93,17 @@ module.exports = {
                   /helpers/,
                   '**/global-rules.less',
                   '**/variables.less',
+                  /components\/slots-picker\/loader/,
+                  /components\/application-pre-loader/,
+                  /components\/bg-button/,
+                  /components\/scroll-anchor/
+                ];
+                break;
+              case 'bg-except-bg-vi':
+                patterns = [
+                  /services\/scroll/,
+                  /services\/viewport/,
+                  /helpers/,
                   /components\/slots-picker\/loader/,
                   /components\/application-pre-loader/,
                   /components\/bg-button/,
