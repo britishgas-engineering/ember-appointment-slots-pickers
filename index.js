@@ -20,7 +20,7 @@ module.exports = {
     }
 
     const includeBootstrap = !exclude.includes('bg') &&
-      !exclude.includes('bg-non-vi') &&
+      !exclude.includes('bg-except-bg-vi') &&
       !exclude.includes('bootstrap');
     if (includeBootstrap) {
       this.import('node_modules/bootstrap/dist/css/bootstrap.min.css');
@@ -99,12 +99,11 @@ module.exports = {
                   /components\/scroll-anchor/
                 ];
                 break;
-              case 'bg-non-vi':
+              case 'bg-except-bg-vi':
                 patterns = [
                   /services\/scroll/,
                   /services\/viewport/,
                   /helpers/,
-                  '**/global-rules.less',
                   /components\/slots-picker\/loader/,
                   /components\/application-pre-loader/,
                   /components\/bg-button/,
