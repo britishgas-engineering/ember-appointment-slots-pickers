@@ -67,28 +67,33 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
     const generatedSlots = this.get('generatedAppointmentSlots');
     const firstAvailableSlot = generatedSlots.find((slot) => slot.get('available'));
     const firstDayLabel = `${firstAvailableSlot.get('slotPickerStartTimeLabel')} - ${firstAvailableSlot.get('slotPickerEndTimeLabel')}`;
+    let swipeViewControls = this.$('.horizontal-swipe-view .horizontal-swipe-view-item');
 
     assert.notOk(
-      this.$('.horizontal-swipe-view ul li:eq(0)').is(':offscreen'),
+      swipeViewControls.eq(0).is(':offscreen'),
       'first column is onscreen'
     );
 
     assert.ok(
-      this.$(`.horizontal-swipe-view ul li:eq(0) .asp-row button:contains("${firstDayLabel}")`).length,
+      swipeViewControls.find(`.asp-row button:contains("${firstDayLabel}")`).length,
       `first date ${firstDayLabel} is displayed in the first column`
     );
 
     await click('.date-picker-mobile-scroll .fa-angle-right');
 
+    swipeViewControls = this.$('.horizontal-swipe-view .horizontal-swipe-view-item');
+
     assert.notOk(
-      this.$('.horizontal-swipe-view ul li:eq(1)').is(':offscreen'),
+      swipeViewControls.eq(1).is(':offscreen'),
       'second column is onscreen'
     );
 
     this.$('.date-picker-mobile-days button:last').click();
 
+    swipeViewControls = this.$('.horizontal-swipe-view .horizontal-swipe-view-item');
+
     assert.notOk(
-      this.$(`.horizontal-swipe-view ul li:eq(${generatedSlots.length - 1})`).is(':offscreen'),
+      swipeViewControls.eq(generatedSlots.length - 1).is(':offscreen'),
       'last column is onscreen'
     );
   });
