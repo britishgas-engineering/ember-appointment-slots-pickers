@@ -11,8 +11,18 @@
         border-color: white;
       }
     }
-    .ember-appointment-slots-pickers{
-      left:64px;
+    .ember-appointment-slots-pickers:first-child{
+      position:inherit;
+      left:0;
+      .asp-scroll-btn-prev{
+        left:50px;
+      }
+      .asp-scroll-btn-next{
+        width:38px;
+        span:first-child{
+          display:none;
+        }   
+      }
     }
     .asp-row.asp-row-header {
       .asp-cell {

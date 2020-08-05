@@ -3,21 +3,7 @@
 {{else}}
   <div class="asp-desktop">
     <div class="asp-table">
-
-      <div class="asp-col asp-col-header background-light-grey font-size-9 border-right">
-        <div class="asp-row asp-row-header background-dark-blue white">
-        </div>
-        {{#each rows as |row index|}}
-          <div class="asp-row">
-            <div class="asp-cell font-size-8">
-              <div class="row-label {{row.labelClassName}}">
-               
-              </div>
-            </div>
-          </div>
-        {{/each}}
-      </div>
-
+        
       {{#horizontal-list-swiper/gesture index=selectedDayIndex items=cellsPerCol as |item|}}
 
         <div class="asp-col font-size-8">
