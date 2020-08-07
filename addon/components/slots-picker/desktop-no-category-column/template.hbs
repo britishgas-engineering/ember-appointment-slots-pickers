@@ -1,0 +1,44 @@
+{{#if slotsAreLoading}}
+  {{slots-picker/loader}}
+{{else}}
+  <div class="asp-desktop">
+    <div class="asp-table">
+
+
+      {{#horizontal-list-swiper/gesture index=selectedDayIndex items=cellsPerCol as |item|}}
+
+        <div class="asp-col font-size-8">
+
+          <div class="asp-row asp-row-header background-dark-blue white">
+            <div class="asp-cell border-right border-white">
+              {{item.col.dayLabel}}
+            </div>
+          </div>
+
+          {{#each item.cellsForCol as |cell index|}}
+            <div class="asp-row border-right border-light-grey {{if (has-a-delimiter rows index) 'delimiter'}}">
+              <div class="asp-cell">
+                {{#if cell}}
+                  {{slots-picker/button
+                    appointmentSlot=cell
+                    multiSelected=multiSelected
+                    canSelectMultipleSlots=canSelectMultipleSlots
+                    select=(action onSelectSlot)
+                    deselect=(optional-action onDeselectSlot)
+                  }}
+                {{else}}
+                  <div class="no-slot-label">
+                    {{if noSlotLabel noSlotLabel 'Fully booked'}}
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+
+          {{/each}}
+
+        </div>
+
+      {{/horizontal-list-swiper/gesture}}
+    </div>
+  </div>
+{{/if}}
