@@ -7,6 +7,7 @@ export default Controller.extend({
     this._super(...arguments);
     this.slotPickerNames = this.slotPickerNames || [
       'desktop',
+      'desktop-no-category-column',
       'mobile',
       'cards',
       'pickadate'
