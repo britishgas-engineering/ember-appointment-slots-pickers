@@ -38,7 +38,6 @@ module('Integration | Component | slots-picker/desktop-no-category-column', func
     `);
    
     assert.equal(findAll('.asp-btn').length > 0, true, 'has some available appointments loaded afterwards');
-    debugger;
     assert.equal(findAll('.asp-col-header').length > 0, false, 'should not have category column');
     assert.equal(findAll('.asp-scroll-btn-prev').length > 0, false, 'does not have previous button as shows the first appointments');
     assert.equal(
@@ -46,7 +45,6 @@ module('Integration | Component | slots-picker/desktop-no-category-column', func
       0,
       'has no delimiter in the header column'
     );
-    debugger;
     assert.equal(
       this.$('.asp-scroll .asp-col:eq(0) .asp-row.delimiter').length,
       0,
