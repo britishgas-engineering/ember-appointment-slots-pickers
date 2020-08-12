@@ -1,0 +1,43 @@
+& {
+  .asp-table {
+    .asp-col.asp-col-header {
+      width: 70px;
+      @media (max-width: 479px) {
+        width: 38.20%;
+      }
+      
+      &.border-right {
+        border-right-width: 4px;
+        border-color: white;
+      }
+    }
+    .ember-appointment-slots-pickers:first-child{
+      position:inherit;
+      left:0;
+      .asp-scroll-btn-prev{
+        left:50px;
+      }
+      .asp-scroll-btn-prev:before{
+        background:linear-gradient(to left, rgba(0, 94, 184, 0), #005eb8);
+      }
+      .asp-scroll-btn-next{
+        width:38px;
+        span:first-child{
+          display:none;
+        }   
+      }
+    }
+    .asp-row.asp-row-header {
+      .asp-cell {
+        padding: 0px;
+        height: 43px;
+        text-transform: capitalize;
+        &.border-right {
+          border-right-width: 4px;
+        }
+      }
+      height: 49px;
+      box-sizing: content-box;
+    }
+  }
+}
