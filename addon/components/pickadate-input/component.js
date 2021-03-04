@@ -58,8 +58,10 @@ export default Component.extend({
 
   onPickerFocus: function () {
     // alert('focus');
-    this.$('.picker__holder').blur();
-    return false;
+    if (this.$('.picker__holder')) {
+      this.$('.picker__holder').blur();
+      return false;
+    }
   },
 
   /**
