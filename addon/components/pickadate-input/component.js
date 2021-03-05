@@ -58,7 +58,7 @@ export default Component.extend({
 
   onPickerFocus: function () {
     // alert('focus');
-    if (this.$('.picker__holder')) {
+    if (document.querySelector('.picker__holder')) {
       this.$('.picker__holder').blur();
       return false;
     }
