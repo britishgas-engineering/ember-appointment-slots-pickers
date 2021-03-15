@@ -1,6 +1,6 @@
 {
   "name": "ember-appointment-slots-pickers",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Appointment slot pickers component suite written in Ember.",
   "keywords": [
     "ember-addon"
@@ -19,14 +19,14 @@
     "deploy": "ember build --environment production && ember github-pages:commit --message \"Deploy gh-pages from commit $(git rev-parse HEAD)\" && git push origin gh-pages:gh-pages"
   },
   "dependencies": {
-    "ember-cli-babel": "7.7.3",
+    "ember-cli-babel": "^7.24.0",
     "ember-cli-htmlbars": "3.0.1",
     "ember-cli-htmlbars-inline-precompile": "2.1.0",
-    "pickadate": "3.6.4",
-    "sly-shim": "1.6.1",
     "ember-cli-less": "2.0.1",
     "ember-component-css": "github:ConnectedHomes/ember-component-css#experimental",
-    "ember-truth-helpers": "2.1.0"
+    "ember-truth-helpers": "2.1.0",
+    "pickadate": "3.6.4",
+    "sly-shim": "1.6.1"
   },
   "devDependencies": {
     "broccoli-funnel": "3.0.2",
