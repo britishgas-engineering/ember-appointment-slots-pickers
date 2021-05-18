@@ -1,6 +1,6 @@
 
 {{#if slotsAreLoading}}
-  {{slots-picker/loader}}
+  <SlotsPicker::Loader />
 {{else}}
   <div class="asp-cards text-center">
     <div class="asp-table">
@@ -8,13 +8,13 @@
         <div class="col-xs-12 slot-picker-cards-container">
           {{#each cellsPerCol as |item|}}
             <div class="mb6 {{columnClasses}} {{fiveCardsClass}}">
-              {{slots-picker/cards/day-card
-                appointmentSlots=item.cellsForCol
-                multiSelected=multiSelected
-                canSelectMultipleSlots=canSelectMultipleSlots
-                select=(action onSelectSlot)
-                deselect=(optional-action onDeselectSlot)
-              }}
+              <SlotsPicker::Cards::DayCard
+                @appointmentSlots={{item.cellsForCol}}
+                @multiSelected={{this.multiSelected}}
+                @canSelectMultipleSlots={{this.canSelectMultipleSlots}}
+                @select={{action this.onSelectSlot}}
+                @deselect={{optional-action this.onDeselectSlot}}
+              />
             </div>
           {{/each}}
         </div>
