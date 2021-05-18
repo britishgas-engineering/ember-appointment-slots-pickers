@@ -155,7 +155,7 @@ For those who are on a rush, we created an easy to use but non-customizable and 
   }}
 ```
 
-Under the hood, `easy-slot-picker` is using a particular combination of `slots-picker/desktop`, `slots-picker/mobile` and `slots-picker/loader` which can be replicated and extended in the steps below:
+Under the hood, `easy-slot-picker` is using a particular combination of `slots-picker/desktop`, `slots-picker/mobile` and `slots-picker/slots-loader` which can be replicated and extended in the steps below:
 
 ### Basic setup ###
 
@@ -180,7 +180,7 @@ The basic use case is to use one of the `slots-picker/xx` individual calendars (
 
 ### Add a loading template ###
 
-One of those `baseProps` properties is the `slotsAreLoading` property, set to `true` when `appointmentSlots` is a `isPending` promiseArray, or an array with `null` length. You can customize the loading template for the slot-pickers in your app (a default one is provided). We created a `slots-picker/loader` default loading template that you can customize if you have nothing better:
+One of those `baseProps` properties is the `slotsAreLoading` property, set to `true` when `appointmentSlots` is a `isPending` promiseArray, or an array with `null` length. You can customize the loading template for the slot-pickers in your app (a default one is provided). We created a `slots-picker/slots-loader` default loading template that you can customize if you have nothing better:
 
 ```hbs
     {{#slots-picker
@@ -191,7 +191,7 @@ One of those `baseProps` properties is the `slotsAreLoading` property, set to `t
       as |baseProps onSelectSlot|
     }}
       {{#if baseProps.slotsAreLoading}}
-        {{slots-picker/loader title="Finding the next available appointments in your area.."}}
+        {{slots-picker/slots-loader title="Finding the next available appointments in your area.."}}
       {{else}}
         {{component 'slots-picker/mobile'
           baseProps=baseProps
@@ -226,7 +226,7 @@ The `easy-slot-picker` code is doing just that, by changing the child component 
   as |baseProps onSelectSlot onSelectDate|
 }}
   {{#if baseProps.slotsAreLoading}}
-    {{slots-picker/loader title=loaderSentence}}
+    {{slots-picker/slots-loader title=loaderSentence}}
   {{else}}
     {{component slotPickerComponentName
       baseProps=baseProps
@@ -326,7 +326,7 @@ Due to composition, you can modularize your slot-picker as you want. If you use 
           as |baseProps onSelectSlot onSelectDate|
         }}
           {{#if baseProps.slotsAreLoading}}
-            {{slots-picker/loader title="Finding the next available appointments in your area.."}}
+            {{slots-picker/slots-loader title="Finding the next available appointments in your area.."}}
           {{else}}
             {{slots-filter/ui changeFilterTimeSlot=(action filter)}}
             {{#if isExpired}}
@@ -368,7 +368,7 @@ where the children `asp.XX` components would be yielded by the parent `slot-pick
 * There is one big massive component containing all the others, so it prevents us from splitting them in different addons / tree-shake.
 * Using clearly separate components allows the addon consumers to extend only one of them (parent or one of the children) in one app (or updating the corresponding addon), without bothering about the others.
 * Previously, when adding a functionality to a calendar, we had to pass it as an attribute to the parent container, which would then itself transfer it to the child component, it didn't really make sense. Now you can just add / override children attributes in your app as you wish, without touching the container component
-* This allows to use as and when needed optional components like `clock-reloader`, `slots-picker/loader`, `slots-filter`.
+* This allows to use as and when needed optional components like `clock-reloader`, `slots-picker/slots-loader`, `slots-filter`.
 
 ### Core classes ###
 
