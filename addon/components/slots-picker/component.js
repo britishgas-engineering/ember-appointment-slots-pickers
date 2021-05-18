@@ -26,7 +26,7 @@ export default Component.extend({
   },
   selected: null,
   select: null,
-  isSlotRendered: false,
+  isSlotRendered: true,
   noSlotLabel: 'Fully booked',
   selectedFilter: null, //handle slot-picker-filter case, TODO maybe move related code to mixin??
 
@@ -178,6 +178,6 @@ export default Component.extend({
   },
   didRender() {
     this._super(...arguments);
-    this.set('isSlotRendered', true);
+    this.set('isSlotRendered', false);
   }
 });
