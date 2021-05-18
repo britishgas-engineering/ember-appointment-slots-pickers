@@ -2,7 +2,11 @@
   <h4>
     {{title}}
   </h4>
-  <div class="cropDIS">
-    <img class="pre-loader" src="/ember-appointment-slots-pickers/images/dot-loader-dark-blue.svg" alt="loading...">
-  </div>
+  {{#if showSkeletonSlot}}
+    <img aria-label="loading" src={{if viewport.isMobile "/ember-appointment-slots-pickers/images/mobile-loader.svg" "/ember-appointment-slots-pickers/images/desktop-loader.svg"}} alt="loading...">
+  {{else}}
+    <div class="cropDIS">
+      <img class="pre-loader" src="/ember-appointment-slots-pickers/images/dot-loader-dark-blue.svg" alt="loading...">
+    </div>
+  {{/if}}
 {{/application-pre-loader}}
