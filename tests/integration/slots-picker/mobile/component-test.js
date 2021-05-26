@@ -130,7 +130,7 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
       </div>
     `);
 
-    const $lastDate = this.$('.date-picker-mobile-days .scroll-header-sly-item.active');
+    const $lastDate = this.$('.date-picker-mobile-days .scroll-header-sly-item .active');
 
     assert.ok(
       findAll('.horizontal-swipe-view .asp-appointment-slot-selected').length,
@@ -142,6 +142,7 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
     return settled().then(() => {
       return settled();
     }).then(() => {
+  
       assert.ok(
         $lastDate.hasClass('active'),
         'last date is still selected so active'
