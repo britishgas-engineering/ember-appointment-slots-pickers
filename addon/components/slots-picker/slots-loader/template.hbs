@@ -1,12 +1,10 @@
-<ApplicationPreLoader>
-  <h4>
-    {{title}}
-  </h4>
-  {{#if showSkeletonSlot}}
-    <img aria-label="loading image" src={{concat rootURL showSkeletonSlotImage}} alt="loading...">
-  {{else}}
-    <div class="cropDIS">
-      <img class="pre-loader" src="/ember-appointment-slots-pickers/images/dot-loader-dark-blue.svg" alt="loading...">
-    </div>
-  {{/if}}
-</ApplicationPreLoader>
+<h4>
+  {{title}}
+</h4>
+{{#if showSkeletonSlot}}
+  <img aria-label="loading image" src={{concat rootURL showSkeletonSlotImage}} alt="loading...">
+{{else}}
+  <div class="cropDIS">
+    <img class="pre-loader" src="/ember-appointment-slots-pickers/images/dot-loader-dark-blue.svg" alt="loading...">
+  </div>
+{{/if}}
