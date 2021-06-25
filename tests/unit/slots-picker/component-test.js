@@ -3,6 +3,9 @@ import EmberObject from '@ember/object';
 import ObjectProxy from '@ember/object/proxy';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import RSVP from 'rsvp';
+import DS from 'ember-data';
+import { run } from '@ember/runloop';
 import { settled } from '@ember/test-helpers';
 
 module('Unit | Component | slots-picker', function (hooks) {
@@ -119,6 +122,36 @@ module('Unit | Component | slots-picker', function (hooks) {
     return settled().then(() => {
       assert.notOk(component.get('multiSelected')[0], 'not changing selected as should be done by the parent providing the action');
     });
+  });
+
+  test('slotsAreLoading - no appointmentSlots', function (assert) {
+    const component = this.owner.factoryFor('component:slots-picker').create({
+      appointmentSlots: [],
+      attrs: {},
+      selected: tomorrowDate
+    });
+    assert.ok(
+      component.get('slotsAreLoading'),
+      'slots are loading if not slots, even with a selected slot'
+    );
+  });
+
+  test('slotsAreLoading - appointmentSlots isPending', function (assert) {
+    const promiseAsyncSlots = new RSVP.Promise(function (resolve) {
+      run.later(this, function () {
+        resolve();
+      }, 5000);
+    });
+    const asyncSlots = DS.PromiseArray.create({promise: promiseAsyncSlots});
+    const component = this.owner.factoryFor('component:slots-picker').create({
+      appointmentSlots: asyncSlots,
+      attrs: {},
+      selected: tomorrowDate
+    });
+    assert.ok(
+      component.get('slotsAreLoading'),
+      'slots are loading if appointmentSlots is a pending promiseObject, even with a selected slot'
+    );
   });
 
   test('multiSelected', function (assert) {
