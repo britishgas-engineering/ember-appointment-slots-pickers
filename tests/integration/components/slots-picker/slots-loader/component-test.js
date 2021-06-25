@@ -316,4 +316,24 @@ module('Integration | Component | slots-picker/slots-loader', function(hooks) {
       '/paul/ember-appointment-slots-pickers/images/desktop.svg'
     );
   });
+
+  test('preloader - baseURL', async function(assert) {
+    set(this, 'baseURL', '/engines-dist/app/ember-appointment-slots-pickers/images/');
+
+    await render(hbs`{{slots-picker/slots-loader baseURL=baseURL}}`);
+
+    assert.equal(
+      this.element.querySelector('img').getAttribute('src'),
+      '/engines-dist/app/ember-appointment-slots-pickers/images/'
+    );
+
+    set(this, 'baseURL', null);
+
+    await render(hbs`{{slots-picker/slots-loader baseURL=baseURL}}`);
+
+    assert.equal(
+      this.element.querySelector('img').getAttribute('src'),
+      '/ember-appointment-slots-pickers/images/dot-loader-dark-blue.svg'
+    );
+  });
 });
