@@ -23,10 +23,10 @@ if (config.environment === 'development') {
   // Log errors potentially swallowed by promises
   // (see https://guides.emberjs.com/v1.12.0/understanding-ember/debugging/)
   on('error', function (error) {
-    Ember.Logger.assert(false, error);
+    console.error(error);//eslint-disable-line
   });
   Ember.onerror = function (error) {
-    Ember.Logger.assert(false, error);
+    console.error(error);//eslint-disable-line
   };
 }
 
