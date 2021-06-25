@@ -53,7 +53,6 @@ export default Component.extend({
   slotsArePending: computed('appointmentSlots.isPending', function () {
     return this.get('appointmentSlots.isPending');
   }).readOnly(),
-
   slotsAreLoading: or('slotsArePending', 'hasNoSlots'),
 
   availableSelectedSlots: computed('slotsAreLoading', function () {
