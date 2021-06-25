@@ -46,7 +46,7 @@ module('Integration | Component | slots-picker/slots-loader', function(hooks) {
     set(this, 'showSkeletonSlot', true);
 
     await render(hbs`{{slots-picker/slots-loader showSkeletonSlot=showSkeletonSlot}}`);
-  
+
     assert.notOk(
       this.element.querySelector('.cropDIS .pre-loader')
     );
@@ -101,26 +101,10 @@ module('Integration | Component | slots-picker/slots-loader', function(hooks) {
   test('showSkeletonSlot - getThisOwner', async function(assert) {
     setProperties(this, {
       showSkeletonSlot: true,
-      getThisOwner: {
-        factoryFor() {
-          return {
-            class: {
-              rootURL: null,
-              modulePrefix: 'app'
-            }
-          }
-        },
-        lookup() {
-          return {
-            namespace: {
-              modulePrefix: 'app'
-            }
-          }
-        }
-      }
+      baseURL: '/engines-dist/app/ember-appointment-slots-pickers/images/'
     });
 
-    await render(hbs`{{slots-picker/slots-loader showSkeletonSlot=showSkeletonSlot getThisOwner=getThisOwner}}`);
+    await render(hbs`{{slots-picker/slots-loader showSkeletonSlot=showSkeletonSlot baseURL=baseURL}}`);
 
     assert.equal(
       this.element.querySelector('img').getAttribute('src'),
@@ -129,26 +113,10 @@ module('Integration | Component | slots-picker/slots-loader', function(hooks) {
 
     setProperties(this, {
       showSkeletonSlot: true,
-      getThisOwner: {
-        factoryFor() {
-          return {
-            class: {
-              rootURL: '/paul/',
-              modulePrefix: 'dummy'
-            }
-          }
-        },
-        lookup() {
-          return {
-            namespace: {
-              modulePrefix: 'app'
-            }
-          }
-        }
-      }
+      baseURL: '/paul/engines-dist/dummy/ember-appointment-slots-pickers/images/'
     });
 
-    await render(hbs`{{slots-picker/slots-loader showSkeletonSlot=showSkeletonSlot getThisOwner=getThisOwner}}`);
+    await render(hbs`{{slots-picker/slots-loader showSkeletonSlot=showSkeletonSlot baseURL=baseURL}}`);
 
     assert.equal(
       this.element.querySelector('img').getAttribute('src'),
@@ -157,26 +125,10 @@ module('Integration | Component | slots-picker/slots-loader', function(hooks) {
 
     setProperties(this, {
       showSkeletonSlot: true,
-      getThisOwner: {
-        factoryFor() {
-          return {
-            class: {
-              rootURL: '/paul/',
-              modulePrefix: null
-            }
-          }
-        },
-        lookup() {
-          return {
-            namespace: {
-              modulePrefix: 'app'
-            }
-          }
-        }
-      }
+      baseURL: '/paul/ember-appointment-slots-pickers/images/'
     });
 
-    await render(hbs`{{slots-picker/slots-loader showSkeletonSlot=showSkeletonSlot getThisOwner=getThisOwner}}`);
+    await render(hbs`{{slots-picker/slots-loader showSkeletonSlot=showSkeletonSlot baseURL=baseURL}}`);
 
     assert.equal(
       this.element.querySelector('img').getAttribute('src'),
@@ -184,87 +136,14 @@ module('Integration | Component | slots-picker/slots-loader', function(hooks) {
     );
 
     setProperties(this, {
-      showSkeletonSlot: true,
-      getThisOwner: {
-        factoryFor() {
-          return {
-            class: {
-              rootURL: '/',
-              modulePrefix: null
-            }
-          }
-        },
-        lookup() {
-          return {
-            namespace: {
-              modulePrefix: 'app'
-            }
-          }
-        }
-      }
+      showSkeletonSlot: true
     });
 
-    await render(hbs`{{slots-picker/slots-loader showSkeletonSlot=showSkeletonSlot getThisOwner=getThisOwner}}`);
+    await render(hbs`{{slots-picker/slots-loader showSkeletonSlot=showSkeletonSlot}}`);
 
     assert.equal(
       this.element.querySelector('img').getAttribute('src'),
       '/ember-appointment-slots-pickers/images/desktop.svg'
-    );
-
-    setProperties(this, {
-      showSkeletonSlot: true,
-      getThisOwner: {
-        factoryFor() {
-          return {
-            class: {
-              rootURL: '/paul/',
-              modulePrefix: 'app'
-            }
-          }
-        },
-        lookup() {
-          return {
-            namespace: {
-              modulePrefix: 'dummy'
-            }
-          }
-        }
-      }
-    });
-
-    await render(hbs`{{slots-picker/slots-loader showSkeletonSlot=showSkeletonSlot getThisOwner=getThisOwner}}`);
-
-    assert.equal(
-      this.element.querySelector('img').getAttribute('src'),
-      '/paul/ember-appointment-slots-pickers/images/desktop.svg'
-    );
-
-    setProperties(this, {
-      showSkeletonSlot: true,
-      getThisOwner: {
-        factoryFor() {
-          return {
-            class: {
-              rootURL: '/paul/',
-              modulePrefix: 'dummy'
-            }
-          }
-        },
-        lookup() {
-          return {
-            namespace: {
-              modulePrefix: 'dummy'
-            }
-          }
-        }
-      }
-    });
-
-    await render(hbs`{{slots-picker/slots-loader showSkeletonSlot=showSkeletonSlot getThisOwner=getThisOwner}}`);
-
-    assert.equal(
-      this.element.querySelector('img').getAttribute('src'),
-      '/paul/ember-appointment-slots-pickers/images/desktop.svg'
     );
   });
 });
