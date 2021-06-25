@@ -2,8 +2,6 @@ import {
   filter,
   filterBy,
   equal,
-  or,
-  and,
   union,
   mapBy,
   uniq,
@@ -26,7 +24,6 @@ export default Component.extend({
   },
   selected: null,
   select: null,
-  isSlotRendered: true,
   noSlotLabel: 'Fully booked',
   selectedFilter: null, //handle slot-picker-filter case, TODO maybe move related code to mixin??
 
@@ -55,9 +52,6 @@ export default Component.extend({
   slotsArePending: computed('appointmentSlots.isPending', function () {
     return this.get('appointmentSlots.isPending');
   }).readOnly(),
-
-  isSlotReceived: or('slotsArePending', 'hasNoSlots'),
-  slotsAreLoading: and('isSlotReceived', 'isSlotRendered'),
 
   availableSelectedSlots: computed('slotsAreLoading', function () {
     //'multiSelected' is not a cached property because we dont want to refresh the slots
@@ -175,9 +169,5 @@ export default Component.extend({
         return true;
       }
     }
-  },
-  didRender() {
-    this._super(...arguments);
-    this.set('isSlotRendered', false);
   }
 });

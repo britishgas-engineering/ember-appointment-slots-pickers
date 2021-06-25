@@ -7,7 +7,7 @@ export default Component.extend({
   layout,
   title: 'Loading..',
   viewport: service(),
-  showSkeletonSlotImage: computed('viewport', function() {
+  showSkeletonSlotImageUrl: computed('viewport', function() {
     const baseURL = this.get('baseURL') || '/ember-appointment-slots-pickers/images/';
     let url = '';
 

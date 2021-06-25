@@ -1,10 +1,15 @@
-<h4>
-  {{title}}
-</h4>
 {{#if showSkeletonSlot}}
-  <img aria-label="loading image" src={{showSkeletonSlotImage}} alt="loading...">
+  <h4>
+    {{title}}
+  </h4>
+  <img aria-label="loading image" src={{showSkeletonSlotImageUrl}} alt="loading...">
 {{else}}
-  <div class="cropDIS">
-    <img class="pre-loader" src="/ember-appointment-slots-pickers/images/dot-loader-dark-blue.svg" alt="loading...">
-  </div>
+  {{#application-pre-loader}}
+    <h4>
+      {{title}}
+    </h4>
+    <div class="cropDIS">
+      <img class="pre-loader" src="/ember-appointment-slots-pickers/images/dot-loader-dark-blue.svg" alt="loading...">
+    </div>
+  {{/application-pre-loader}}
 {{/if}}
