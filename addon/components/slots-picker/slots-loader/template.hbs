@@ -2,14 +2,14 @@
   <h4>
     {{title}}
   </h4>
-  <img aria-label="loading image" src={{skeletonSlotImageUrl}} alt="loading...">
+  <p class="slot-loader"></p>
 {{else}}
   <ApplicationPreLoader>
     <h4>
       {{title}}
     </h4>
     <div class="cropDIS">
-      <img class="pre-loader" src={{preLoaderUrl}} alt="loading...">
+      <img class="pre-loader" src="/ember-appointment-slots-pickers/images/dot-loader-dark-blue.svg" alt="loading...">
     </div>
   </ApplicationPreLoader>
 {{/if}}
