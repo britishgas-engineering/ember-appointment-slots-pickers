@@ -101,4 +101,60 @@ module('Integration | Component | horizontal-list-swiper/gesture', function (hoo
     await click('.asp-scroll-btn-next');
     assert.ok(this.$('.cell:eq(100)').is(':offscreen'), 'selected cell is not on screen anymore on next page');
   });
+
+  test('scrollAreaStyle - with width', async function (assert) {
+    const items = new Array(4);
+    this.set('items', items);
+    await render(hbs`<div class="is-test-env" style="height:10px;">
+      {{#horizontal-list-swiper/gesture items=items index=100 as |item|}}
+        <div class="cell" style="width:50px; height:10px; float:left;">{{item}}</div>
+        {{/horizontal-list-swiper/gesture}}
+      </div>`);
+    const style = document.querySelector('.ember-appointment-slots-pickers .asp-scroll-area-wrapper div').style;
+
+    assert.equal(style.width, '200px','Width of component');
+    assert.equal(style.display, '', 'display');
+  });
+
+  test('scrollAreaStyle - without width', async function (assert) {
+    const items = new Array(4);
+    this.set('items', items);
+    await render(hbs`<div class="is-test-env" style="height:10px;">
+      {{#horizontal-list-swiper/gesture items=items index=100 as |item|}}
+        <div class="cell" style="height:10px; float:left;">{{item}}</div>
+        {{/horizontal-list-swiper/gesture}}
+      </div>`);
+    const style = document.querySelector('.ember-appointment-slots-pickers .asp-scroll-area-wrapper div').style;
+
+    assert.equal(style.width, '0px','Width of component');
+    assert.equal(style.display, '', 'display of component');
+  });
+
+  test('scrollAreaStyle - with displayAfterRender and without width', async function (assert) {
+    const items = new Array(4);
+    this.set('items', items);
+    await render(hbs`<div class="is-test-env" style="height:10px;">
+      {{#horizontal-list-swiper/gesture items=items displayAfterRender=true index=100 as |item|}}
+        <div class="cell" style="height:10px; float:left;">{{item}}</div>
+        {{/horizontal-list-swiper/gesture}}
+      </div>`);
+    const style = document.querySelector('.ember-appointment-slots-pickers .asp-scroll-area-wrapper div').style;
+
+    assert.equal(style.width, '0px','Width of component');
+    assert.equal(style.display, 'none', 'display of component');
+  });
+
+  test('scrollAreaStyle - with displayAfterRender and width', async function (assert) {
+    const items = new Array(4);
+    this.set('items', items);
+    await render(hbs`<div class="is-test-env" style="height:10px;">
+      {{#horizontal-list-swiper/gesture items=items displayAfterRender=true index=100 as |item|}}
+        <div class="cell" style="width:50px; height:10px; float:left;">{{item}}</div>
+        {{/horizontal-list-swiper/gesture}}
+      </div>`);
+    const style = document.querySelector('.ember-appointment-slots-pickers .asp-scroll-area-wrapper div').style;
+
+    assert.equal(style.width, '200px','Width of component');
+    assert.equal(style.display, '', 'display');
+  });
 });

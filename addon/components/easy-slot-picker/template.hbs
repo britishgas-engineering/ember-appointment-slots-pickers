@@ -6,7 +6,7 @@
   as |baseProps onSelectSlot onDeselectSlot|
 >
   {{#if baseProps.slotsAreLoading}}
-    <SlotsPicker::Loader @title={{this.loaderSentence}} />
+    <SlotsPicker::SlotsLoader @title={{this.loaderSentence}} />
   {{else}}
     {{component slotPickerComponentName
       baseProps=baseProps

@@ -1,0 +1,15 @@
+{{#if showSkeletonSlot}}
+  <h4>
+    {{title}}
+  </h4>
+  <p class="slot-loader"></p>
+{{else}}
+  <ApplicationPreLoader>
+    <h4>
+      {{title}}
+    </h4>
+    <div class="cropDIS">
+      <img class="pre-loader" src="/ember-appointment-slots-pickers/images/dot-loader-dark-blue.svg" alt="loading...">
+    </div>
+  </ApplicationPreLoader>
+{{/if}}
