@@ -1,9 +1,9 @@
 {{#horizontal-list-swiper/no-delay-on-transitions-in-test}}
-  <ul class="horizontal-swipe-view-list animated" style="{{style}}">
+  <div role="list" class="horizontal-swipe-view-list animated" style="{{style}}">
     {{#each items as |item index|}}
-      <li class="horizontal-swipe-view-item" style="{{styleItem}}">
+      <div role="listitem" class="horizontal-swipe-view-item" style="{{styleItem}}">
         {{yield item index}}
-      </li>
+      </div>
     {{/each}}
-  </ul>
+  </div>
 {{/horizontal-list-swiper/no-delay-on-transitions-in-test}}

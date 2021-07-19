@@ -56,7 +56,6 @@ module.exports = {
           Array.prototype.push.apply(options.include, [
             /components\/slots-picker\/base/,
             /components\/slots-picker\/button/,
-            /components\/slots-picker\/loader/,
             /components\/application-pre-loader/,
             /components\/slots-picker\/selection-multi/,
             /components\/slots-picker\/selection-single/,
@@ -89,7 +88,6 @@ module.exports = {
                   /helpers/,
                   '**/global-rules.less',
                   '**/variables.less',
-                  /components\/slots-picker\/loader/,
                   /components\/application-pre-loader/,
                   /components\/bg-button/,
                   /components\/scroll-anchor/

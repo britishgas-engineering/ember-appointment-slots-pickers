@@ -17,7 +17,7 @@ export default Component.extend({
 
     const owner = getOwner(this);
     [
-      'slots-picker/loader',
+      'slots-picker/slots-loader',
       'slots-picker/mobile',
       'slots-picker/desktop'
     ].forEach((templateName) => {

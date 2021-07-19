@@ -103,10 +103,12 @@ export default Component.extend(RecognizerMixin, {
 
   scrollAreaStyle: computed('scrollAreaWidth', 'scrollAreaOffset', function () {
     const width = this.get('scrollAreaWidth');
+    const display = !width && this.get('displayAfterRender') ? 'none' : '';
 
     const offset = this.get('scrollAreaOffset');
     return String.htmlSafe(`
       width: ${width}px;
+      display: ${display};
       -ms-transform: translate3d(${offset}px,0,0);
       -o-transform: translate3d(${offset}px,0,0);
       -moz-transform: translate3d(${offset}px,0,0);
@@ -185,6 +187,7 @@ export default Component.extend(RecognizerMixin, {
     prev() {
       this.goToPreviousItem();
     }
-  }
+  },
+
 
 });

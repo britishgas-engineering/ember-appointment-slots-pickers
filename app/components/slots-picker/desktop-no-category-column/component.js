@@ -1,0 +1,1 @@
+export { default } from 'ember-appointment-slots-pickers/components/slots-picker/desktop-no-category-column/component';

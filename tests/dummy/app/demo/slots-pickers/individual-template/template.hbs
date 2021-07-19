@@ -75,7 +75,7 @@
       as |baseProps onSelectSlot|
     >
       {{#if baseProps.slotsAreLoading}}
-        <SlotsPicker::Loader @title="Finding the next available appointments in your area.." />
+        <SlotsPicker::SlotsLoader @title="Finding the next available appointments in your area.." />
       {{else}}
         {{component model.slotPickerName
           baseProps=baseProps
