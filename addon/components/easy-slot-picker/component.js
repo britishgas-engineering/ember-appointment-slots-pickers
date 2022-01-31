@@ -1,9 +1,9 @@
 import layout from './template';
-import {getOwner} from '@ember/application';
+import { getOwner } from '@ember/application';
 import Component from '@ember/component';
-import {inject as service} from '@ember/service';
-import {assert} from '@ember/debug';
-import {computed} from '@ember/object';
+import { inject as service } from '@ember/service';
+import { assert } from '@ember/debug';
+import { computed } from '@ember/object';
 
 export default Component.extend({
   layout: layout,
@@ -43,7 +43,7 @@ export default Component.extend({
   loaderSentence: 'Finding the next available appointments in your area..',
   actions: {
     select(appointmentSlot) {
-      return this.get('onSelect') && this.get('onSelect')(appointmentSlot);
+      return this.onSelect && this.onSelect(appointmentSlot);
     }
   }
 });

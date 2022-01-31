@@ -48,13 +48,13 @@ module('Integration | Component | slots-picker/selection-multi', async function 
     await render(hbs`{{slots-picker/selection-multi baseProps=this.baseProps onDeselectSlot=this.onDeselectSlot}}`);
 
     assert.ok(findAll('p').length, 'should render a p tag if there is a selection');
-    assert.equal(find('p').textContent.trim(), 'You have chosen:', 'should contain title');
+    assert.dom('p').hasText('You have chosen:', 'should contain title');
 
-    assert.equal(findAll('div.asp-multi-selection-item').length, 2, 'should contain 2 items');
+    assert.dom('div.asp-multi-selection-item').exists({ count: 2 }, 'should contain 2 items');
     assert.equal(this.$('div.asp-multi-selection-item').first().find('strong').text().trim(), 'LABEL1', 'should render the older slot first');
 
     await click('button');
 
-    assert.ok(this.get('onDeselectSlot').called, 'should call deselect handler when button clicked');
+    assert.ok(this.onDeselectSlot.called, 'should call deselect handler when button clicked');
   });
 });

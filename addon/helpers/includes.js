@@ -1,5 +1,5 @@
-import {helper} from '@ember/component/helper';
-import {assert} from '@ember/debug';
+import { helper } from '@ember/component/helper';
+import { assert } from '@ember/debug';
 
 export function includes(params/*, hash*/) {
   assert('Must pass an array as the first param', params[0] instanceof Array);

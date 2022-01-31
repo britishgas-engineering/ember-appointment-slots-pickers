@@ -6,7 +6,9 @@ We transferred _as is_ the components from a British Gas private addon, some of 
 
 You can choose to only pick up the components and dependencies you need from the suite using tree-shaking.
 
-## Choose your own calendventure ##
+* Ember.js v3.24 or above
+* Ember CLI v3.24 or above
+* Node.js v12 or above
 
 At the time of writing, you can use any of the following children calendar components:
 

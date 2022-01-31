@@ -51,7 +51,7 @@ module('Integration | Component | clock-reloader', function (hooks) {
       {{/clock-reloader}}
     `);
     assert.ok(findAll('.not-expired').length, 'The template is showing properly in its non expired version');
-    assert.notOk(find('button'), 'The template is indeed showing properly in its non expired version');
+    assert.dom('button').doesNotExist('The template is indeed showing properly in its non expired version');
 
   });
 

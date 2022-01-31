@@ -15,7 +15,7 @@ export default noDelayOnTransitionsInTest.extend({
   index: null, //day at the middle
   indexUpdate: null,
   speed: computed('isTestLike', function () {
-    const isTestLike = this.get('isTestLike');
+    const isTestLike = this.isTestLike;
     return isTestLike ? 0 : 300;
   }),
   swingSpeed: 0.2,
@@ -33,7 +33,7 @@ export default noDelayOnTransitionsInTest.extend({
     if (this.isDestroyed) {
       return false;
     }
-    this.get('sly').init();
+    this.sly.init();
     const $slidee = this.$('.scroll-header-sly-slidee');
     let width = $slidee.width();
     //handle the larger bubble for currentIndex.
@@ -41,19 +41,19 @@ export default noDelayOnTransitionsInTest.extend({
     width = width + 30;
     $slidee.css('width', `${width}px`);
     //immediate
-    return this.sly.toCenter(this.get('indexUpdate') || 0, true);
+    return this.sly.toCenter(this.indexUpdate || 0, true);
   },
 
   _afterRenderSlyActive() {
     if (this.isDestroyed) {
       return false;
     }
-    return this.get('onactive')(this.get('sly').rel.activeItem);
+    return this.onactive(this.sly.rel.activeItem);
   },
 
   _indexFromPosition: computed(function () {
-    const items = this.get('sly').items;
-    const cur = this.get('sly').pos.cur;
+    const items = this.sly.items;
+    const cur = this.sly.pos.cur;
     let index;
     for (let i = 0, l = items.length; i < l; i += 1) {
       const item = items[i];
@@ -70,21 +70,21 @@ export default noDelayOnTransitionsInTest.extend({
     if (this.isDestroyed) {
       return false;
     }
-    const index = this.get('_indexFromPosition');
-    if (this.get('isDragging')) {
+    const index = this._indexFromPosition;
+    if (this.isDragging) {
       const indexRounded = Math.round(index);
       this.$('.scroll-header-sly-item').removeClass('active');
       this.$(`.scroll-header-sly-item:eq(${indexRounded})`).addClass('active');
     }
-    return this.get('onmove')(index);
+    return this.onmove(index);
   },
 
   _afterRenderSlyMoveEnd() {
     if (this.isDestroyed) {
       return false;
     }
-    const index = this.get('_indexFromPosition');
-    return this.get('onmoveend')(index);
+    const index = this._indexFromPosition;
+    return this.onmoveend(index);
   },
 
   _afterRenderReload() {
@@ -105,20 +105,20 @@ export default noDelayOnTransitionsInTest.extend({
       this.speed
     );
     //with animation
-    return this.get('sly').toCenter(this.get('index'), false);
+    return this.sly.toCenter(this.index, false);
   },
 
   didInsertElement() {
     this.set('isDragging', true);
     const Sly = this.get('window.Sly');
-    const centered = ['centered', 'forceCentered'].includes(this.get('active-item-alignment'));
+    const centered = ['centered', 'forceCentered'].includes(this['active-item-alignment']);
     // Instantiate sly
     this.set(
       'sly',
       new Sly(this.$('.scroll-header-sly-frame'), {
         // https://github.com/darsain/sly/blob/master/docs/Options.md
         horizontal: true,
-        itemNav: this.get('active-item-alignment'),
+        itemNav: this['active-item-alignment'],
         smart: centered,
         activateMiddle: centered,
         // Dragging
@@ -126,27 +126,27 @@ export default noDelayOnTransitionsInTest.extend({
         mouseDragging: true,
         releaseSwing: false,
         elasticBounds: true,
-        swingSpeed: this.get('swingSpeed'),
+        swingSpeed: this.swingSpeed,
         // Animation
-        speed: this.get('speed')
+        speed: this.speed
       })
     );
 
-    if (this.get('onactive')) {
-      this.get('sly').on('active', () => {
+    if (this.onactive) {
+      this.sly.on('active', () => {
         run.scheduleOnce('afterRender', this, '_afterRenderSlyActive');
       });
     }
 
-    if (this.get('onmove')) {
-      this.get('sly').on('move', () => {
+    if (this.onmove) {
+      this.sly.on('move', () => {
         run(() => {
           run.scheduleOnce('afterRender', this, '_afterRenderSlyMove');
         });
       });
     }
-    if (this.get('onmoveend')) {
-      this.get('sly').on('moveEnd', () => {
+    if (this.onmoveend) {
+      this.sly.on('moveEnd', () => {
         run(() => {
           run.scheduleOnce('afterRender', this, '_afterRenderSlyMoveEnd');
         });
@@ -165,7 +165,7 @@ export default noDelayOnTransitionsInTest.extend({
   },
 
   _afterUpdateItems() {
-    const sly = this.get('sly');
+    const sly = this.sly;
     if (sly) {
       sly.reload();
       this._reload();
@@ -174,15 +174,15 @@ export default noDelayOnTransitionsInTest.extend({
 
   didUpdateAttrs() {
     this._super(...arguments);
-    const indexUpdate = this.get('indexUpdate');
-    const index = this.get('index');
-    if (this.get('sly') && index !== indexUpdate) {
+    const indexUpdate = this.indexUpdate;
+    const index = this.index;
+    if (this.sly && index !== indexUpdate) {
       this.set('index', indexUpdate);
       this._reload();
     }
-    const itemsUpdate = this.get('itemsUpdate');
-    const items = this.get('items');
-    if (this.get('sly') && items !== itemsUpdate) {
+    const itemsUpdate = this.itemsUpdate;
+    const items = this.items;
+    if (this.sly && items !== itemsUpdate) {
       this.set('items', itemsUpdate);
       run.scheduleOnce('afterRender', this, '_afterUpdateItems');
     }
@@ -191,6 +191,6 @@ export default noDelayOnTransitionsInTest.extend({
   willDestroyElement() {
     $(window).off('resize', this._resizeHandler);
     $(window).off('orientationchange', this._resizeHandler);
-    this.get('sly').destroy();
+    this.sly.destroy();
   }
 });

@@ -1,124 +1,84 @@
-/*jshint node:true*/
-module.exports = {
-  useVersionCompatibility: false,
-  scenarios: [
-    {
-      name: 'ember-3.4',
-      npm: {
-        devDependencies: {
-          'ember-source': '~3.4.0',
-          'ember-data': '~3.4.0'
-        }
-      }
-    },
-    {
-      name: 'ember-3.5',
-      npm: {
-        devDependencies: {
-          'ember-source': '~3.5.0',
-          'ember-data': '~3.5.0'
-        }
-      }
-    },
-    {
-      name: 'ember-3.6',
-      npm: {
-        devDependencies: {
-          'ember-source': '~3.6.0',
-          'ember-data': '~3.6.0'
-        }
-      }
-    },
-    {
-      name: 'ember-3.7',
-      npm: {
-        devDependencies: {
-          'ember-source': '~3.7.0',
-          'ember-data': '~3.7.0'
-        }
-      }
-    },
-    {
-      name: 'ember-3.8',
-      npm: {
-        devDependencies: {
-          'ember-source': '~3.8.0',
-          'ember-data': '~3.8.0'
-        }
-      }
-    },
-    {
-      name: 'ember-3.9',
-      npm: {
-        devDependencies: {
-          'ember-source': '~3.9.0',
-          'ember-data': '~3.9.0'
-        }
-      }
-    },
-    {
-      name: 'ember-3.10',
-      npm: {
-        devDependencies: {
-          'ember-source': '~3.10.0',
-          'ember-data': '~3.10.0'
-        }
-      }
-    },
-    {
-      name: 'ember-3.11',
-      npm: {
-        devDependencies: {
-          'ember-source': '~3.11.0',
-          'ember-data': '~3.11.0'
-        }
-      }
-    },
-    {
-      name: 'ember-3.12',
-      npm: {
-        devDependencies: {
-          'ember-source': '~3.12.0',
-          'ember-data': '~3.12.0'
-        }
-      }
-    },
-    {
-      name: 'ember-3.13',
-      npm: {
-        devDependencies: {
-          'ember-source': '~3.13.0',
-          'ember-data': '~3.13.0'
-        }
-      }
-    },
-    {
-      name: 'ember-3.14',
-      npm: {
-        devDependencies: {
-          'ember-source': '~3.14.0',
-          'ember-data': '~3.14.0'
-        }
-      }
-    },
-    {
-      name: 'ember-3.15',
-      npm: {
-        devDependencies: {
-          'ember-source': '~3.15.0',
-          'ember-data': '~3.15.0'
-        }
-      }
-    },
-    {
-      name: 'ember-3.16',
-      npm: {
-        devDependencies: {
-          'ember-source': '~3.16.0',
-          'ember-data': '~3.16.0'
-        }
-      }
-    }
-  ]
+'use strict';
 
+const getChannelURL = require('ember-source-channel-url');
+const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
+
+module.exports = async function () {
+  return {
+    scenarios: [
+      {
+        name: 'ember-lts-3.24',
+        npm: {
+          devDependencies: {
+            'ember-source': '~3.24.3',
+          },
+        },
+      },
+      {
+        name: 'ember-lts-3.28',
+        npm: {
+          devDependencies: {
+            'ember-source': '~3.28.0',
+          },
+        },
+      },
+      {
+        name: 'ember-release',
+        npm: {
+          devDependencies: {
+            'ember-source': await getChannelURL('release'),
+          },
+        },
+      },
+      {
+        name: 'ember-beta',
+        npm: {
+          devDependencies: {
+            'ember-source': await getChannelURL('beta'),
+          },
+        },
+      },
+      {
+        name: 'ember-canary',
+        npm: {
+          devDependencies: {
+            'ember-source': await getChannelURL('canary'),
+          },
+        },
+      },
+      {
+        name: 'ember-default-with-jquery',
+        env: {
+          EMBER_OPTIONAL_FEATURES: JSON.stringify({
+            'jquery-integration': true,
+          }),
+        },
+        npm: {
+          devDependencies: {
+            '@ember/jquery': '^1.1.0',
+          },
+        },
+      },
+      {
+        name: 'ember-classic',
+        env: {
+          EMBER_OPTIONAL_FEATURES: JSON.stringify({
+            'application-template-wrapper': true,
+            'default-async-observers': false,
+            'template-only-glimmer-components': false,
+          }),
+        },
+        npm: {
+          devDependencies: {
+            'ember-source': '~3.28.0',
+          },
+          ember: {
+            edition: 'classic',
+          },
+        },
+      },
+      embroiderSafe(),
+      embroiderOptimized(),
+    ],
+  };
 };

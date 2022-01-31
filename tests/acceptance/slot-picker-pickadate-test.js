@@ -1,8 +1,8 @@
-import {visit} from '@ember/test-helpers';
-import {module, test} from 'qunit';
+import { visit } from '@ember/test-helpers';
+import { module, test } from 'qunit';
 import $ from 'jquery';
-import {setupApplicationTest} from 'ember-qunit';
-import {run} from '@ember/runloop';
+import { setupApplicationTest } from 'ember-qunit';
+import { run } from '@ember/runloop';
 
 module('Acceptance | Component | slots-picker/pickadate', function (hooks) {
   setupApplicationTest(hooks);

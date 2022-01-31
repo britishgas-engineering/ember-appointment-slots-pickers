@@ -20,11 +20,11 @@ export default Component.extend({
    */
   setup() {
     this.set('isExpired', false);
-    if (this.get('delay') < 1000000000) {
+    if (this.delay < 1000000000) {
       // qunit's 'andThen' waits for all promises to finish, including Ember.run.later
       // we completely remove the run.later here for very big delay values
       // to be able to test the beahviour of the component when not expired
-      this.runLater = later(this, this.expire, this.get('delay'));
+      this.runLater = later(this, this.expire, this.delay);
     }
   },
 
@@ -70,7 +70,7 @@ export default Component.extend({
             resolve();
           };
 
-          const action = this.get('onrefresh')();
+          const action = this.onrefresh();
 
           const isActionPromise = !!action.then;
 

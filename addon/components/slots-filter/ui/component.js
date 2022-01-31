@@ -23,15 +23,15 @@ export default Component.extend({
    * inputTimeSlots caches the initial timeSlots, therefore ignoring any further change due to the filtering itself.
    */
   inputTimeSlots: computed(function () {
-    return this.get('timeSlots');
+    return this.timeSlots;
   }),
   allTimeSlots: union('inputTimeSlots', 'fixedTimeSlots'),
   areSlotsEven: computed('allTimeSlots.[]', function () {
     return this.get('allTimeSlots.length') % 2 === 0;
   }),
   selectedTimeSlot: computed('selectedFilter', 'allTimeSlots', function () {
-    const defaultTimeSlot = this.get('allTimeSlots').findBy('id', 'showall');
-    return this.get('selectedFilter') || defaultTimeSlot;
+    const defaultTimeSlot = this.allTimeSlots.findBy('id', 'showall');
+    return this.selectedFilter || defaultTimeSlot;
   }),
   actions: {
     filterButtonClick() {

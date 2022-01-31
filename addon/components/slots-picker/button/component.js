@@ -12,8 +12,8 @@ export default Component.extend({
   appointmentSlot: null,
   classNames: ['slot-picker-button'],
   isSelected: computed('multiSelected.@each.id', 'appointmentSlot', function () {
-    const multiSelected = this.get('multiSelected');
-    const appointmentSlot = this.get('appointmentSlot');
+    const multiSelected = this.multiSelected;
+    const appointmentSlot = this.appointmentSlot;
 
     return multiSelected.includes(appointmentSlot);
   })

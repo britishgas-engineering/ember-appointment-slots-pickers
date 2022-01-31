@@ -85,8 +85,8 @@ module('Integration | Component | slots-picker/button', function (hooks) {
 
     await click('.asp-btn');
 
-    assert.ok(this.get('onDeselectSlot').called, 'should call deselect action when button clicked');
-    assert.notOk(this.get('onSelectSlot').called, 'should not call select action when button clicked');
+    assert.ok(this.onDeselectSlot.called, 'should call deselect action when button clicked');
+    assert.notOk(this.onSelectSlot.called, 'should not call select action when button clicked');
   });
 
   test('with slot not selected', async function (assert) {
