@@ -1,9 +1,9 @@
-import {merge} from '@ember/polyfills';
-import {scheduleOnce, run} from '@ember/runloop';
+import { merge } from '@ember/polyfills';
+import { scheduleOnce, run } from '@ember/runloop';
 import $ from 'jquery';
-import EmberObject, {computed} from '@ember/object';
-import Service, {inject as service} from '@ember/service';
-import {getOwner} from '@ember/application';
+import EmberObject, { computed } from '@ember/object';
+import Service, { inject as service } from '@ember/service';
+import { getOwner } from '@ember/application';
 
 export default Service.extend({
 
@@ -22,7 +22,7 @@ export default Service.extend({
    * @return {Boolean}
    */
   isTestLike: computed('config', function () {
-    const config = this.get('config');
+    const config = this.config;
     return config.environment === 'test' ||
       config.environment === 'development' &&
       this.get('window.location.pathname') === '/tests';
@@ -33,7 +33,7 @@ export default Service.extend({
   _anchors: EmberObject.create({}),
 
   _maximumDuration: computed('_minimumDuration', function () {
-    return this.get('_minimumDuration') * 4;
+    return this._minimumDuration * 4;
   }),
 
   _headerHeight: computed('viewport.width', function () {
@@ -47,7 +47,7 @@ export default Service.extend({
   _velocity: computed('viewport.height', '_minimumDuration', function () {
     const maxDistance = this.get('viewport.height') / 2;
 
-    return maxDistance / this.get('_minimumDuration');
+    return maxDistance / this._minimumDuration;
   }),
 
   init() {
@@ -70,7 +70,7 @@ export default Service.extend({
    * @return {undefined}
    */
   to: function (name, options, callback) {
-    if (!this.get('isTestLike')) {
+    if (!this.isTestLike) {
       //console.log('scroll to', name);
       scheduleOnce('afterRender', this, this.afterRenderTo, name, options, callback);
     }
@@ -87,7 +87,7 @@ export default Service.extend({
    * @return {undefined}
    */
   willDestroy() {
-    this.get('$page').off(
+    this.$page.off(
       this.scrollStopEventNames.join(' '),
       this.onScrollStop
     );
@@ -106,7 +106,7 @@ export default Service.extend({
        * @return {undefined}
        */
       this.onScrollStop = run.bind(this, function () {
-        const $page = this.get('$page');
+        const $page = this.$page;
 
         const scrollStopEventNames = this.scrollStopEventNames;
 
@@ -122,7 +122,7 @@ export default Service.extend({
         );
       });
 
-      const $page = this.get('$page');
+      const $page = this.$page;
 
       const scrollStopEventNames = this.scrollStopEventNames;
 
@@ -134,9 +134,9 @@ export default Service.extend({
 
       const instanceOptions = {};
 
-      const minimumDuration = this.get('_minimumDuration');
+      const minimumDuration = this._minimumDuration;
 
-      const maximumDuration = this.get('_maximumDuration');
+      const maximumDuration = this._maximumDuration;
 
       let scrollTopDestination;
 
@@ -153,7 +153,7 @@ export default Service.extend({
 
       if ($anchor && $anchor.length) {
         scrollTopDestination = $anchor.offset().top -
-          this.get('_headerHeight') -
+          this._headerHeight -
           (instanceOptions.adjustment || 0);
 
         if (instanceOptions.stayOnTopOf) {
@@ -176,7 +176,7 @@ export default Service.extend({
           $page.scrollTop(scrollTopDestination);
         } else {
 
-          duration = Math.abs(distance) / this.get('_velocity');
+          duration = Math.abs(distance) / this._velocity;
 
           if (duration < minimumDuration) {
             duration = minimumDuration;

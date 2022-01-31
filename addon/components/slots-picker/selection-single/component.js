@@ -6,8 +6,8 @@ export default Component.extend({
   layout,
 
   selected: computed('multiSelected', function () {
-    const selected = this.get('multiSelected');
+    const selected = this.multiSelected;
 
-    return selected && selected.length ? this.get('multiSelected')[0] : null;
+    return selected && selected.length ? this.multiSelected[0] : null;
   })
 });

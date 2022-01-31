@@ -27,10 +27,10 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
     generateAppointmentSlots.call(this, {
       numberOfAppointments: 50
     });
-    const firstAvailableDay = this.get('firstAvailableDay');
-    const secondAvailableDay = this.get('secondAvailableDay');
-    const slotsOfDate1 = this.get('slotsOfDate1');
-    const availableDaysOfFirstMonth = this.get('availableDaysOfFirstMonth');
+    const firstAvailableDay = this.firstAvailableDay;
+    const secondAvailableDay = this.secondAvailableDay;
+    const slotsOfDate1 = this.slotsOfDate1;
+    const availableDaysOfFirstMonth = this.availableDaysOfFirstMonth;
     this.actions.select = (selected) => {
       this.set('selected', selected);
     };
@@ -58,7 +58,7 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
     //that's standard behaviour of pickadate apparently
     await click('.picker__nav--prev');
     assert.equal(
-      this.$('.picker__day--infocus:not(".picker__day--disabled")').length,
+      findAll('.picker__day--infocus:not(".picker__day--disabled")').length,
       availableDaysOfFirstMonth.get('length'),
       'expect as many days with appointments as from stub data.'
     );
@@ -74,11 +74,7 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
     });
 
     return settled().then(() => {
-      assert.equal(
-        find('.picker__day--highlighted').textContent.trim(),
-        firstAvailableDay,
-        'Date clicked should be highlighted.'
-      );
+      assert.dom('.picker__day--highlighted').hasText(firstAvailableDay, 'Date clicked should be highlighted.');
 
       assert.equal(
         this.$('h3:contains("Great, now pick your time slot")').length,
@@ -105,11 +101,7 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
         'None available time slots displays noSlotLabel passed in as an attribute.'
       );
 
-      assert.equal(
-        findAll('.asp-appointment-slot-selected').length,
-        0,
-        'No timeslot selected as timeslot has not yet been picked.'
-      );
+      assert.dom('.asp-appointment-slot-selected').doesNotExist('No timeslot selected as timeslot has not yet been picked.');
       const slotPickerTime = slotsOfDate1.get('firstObject.slotPickerTime');
       run(() => {
         this.$(`.asp-btn:contains("${slotPickerTime}")`).click();
@@ -126,9 +118,7 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
         });
         return settled();
       }).then(() => {
-        assert.equal(
-          findAll('.asp-appointment-slot-selected').length,
-          0,
+        assert.dom('.asp-appointment-slot-selected').doesNotExist(
           'No timeslot selected as selected timeslot has been nulled by date change.'
         );
       });
@@ -140,7 +130,7 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
     generateAppointmentSlots.call(this, {
       numberOfAppointments: 50
     });
-    const availableAppointmentSlots = this.get('availableAppointmentSlots');
+    const availableAppointmentSlots = this.availableAppointmentSlots;
     const firstSlot = moment(availableAppointmentSlots[0].get('slotPickerDay'));
     this.actions.select = (selected) => {
       this.set('selected', selected);
@@ -183,7 +173,7 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
     generateAppointmentSlots.call(this, {
       numberOfAppointments: 50
     });
-    const availableAppointmentSlots = this.get('availableAppointmentSlots');
+    const availableAppointmentSlots = this.availableAppointmentSlots;
     const firstSlot = moment(availableAppointmentSlots[0].get('slotPickerDay'));
     this.actions.select = (selected) => {
       this.set('selected', selected);

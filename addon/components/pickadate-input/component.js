@@ -1,5 +1,5 @@
-import {schedule} from '@ember/runloop';
-import {observer} from '@ember/object';
+import { schedule } from '@ember/runloop';
+import { observer } from '@ember/object';
 import $ from 'jquery';
 import Component from '@ember/component';
 import layout from './template';
@@ -81,24 +81,24 @@ export default Component.extend({
   * @return {undefined}
   */
   onValueChanged: observer('value', function () {//eslint-disable-line
-    if (this.get('value')) {
+    if (this.value) {
 
       // Set the value on the picker and mute
       // the callback to avoid an action being
       // triggered and follow a strict one way
       // pattern
-      this.picker.set('select', this.get('value'), {muted: true});
+      this.picker.set('select', this.value, {muted: true});
     }
   }),
 
   onSelectionChanged: observer('selected', function () {//eslint-disable-line
-    if (!this.isDestroyed && this.get('selected')) {
+    if (!this.isDestroyed && this.selected) {
       this.picker.set('select', moment(this.get('selected.slotPickerDay'), 'YYYYMMDD').toDate(), {muted: true});
     }
   }),
 
   _renderJsDays() {
-    const jsDays = this.get('jsDays');
+    const jsDays = this.jsDays;
     if (jsDays) {
       //https://github.com/amsul/pickadate.js/issues/364#issuecomment-39355634.
       // Disable all the dates.
@@ -114,7 +114,7 @@ export default Component.extend({
   },
 
   _renderSlots() {
-    const slots = this.get('slots');
+    const slots = this.slots;
     if (slots) {
       //https://github.com/amsul/pickadate.js/issues/364#issuecomment-39355634.
       // Disable all the dates.
@@ -138,22 +138,22 @@ export default Component.extend({
     this._renderJsDays();
     this._renderSlots();
 
-    if (this.get('highlight')) {
-      this.picker.set('view', this.get('highlight'), {format: 'yyyy-mm-dd'});
+    if (this.highlight) {
+      this.picker.set('view', this.highlight, {format: 'yyyy-mm-dd'});
     }
 
-    if (this.get('selected')) {
+    if (this.selected) {
       this.picker.set('select', moment(this.get('selected.slotPickerDay')).format('YYYY-MM-DD'), {format: 'yyyy-mm-dd'});
     }
 
-    if (this.get('value')) {
-      this.picker.set('select', this.get('value'), {muted: true});
+    if (this.value) {
+      this.picker.set('select', this.value, {muted: true});
     }
-    this.picker.set('min', this.get('min') ? this.get('min') : false);
-    this.picker.set('max', this.get('max') ? this.get('max') : false);
+    this.picker.set('min', this.min ? this.min : false);
+    this.picker.set('max', this.max ? this.max : false);
 
     //handle loading state on slot-picker-pickadate component
-    if (this.get('jsDays.length') || this.get('slots.length') || this.get('max')) {
+    if (this.get('jsDays.length') || this.get('slots.length') || this.max) {
       this.picker.on('set', this.onPickerSet.bind(this));
     }
   },
@@ -166,12 +166,12 @@ export default Component.extend({
 
     this._super(...arguments);
     const $input = this.$('input').pickadate({
-      weekdaysShort: this.get('setShorterDays') ? this.get('weekdaysShorter') : this.get('weekdaysShort'),
+      weekdaysShort: this.setShorterDays ? this.weekdaysShorter : this.weekdaysShort,
       firstDay: 1,
-      min: this.get('min') ? this.get('min') : false,
-      max: this.get('max') ? this.get('max') : false,
+      min: this.min ? this.min : false,
+      max: this.max ? this.max : false,
       klass: {
-        now: this.get('value') || this.get('hideToday') ? '' : 'picker__day--today'
+        now: this.value || this.hideToday ? '' : 'picker__day--today'
       }
     });
 
@@ -189,16 +189,16 @@ export default Component.extend({
   didUpdateAttrs() {
     this._super(...arguments);
 
-    const jsDaysUpdate = this.get('jsDaysUpdate');
-    const jsDays = this.get('jsDays');
+    const jsDaysUpdate = this.jsDaysUpdate;
+    const jsDays = this.jsDays;
     const jsDaysLength = jsDays && jsDays.length;
     const jsDaysUpdateLength = jsDaysUpdate && jsDaysUpdate.length;
     if (this.picker && jsDaysLength !== jsDaysUpdateLength) {
       this._render();
     }
 
-    const slotsUpdate = this.get('slotsUpdate');
-    const slots = this.get('slots');
+    const slotsUpdate = this.slotsUpdate;
+    const slots = this.slots;
     const slotsLength = slots && slots.length;
     const slotsUpdateLength = slotsUpdate && slotsUpdate.length;
     if (this.picker && slotsLength !== slotsUpdateLength) {

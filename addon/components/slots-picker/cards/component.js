@@ -13,13 +13,13 @@ export default slotPickerBase.extend({
   }),
 
   columnClasses: computed('nbOfCardsPerRow', function () {
-    const nbOfCardsPerRow = this.get('nbOfCardsPerRow');
+    const nbOfCardsPerRow = this.nbOfCardsPerRow;
     const colSize = Math.floor(12 / nbOfCardsPerRow);
     return `col-sm-${colSize}`;
   }),
 
   fiveCardsClass: computed('nbOfCardsPerRow', 'viewport.isXs', function () {
-    const nbOfCardsPerRow = this.get('nbOfCardsPerRow');
+    const nbOfCardsPerRow = this.nbOfCardsPerRow;
     const isXs = this.get('viewport.isXs');
     return nbOfCardsPerRow === 5 && !isXs ? 'five-cards' : '';
   })

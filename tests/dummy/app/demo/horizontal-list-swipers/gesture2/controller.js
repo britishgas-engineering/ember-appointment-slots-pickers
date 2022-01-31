@@ -4,7 +4,7 @@ export default Controller.extend({
   currentIndex: 0,
   actions: {
     selectPrevNextItem(nb) {
-      this.set('currentIndex', this.get('currentIndex') + nb);
+      this.set('currentIndex', this.currentIndex + nb);
     }
   }
 });

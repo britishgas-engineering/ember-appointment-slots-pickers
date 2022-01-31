@@ -1,7 +1,7 @@
 import $ from 'jquery';
-import {computed} from '@ember/object';
-import {lt, gte} from '@ember/object/computed';
-import {debounce} from '@ember/runloop';
+import { computed } from '@ember/object';
+import { lt, gte } from '@ember/object/computed';
+import { debounce } from '@ember/runloop';
 import Service from '@ember/service';
 
 export default Service.extend({
@@ -14,18 +14,18 @@ export default Service.extend({
       debounce(this, '_setHeightAndWidth', 100);
     });
 
-    const $el = this.get('_$el');
-    $el.on('resize', this.get('_windowResizehandler'));
-    $el.on('orientationchange', this.get('_windowResizehandler')); // iOS iphone 10..
+    const $el = this._$el;
+    $el.on('resize', this._windowResizehandler);
+    $el.on('orientationchange', this._windowResizehandler); // iOS iphone 10..
 
     this._setHeightAndWidth();
   },
 
   willDestroy() {
     this._super(...arguments);
-    const $el = this.get('_$el');
-    $el.off('resize', this.get('_windowResizehandler'));
-    $el.off('orientationchange', this.get('_windowResizehandler'));
+    const $el = this._$el;
+    $el.off('resize', this._windowResizehandler);
+    $el.off('orientationchange', this._windowResizehandler);
   },
 
   el: window,
@@ -38,13 +38,13 @@ export default Service.extend({
   isXs: lt('bootstrapWidth', 768),
 
   isSm: computed('bootstrapWidth', function () {
-    const width = this.get('bootstrapWidth');
+    const width = this.bootstrapWidth;
 
     return width >= 768 && width < 992;
   }),
 
   isMd: computed('bootstrapWidth', function () {
-    const width = this.get('bootstrapWidth');
+    const width = this.bootstrapWidth;
 
     return width >= 992 && width < 1200;
   }),
@@ -53,12 +53,12 @@ export default Service.extend({
   isMobile: lt('bootstrapWidth', 480),
 
   _$el: computed('el', function () {
-    return $(this.get('el'));
+    return $(this.el);
   }),
 
   _setHeightAndWidth() {
     if (!this.isDestroyed) {
-      const $el = this.get('_$el');
+      const $el = this._$el;
 
       const viewportWithScrollBar = this.viewportWithScrollBar();
 

@@ -1,4 +1,4 @@
-import {helper} from '@ember/component/helper';
+import { helper } from '@ember/component/helper';
 
 //only used for slot-picker components, will be moved with them in separate addon ultimately
 export function hasADelimiter(params) {

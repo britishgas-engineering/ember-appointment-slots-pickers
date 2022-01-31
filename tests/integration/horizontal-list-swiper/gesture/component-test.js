@@ -31,14 +31,14 @@ module('Integration | Component | horizontal-list-swiper/gesture', function (hoo
 
     await render(hbs`{{horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.dom('*').hasText('');
 
     // Template block usage:
     await render(hbs`
       {{#horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}
       {{/horizontal-list-swiper/gesture}}
     `);
-    assert.equal(find('*').textContent.trim(), '');
+    assert.dom('*').hasText('');
   });
 
   test('previous button is not shown when on the first page', async function (assert) {

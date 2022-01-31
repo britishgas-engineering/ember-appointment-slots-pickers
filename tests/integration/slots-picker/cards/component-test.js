@@ -21,7 +21,7 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
     });
 
     this.actions.select = (selected) => {
-      this.get('selected').pushObject(selected);
+      this.selected.pushObject(selected);
     };
 
     this.set('selected', []);
@@ -74,7 +74,7 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
 
     this.actions.testSelect = () => {};
 
-    const availableAppointmentSlots = this.get('availableAppointmentSlots');
+    const availableAppointmentSlots = this.availableAppointmentSlots;
     const lastAvailableSlot = availableAppointmentSlots.get('lastObject');
 
     this.set('selected', [lastAvailableSlot]);
@@ -116,10 +116,10 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
       numberOfAppointments: 50
     });
 
-    this.actions.onSelect = (slot) => this.get('selected').pushObject(slot);
-    this.actions.onDeselect = (slot) => this.get('selected').removeObject(slot);
+    this.actions.onSelect = (slot) => this.selected.pushObject(slot);
+    this.actions.onDeselect = (slot) => this.selected.removeObject(slot);
 
-    const availableAppointmentSlots = this.get('availableAppointmentSlots');
+    const availableAppointmentSlots = this.availableAppointmentSlots;
     const lastAvailableSlot = availableAppointmentSlots.get('lastObject');
 
     this.set('selected', [lastAvailableSlot]);

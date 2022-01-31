@@ -38,16 +38,8 @@ module('Integration | Component | slots-filter', function (hooks) {
         viewport=viewport
       }}
     `);
-    assert.equal(
-      findAll('.fa.fa-angle-down').length,
-      1,
-      'the font awesome angle-down icon should be shown'
-    );
-    assert.equal(
-      find('div.filter').getAttribute('hidden'),
-      '',
-      'the filter should be hidden'
-    );
+    assert.dom('.fa.fa-angle-down').exists({ count: 1 }, 'the font awesome angle-down icon should be shown');
+    assert.dom('div.filter').hasAttribute('hidden', '', 'the filter should be hidden');
 
     this.set('areTimeSlotsHidden', true);
     this.set('timeSlots', timeSlots);
@@ -61,31 +53,15 @@ module('Integration | Component | slots-filter', function (hooks) {
     `);
     await run(() => this.$('button:contains("Filter by time slots")').click());
 
-    assert.equal(
-      findAll('.filter-container-mobile').length,
-      1,
-      'mobile version is displayed'
-    );
-    assert.equal(
-      findAll('.fa.fa-angle-up').length,
-      1,
-      'the font awesome angle-up icon should be shown'
-    );
-    assert.equal(
-      find('div.filter').getAttribute('hidden'),
-      null,
-      'the filter should not be hidden'
-    );
+    assert.dom('.filter-container-mobile').exists({ count: 1 }, 'mobile version is displayed');
+    assert.dom('.fa.fa-angle-up').exists({ count: 1 }, 'the font awesome angle-up icon should be shown');
+    assert.dom('div.filter').hasAttribute('hidden', null, 'the filter should not be hidden');
     assert.equal(
       this.$('div.filter-button-group:visible').length,
       1,
       'one group of buttons should be displayed'
     );
-    assert.equal(
-      findAll('button.filter-slot').length,
-      5,
-      'five filter slot buttons should be displayed'
-    );
+    assert.dom('button.filter-slot').exists({ count: 5 }, 'five filter slot buttons should be displayed');
     assert.equal(
       this.$('button.filter-slot-big:visible').length,
       1,
@@ -142,11 +118,7 @@ module('Integration | Component | slots-filter', function (hooks) {
       1,
       'one group of buttons should be displayed'
     );
-    assert.equal(
-      findAll('button.filter-slot-desktop').length,
-      5,
-      'five filter slot buttons should be displayed'
-    );
+    assert.dom('button.filter-slot-desktop').exists({ count: 5 }, 'five filter slot buttons should be displayed');
     assert.equal(
       this.$('button.filter-slot-selected:visible').length,
       1,
@@ -193,10 +165,6 @@ module('Integration | Component | slots-filter', function (hooks) {
       }}
     `);
     await run(() => this.$('button:contains("8am - 10am")').click());
-    assert.equal(
-      find('div.filter').getAttribute('hidden'),
-      '',
-      'the filter should be hidden'
-    );
+    assert.dom('div.filter').hasAttribute('hidden', '', 'the filter should be hidden');
   });
 });

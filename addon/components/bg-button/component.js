@@ -1,5 +1,5 @@
-import {or} from '@ember/object/computed';
-import {computed} from '@ember/object';
+import { or } from '@ember/object/computed';
+import { computed } from '@ember/object';
 import Component from '@ember/component';
 import layout from './template';
 
@@ -38,14 +38,14 @@ export default Component.extend({
   forceLoadingToPersist: false,
 
   bgTheme: computed('theme', function () {
-    return `btn-${this.get('theme')}`;
+    return `btn-${this.theme}`;
   }),
 
   // computed properties of disable and loading
   isDisabled: or('disabled', 'loading'),
 
   click(...params) {
-    const action = this.get('action');
+    const action = this.action;
     if (action) {
       const promise = action(...params);
 
@@ -55,12 +55,12 @@ export default Component.extend({
       if (
         promise &&
         promise.then &&
-        !this.get('isDestroyed') &&
-        !this.get('isDestroying')
+        !this.isDestroyed &&
+        !this.isDestroying
       ) {
         this.set('loading', true);
         promise.finally(() => {
-          if (!this.get('isDestroyed') && !this.get('isDestroying') && !this.get('forceLoadingToPersist')) {
+          if (!this.isDestroyed && !this.isDestroying && !this.forceLoadingToPersist) {
             this.set('loading', false);
           }
         });

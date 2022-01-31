@@ -1,8 +1,8 @@
-import {assert} from '@ember/debug';
-import {run} from '@ember/runloop';
+import { assert } from '@ember/debug';
+import { run } from '@ember/runloop';
 import $ from 'jquery';
-import {oneWay, sort, map, gt, setDiff, uniq} from '@ember/object/computed';
-import {computed} from '@ember/object';
+import { oneWay, sort, map, gt, setDiff, uniq } from '@ember/object/computed';
+import { computed } from '@ember/object';
 import Component from '@ember/component';
 import layout from './template';
 import moment from 'moment';
@@ -55,7 +55,7 @@ export default Component.extend({
 
     this._super(...arguments);
 
-    const selectedIndexes = this.get('selectedIndexes');
+    const selectedIndexes = this.selectedIndexes;
 
     this.set('currentIndex', selectedIndexes.length ? selectedIndexes[0] : 0);
   },
@@ -71,7 +71,7 @@ export default Component.extend({
     if (!date) {
       return date;
     }
-    const validatedDates = this.get('validatedDates');
+    const validatedDates = this.validatedDates;
     return validatedDates.find((dateMoment) => {
       return moment(date).isSame(dateMoment);
     });
@@ -80,7 +80,7 @@ export default Component.extend({
   _findDayOfDate(date) {
     if (date) {
       const slotMoment = moment(date);
-      const day = this.get('dates').find((day) => {
+      const day = this.dates.find((day) => {
         return slotMoment.isSame(day, 'date');
       });
 
@@ -91,7 +91,7 @@ export default Component.extend({
   },
 
   selectedDates: computed('selectedSlots.[]', 'dates.[]', function () {
-    const slots = this.get('selectedSlots');
+    const slots = this.selectedSlots;
 
     if (slots.length === 0) {
       return [];
@@ -105,13 +105,13 @@ export default Component.extend({
   _selectedDates: oneWay('selectedDates'),
 
   selectedMoments: computed('validatedDates.[]', 'selectedDates.[]', function () {
-    const selectedDates = this.get('selectedDates');
+    const selectedDates = this.selectedDates;
 
     return selectedDates.map((date) => this._findMomentOf(date));
   }),
 
   isSelected: computed('selectedMoments', function () {
-    return this.get('selectedMoments').map((moment) => moment.valueOf()).indexOf(this.get('day.date').valueOf()) > -1;
+    return this.selectedMoments.map((moment) => moment.valueOf()).indexOf(this.get('day.date').valueOf()) > -1;
   }),
 
   validatedDates: map('dates', function (date) {
@@ -124,7 +124,7 @@ export default Component.extend({
   }),
 
   allDates: computed('sortedDates.[]', function () {
-    const sortedDates = this.get('sortedDates');
+    const sortedDates = this.sortedDates;
     let lastDate;
 
     return sortedDates.reduce((arr, date) => {
@@ -166,38 +166,38 @@ export default Component.extend({
   tempCurrentIndex: oneWay('currentIndex'),
 
   currentDay: computed('currentIndex', 'days.[]', function () {
-    const days = this.get('days');
-    const currentIndex = this.get('currentIndex');
+    const days = this.days;
+    const currentIndex = this.currentIndex;
 
     return days[currentIndex];
   }),
 
   currentDateIndex: computed('currentDay', 'days.[]', function () {
-    const currentDay = this.get('currentDay');
+    const currentDay = this.currentDay;
 
-    return currentDay && this.get('dates').indexOf(currentDay.date) || 0;
+    return currentDay && this.dates.indexOf(currentDay.date) || 0;
   }),
 
   tempCurrentDay: computed('tempCurrentIndex', 'days.[]', function () {
-    const days = this.get('days');
-    const currentIndex = this.get('tempCurrentIndex');
+    const days = this.days;
+    const currentIndex = this.tempCurrentIndex;
 
     return days[currentIndex];
   }),
 
   _getIndexOfMoment(selectedMoment) {
-    return selectedMoment ? this.get('allDates').map((date) => date.valueOf()).indexOf(selectedMoment.valueOf()) : null;
+    return selectedMoment ? this.allDates.map((date) => date.valueOf()).indexOf(selectedMoment.valueOf()) : null;
   },
 
   selectedIndexes: computed('selectedMoments', 'allDates', function () {
-    const selectedMoments = this.get('selectedMoments');
+    const selectedMoments = this.selectedMoments;
 
     return selectedMoments.map((moment) => this._getIndexOfMoment(moment));
   }),
 
   availableIndexes: computed('availableDays.[]', 'days', function () {
-    const days = this.get('days');
-    const availableDays = this.get('availableDays');
+    const days = this.days;
+    const availableDays = this.availableDays;
 
     return availableDays.map((day) => {
       return days.reduce(
@@ -211,19 +211,19 @@ export default Component.extend({
 
   showLeftArrow: gt('currentIndex', 0),
   showRightArrow: computed('currentIndex', 'days.length', function () {
-    return this.get('currentIndex') < this.get('days.length') - 1;
+    return this.currentIndex < this.get('days.length') - 1;
   }),
 
   _setCurrentIndexFromFloat(index) {
     //the closest day not disabled
-    const availableIndexes = this.get('availableIndexes');
+    const availableIndexes = this.availableIndexes;
 
     //https://stackoverflow.com/a/19277804/4325661
     const currentIndex = availableIndexes.reduce(function (prev, curr) {
       return Math.abs(curr - index) < Math.abs(prev - index) ? curr : prev;
     }, 0);
 
-    if (currentIndex !== this.get('currentIndex')) {
+    if (currentIndex !== this.currentIndex) {
       this.set('currentIndex', currentIndex);
     }
 
@@ -231,28 +231,28 @@ export default Component.extend({
     //in cases where currentIndex hasn't changed but we swiped on a disable date next to previously selected one
     this.toggleProperty('cacheKey');
 
-    const date = this.get('days')[currentIndex].date.toDate();
+    const date = this.days[currentIndex].date.toDate();
 
     this.send('onselectDate', date);
   },
 
   _setTempCurrentIndexFromFloat(index) {
     //the closest day not disabled
-    const availableIndexes = this.get('availableIndexes');
+    const availableIndexes = this.availableIndexes;
 
     //https://stackoverflow.com/a/19277804/4325661
     const currentIndex = availableIndexes.reduce(function (prev, curr) {
       return Math.abs(curr - index) < Math.abs(prev - index) ? curr : prev;
     }, 0);
 
-    if (currentIndex !== this.get('tempCurrentIndex')) {
+    if (currentIndex !== this.tempCurrentIndex) {
       this.set('tempCurrentIndex', currentIndex);
     }
   },
 
   _mutateSelected(selectedDate) {
-    this.get('_selectedDates').pushObject(selectedDate);
-    this.get('selectedDates').pushObject(selectedDate);
+    this._selectedDates.pushObject(selectedDate);
+    this.selectedDates.pushObject(selectedDate);
 
     const selectedIndex = this._getIndexOfMoment(selectedDate);
 
@@ -262,25 +262,25 @@ export default Component.extend({
   didUpdateAttrs() {
     this._super(...arguments);
 
-    const selectedDates = this.get('selectedDates');
+    const selectedDates = this.selectedDates;
 
-    if (selectedDates !== this.get('_selectedDates')) {
+    if (selectedDates !== this._selectedDates) {
       this.set('_selectedDates', selectedDates);
     }
   },
 
   _selectPrevNextDate(nb) {
-    const currentIndex = this.get('currentIndex');
+    const currentIndex = this.currentIndex;
 
     this.set('currentIndex', currentIndex + nb);
 
-    if (!this.get('currentDay')) {
+    if (!this.currentDay) {
       //lower than 0, or above max date
       this._selectPrevNextDate(-nb);
     } else if (this.get('currentDay.isDisabled')) {
       this._selectPrevNextDate(nb);
     } else {
-      const date = this.get('days')[currentIndex + nb].date.toDate();
+      const date = this.days[currentIndex + nb].date.toDate();
 
       this.send('onselectDate', date);
     }

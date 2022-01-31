@@ -17,15 +17,15 @@ export default Component.extend({
     return moment(this.get('appointmentSlotsNotEmpty.firstObject.slotPickerDay'));
   }).readOnly(),
   dayOfWeek: computed('dayMoment', function () {
-    const startMoment = this.get('dayMoment');
+    const startMoment = this.dayMoment;
     return startMoment.format('dddd');
   }),
   day: computed('dayMoment', function () {
-    const startMoment = this.get('dayMoment');
+    const startMoment = this.dayMoment;
     return startMoment.format('Do');
   }),
   month: computed('dayMoment', function () {
-    const startMoment = this.get('dayMoment');
+    const startMoment = this.dayMoment;
     return startMoment.format('MMMM');
   })
 });
