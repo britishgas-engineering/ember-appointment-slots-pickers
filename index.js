@@ -4,7 +4,7 @@ const MergeTrees = require('broccoli-merge-trees');
 const Funnel = require('broccoli-funnel');
 
 module.exports = {
-  name: 'ember-appointment-slots-pickers',
+  name: require('./package').name,
   included: function (app) {
     this.app = app;
     this._super.included.apply(this, arguments);

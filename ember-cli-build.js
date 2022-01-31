@@ -2,11 +2,9 @@
 /* global require, module */
 var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
-module.exports = function(defaults) {
-  var app = new EmberAddon(defaults, {
-    'ember-cli-babel': { //https://stackoverflow.com/a/44632749/4325661
-        includePolyfill: true
-    }
+module.exports = function (defaults) {
+  let app = new EmberAddon(defaults, {
+    // Add options here
   });
 
   /*
@@ -16,5 +14,12 @@ module.exports = function(defaults) {
     behave. You most likely want to be modifying `./index.js` or app's build file
   */
 
-  return app.toTree();
+  const { maybeEmbroider } = require('@embroider/test-setup');
+  return maybeEmbroider(app, {
+    skipBabel: [
+      {
+        package: 'qunit',
+      },
+    ],
+  });
 };
