@@ -9,7 +9,8 @@ module.exports = {
     this.app = app;
     this._super.included.apply(this, arguments);
     const options = app.options[this.name];
-    const exclude = options && options.bundles && options.bundles.exclude || [];
+    const exclude =
+      (options && options.bundles && options.bundles.exclude) || [];
     if (!exclude.includes('pickadate')) {
       this.import('node_modules/pickadate/lib/picker.js');
       this.import('node_modules/pickadate/lib/picker.date.js');
@@ -18,7 +19,7 @@ module.exports = {
     if (!exclude.includes('mobile')) {
       this.import('node_modules/sly-shim/dist/sly.min.js');
     }
-    if (!exclude.includes('bg') && !exclude.includes('bootstrap') ) {
+    if (!exclude.includes('bg') && !exclude.includes('bootstrap')) {
       this.import('node_modules/bootstrap/dist/css/bootstrap.min.css');
     }
   },
@@ -28,7 +29,7 @@ module.exports = {
     }
     return true;
   },
-  _getHostApp: function() {
+  _getHostApp: function () {
     if (!this._findHost) {
       this._findHost = function findHostShim() {
         let current = this;
@@ -51,8 +52,8 @@ module.exports = {
     if (options) {
       options.include = options.include || [];
       if (options.bundles) {
-
-        if (options.bundles.include && options.bundles.include.length) { //files needed for any calendar
+        if (options.bundles.include && options.bundles.include.length) {
+          //files needed for any calendar
           Array.prototype.push.apply(options.include, [
             /components\/slots-picker\/base/,
             /components\/slots-picker\/button/,
@@ -66,7 +67,7 @@ module.exports = {
             /components\/bg-button/,
             /services/,
             /helpers/,
-            '**/ember-appointment-slots-pickers.css'
+            '**/ember-appointment-slots-pickers.css',
           ]);
         }
 
@@ -80,7 +81,7 @@ module.exports = {
           }
           bundles.forEach((bundleName) => {
             let patterns = [];
-            switch(bundleName) {
+            switch (bundleName) {
               case 'bg':
                 patterns = [
                   /services\/scroll/,
@@ -90,7 +91,7 @@ module.exports = {
                   '**/variables.less',
                   /components\/application-pre-loader/,
                   /components\/bg-button/,
-                  /components\/scroll-anchor/
+                  /components\/scroll-anchor/,
                 ];
                 break;
               case 'mobile':
@@ -99,46 +100,50 @@ module.exports = {
                   /components\/date-picker\/mobile/,
                   /components\/date-picker\/mobile\/styles/,
                   /horizontal-list-swiper\/gesture2/,
-                  /components\/slots-picker\/mobile/
+                  /components\/slots-picker\/mobile/,
                 ];
                 break;
               case 'pickadate':
                 patterns = [
                   /components\/pickadate-input/,
-                  /components\/slots-picker\/pickadate/
+                  /components\/slots-picker\/pickadate/,
                 ];
                 break;
               case 'desktop':
                 patterns = [
                   /horizontal-list-swiper\/gesture/,
-                  /components\/slots-picker\/desktop/
+                  /components\/slots-picker\/desktop/,
                 ];
                 break;
               case 'cards':
-                patterns = [
-                  /components\/slots-picker\/cards/
-                ];
+                patterns = [/components\/slots-picker\/cards/];
                 break;
               default:
                 console.error('unrecognized bundle for ember-appointment-slots-pickers tree-shaking: ', bundleName); break;//eslint-disable-line
             }
             Array.prototype.push.apply(options[includeOrExclude], patterns);
           });
-        })
+        });
         delete options.bundles;
       }
       if (options.include.length) {
         Array.prototype.push.apply(options.include, [
           '**/addon.less',
-          '**/mixins.less'
+          '**/mixins.less',
         ]);
       } //otherwise everything is included by default
-      this._debug('ember-appointment-slots-pickers treeShaking debug:', options);
-      treeShakingOptions = Object.assign({}, {
-        enabled: true,
-        include: options.include || null,
-        exclude: options.exclude || null
-      });
+      this._debug(
+        'ember-appointment-slots-pickers treeShaking debug:',
+        options
+      );
+      treeShakingOptions = Object.assign(
+        {},
+        {
+          enabled: true,
+          include: options.include || null,
+          exclude: options.exclude || null,
+        }
+      );
     }
     const funnel = new Funnel(tree, treeShakingOptions);
     return funnel;
@@ -161,7 +166,7 @@ module.exports = {
   treeForApp(appTree) {
     const trees = [this._treeShakingEmber(appTree)];
     return new MergeTrees(trees, {
-      overwrite: true
+      overwrite: true,
     });
   },
 
@@ -178,6 +183,5 @@ module.exports = {
       return finalTree;
     }
     return tree;
-  }
-
+  },
 };
