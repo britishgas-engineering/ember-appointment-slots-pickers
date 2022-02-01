@@ -32,7 +32,7 @@
     "ember-cli-babel": "^7.26.10",
     "ember-cli-htmlbars": "5.7.2",
     "ember-cli-less": "^3.0.2",
-    "ember-component-css": "^0.6.9",
+    "ember-component-css": "^0.7.4",
     "ember-gestures": "2.0.1",
     "ember-truth-helpers": "2.1.0",
     "pickadate": "3.6.4",
