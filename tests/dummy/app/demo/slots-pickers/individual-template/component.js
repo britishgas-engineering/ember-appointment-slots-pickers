@@ -9,11 +9,11 @@ export default Component.extend({
   },
   actions: {
     appendSlot(slot) {
-      this.get('selectedSlots').pushObject(slot);
+      this.selectedSlots.pushObject(slot);
     },
 
     removeSlot(slot) {
-      this.get('selectedSlots').removeObject(slot);
+      this.selectedSlots.removeObject(slot);
     }
   }
 });

@@ -1,8 +1,8 @@
-import {computed} from '@ember/object';
-import {inject as service} from '@ember/service';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import layout from './template';
-import {run} from '@ember/runloop';
+import { run } from '@ember/runloop';
 
 export default Component.extend({
 
@@ -27,27 +27,27 @@ export default Component.extend({
   ],
 
   className: computed('name', function () {
-    return 'scroll-anchor' + this.get('name');
+    return 'scroll-anchor' + this.name;
   }),
 
   didInsertElement: function () {
     this._super.apply(...arguments);
-    const scroll = this.get('scroll');
+    const scroll = this.scroll;
 
-    if (this.get('name')) {
+    if (this.name) {
       // Register this anchor against the scroll service
-      scroll.set('_anchors.' + this.get('name'), {
+      scroll.set('_anchors.' + this.name, {
         $el: this.$(),
         options: {
-          teleport: this.get('teleport'),
-          stayOnTopOf: this.get('stayOnTopOf')
+          teleport: this.teleport,
+          stayOnTopOf: this.stayOnTopOf
         }
       });
 
-      if (this.get('autoscroll')) {
-        this.get('logger').info(`autoscroll to ${this.get('name')}`);
+      if (this.autoscroll) {
+        this.logger.info(`autoscroll to ${this.name}`);
         run.next(() => {
-          scroll.to(this.get('name'));
+          scroll.to(this.name);
         });
       }
 
@@ -55,12 +55,12 @@ export default Component.extend({
   },
 
   willDestroyElement: function () {
-    const scroll = this.get('scroll');
+    const scroll = this.scroll;
     this._super.apply(...arguments);
 
-    if (this.get('name')) {
+    if (this.name) {
       // Unregister this anchor from the scroll service
-      scroll.set('_anchors.' + this.get('name'), null);
+      scroll.set('_anchors.' + this.name, null);
     }
   }
 

@@ -6,7 +6,7 @@ import Ember from 'ember';
 import RecognizerMixin from 'ember-gestures/mixins/recognizers';
 import layout from './template';
 import { run } from '@ember/runloop';
-import {getOwner} from '@ember/application';
+import { getOwner } from '@ember/application';
 
 const {
   String
@@ -28,7 +28,7 @@ export default Component.extend(RecognizerMixin, {
     return getOwner(this).resolveRegistration('config:environment');
   }),
   isTestLike: computed('config', function () {
-    const config = this.get('config');
+    const config = this.config;
     return config.environment === 'test' ||
       config.environment === 'development' &&
       this.get('window.location.pathname') === '/tests';
@@ -43,14 +43,14 @@ export default Component.extend(RecognizerMixin, {
   },
 
   goToNextItem() {
-    if (!this.get('isLastPage')) {
-      this.incrementProperty('currentItem', this.get('itemsPerPage'));
+    if (!this.isLastPage) {
+      this.incrementProperty('currentItem', this.itemsPerPage);
     }
   },
 
   goToPreviousItem() {
-    if (!this.get('isFirstPage')) {
-      this.decrementProperty('currentItem', this.get('itemsPerPage'));
+    if (!this.isFirstPage) {
+      this.decrementProperty('currentItem', this.itemsPerPage);
     }
   },
 
@@ -67,17 +67,17 @@ export default Component.extend(RecognizerMixin, {
 
   width: computed('isRendered', 'viewport.width', function () {
     this.get('viewport.width');
-    return this.get('isRendered') ? this.$().width() : 0;
+    return this.isRendered ? this.$().width() : 0;
   }),
 
   scrollAreaWidth: computed('itemWidth', 'items.length', function () {
-    return this.get('itemWidth') * this.get('items.length');
+    return this.itemWidth * this.get('items.length');
   }),
 
   itemWidth: computed('isRendered', 'viewport.width', 'items.length', 'currentItem', function () {
     this.get('viewport.width');//to refresh when viewport is refreshed. A bit strange, but needed
     //items.length is needed, too (when going from 0 to X items)
-    return this.get('isRendered') ? this.$('.asp-scroll-area > :first-child').width() : 0;
+    return this.isRendered ? this.$('.asp-scroll-area > :first-child').width() : 0;
   }), // 120
 
   scrollAreaOffset: computed(
@@ -92,20 +92,20 @@ export default Component.extend(RecognizerMixin, {
     function () {
       let offset;
 
-      if (this.get('isLastPage') && !this.get('isFirstPage')) {
-        offset = this.get('scrollAreaWidth') - this.get('width');
+      if (this.isLastPage && !this.isFirstPage) {
+        offset = this.scrollAreaWidth - this.width;
       } else {
-        offset = this.get('currentItem') * this.get('itemWidth');
+        offset = this.currentItem * this.itemWidth;
       }
       return -offset;
     }
   ),
 
   scrollAreaStyle: computed('scrollAreaWidth', 'scrollAreaOffset', function () {
-    const width = this.get('scrollAreaWidth');
-    const display = !width && this.get('displayAfterRender') ? 'none' : '';
+    const width = this.scrollAreaWidth;
+    const display = !width && this.displayAfterRender ? 'none' : '';
 
-    const offset = this.get('scrollAreaOffset');
+    const offset = this.scrollAreaOffset;
     return String.htmlSafe(`
       width: ${width}px;
       display: ${display};
@@ -118,24 +118,24 @@ export default Component.extend(RecognizerMixin, {
   }),
 
   pages: computed('items.length', 'itemsPerPage', function () {
-    return Math.ceil(this.get('items.length') / this.get('itemsPerPage'));
+    return Math.ceil(this.get('items.length') / this.itemsPerPage);
   }),
 
   currentPage: computed('currentItem', 'itemsPerPage', function () {
-    return Math.floor(this.get('currentItem') / this.get('itemsPerPage'));
+    return Math.floor(this.currentItem / this.itemsPerPage);
   }),
 
   itemsPerPage: computed('width', 'itemWidth', function () {
-    if (!this.get('itemWidth')) {
+    if (!this.itemWidth) {
       return 1;
     }
-    return Math.floor(this.get('width') / this.get('itemWidth'));
+    return Math.floor(this.width / this.itemWidth);
   }),
 
   isFirstPage: equal('currentPage', 0),
 
   isLastPage: computed('currentPage', 'pages', function () {
-    return this.get('currentPage') === this.get('pages') - 1;
+    return this.currentPage === this.pages - 1;
   }),
 
   _recomputeItemWidth() {
@@ -161,11 +161,11 @@ export default Component.extend(RecognizerMixin, {
 
   //case where appointment.appointmentSlot resolves later (appointment.appointmentSlot.content is initially null)
   _onIndexChange: observer('index', function () {//eslint-disable-line
-    const index = this.get('index');
+    const index = this.index;
     if (!this.isDestroyed && index !== undefined) {
       this.set(
         'currentItem',
-        Math.floor(index / this.get('itemsPerPage')) * this.get('itemsPerPage')
+        Math.floor(index / this.itemsPerPage) * this.itemsPerPage
       );
     }
   }),

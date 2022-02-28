@@ -1,9 +1,9 @@
-import {module, test} from 'qunit';
-import {setupRenderingTest} from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { generateAppointmentSlots } from 'ember-appointment-slots-pickers/test-support/helpers/generate-appointment-slots';
 
-import {render, settled, findAll} from '@ember/test-helpers';
+import { render, settled, findAll } from '@ember/test-helpers';
 
 module('Integration | Component | easy-slot-picker', function (hooks) {
   setupRenderingTest(hooks);
@@ -63,9 +63,8 @@ module('Integration | Component | easy-slot-picker', function (hooks) {
         }}
       </div>
     `);
-    assert.equal(
-      findAll('.date-picker-mobile').length,
-      1,
+    assert.dom('.date-picker-mobile').exists(
+      { count: 1 },
       'mobile calendar version has rendered as isLimitedAvailability is true and showSmartCalendar is false.'
     );
   });

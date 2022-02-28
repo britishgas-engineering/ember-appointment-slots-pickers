@@ -39,13 +39,9 @@ module('Integration | Component | slots-picker/desktop', function (hooks) {
 
     assert.equal(findAll('.asp-btn').length > 0, true, 'has some available appointments loaded afterwards');
     assert.equal(findAll('.asp-scroll-btn-prev').length > 0, false, 'does not have previous button as shows the first appointments');
+    assert.dom('.asp-col-header .asp-row.delimiter').exists({ count: 1 }, 'has one delimiter in the header column');
     assert.equal(
-      findAll('.asp-col-header .asp-row.delimiter').length,
-      1,
-      'has one delimiter in the header column'
-    );
-    assert.equal(
-      this.$('.asp-scroll .asp-col:eq(0) .asp-row.delimiter').length,
+      findAll('.asp-scroll .asp-col:eq(0) .asp-row.delimiter').length,
       1,
       'has one delimiter in the first non-header column'
     );
@@ -63,7 +59,7 @@ module('Integration | Component | slots-picker/desktop', function (hooks) {
       numberOfAppointments: 50
     });
     this.actions.testSelect = () => {};
-    const generatedAppointmentSlots = this.get('generatedAppointmentSlots');
+    const generatedAppointmentSlots = this.generatedAppointmentSlots;
     const selectedSlot = generatedAppointmentSlots[generatedAppointmentSlots.length - 1];
     let availableAppointmentSlots;
     run(() => {

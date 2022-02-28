@@ -11,7 +11,7 @@ export default slotPickerBase.extend({
   layout,
   selectedDayOnInit: null,
   currentDay: computed('selected', 'cols', function () {
-    const selectedSlot = this.get('selected');
+    const selectedSlot = this.selected;
 
     if (selectedSlot) {
       return moment(selectedSlot.get('slotPickerDay')).valueOf();
@@ -24,7 +24,7 @@ export default slotPickerBase.extend({
 
   // pickadate is not compatible with multiselect
   selected: computed('multiSelected.[]', function () {
-    const multiSelected = this.get('multiSelected');
+    const multiSelected = this.multiSelected;
 
     return multiSelected ? multiSelected[0] : null;
   }),
@@ -58,13 +58,13 @@ export default slotPickerBase.extend({
   }),
 
   cellsForColOfSelectedDay: computed('currentDay', 'cellsPerCol.@each.col', function () {
-    const currentDay = this.get('currentDay');
+    const currentDay = this.currentDay;
 
     if (!currentDay) {
       return null;
     }
 
-    const item = this.get('cellsPerCol').find((item) => {
+    const item = this.cellsPerCol.find((item) => {
       // NB. col.dayId is undefined if appointments populated with dummy loading appointments (?)
       const dayId = item.col.dayId;
 
@@ -79,15 +79,15 @@ export default slotPickerBase.extend({
       if (this.isDestroyed) {
         return false;
       }
-      const selectedDay = this.get('selectedDay');
-      const selectedDayOnInit = this.get('selectedDayOnInit');
-      const editingExistingAppointment = this.get('editingExistingAppointment');
+      const selectedDay = this.selectedDay;
+      const selectedDayOnInit = this.selectedDayOnInit;
+      const editingExistingAppointment = this.editingExistingAppointment;
       //action run on init by pickadate-input :(
       const actionIsBeingRunOnInitOnExistingAppointment =
         editingExistingAppointment &&
         (selectedDay === selectedDayOnInit);
       if (!actionIsBeingRunOnInitOnExistingAppointment) {
-        this.get('scroll').to('time-slots');
+        this.scroll.to('time-slots');
       }
       return true;
     });
@@ -95,7 +95,7 @@ export default slotPickerBase.extend({
 
   actions: {
     onSelectDate(date) {
-      if (date !== this.get('currentDay')) {
+      if (date !== this.currentDay) {
         this._scrollToSlotsOnlyIfNotOnInit();
 
         // select date here

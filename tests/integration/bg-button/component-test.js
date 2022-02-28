@@ -1,10 +1,12 @@
-import {module} from 'qunit'; import {setupRenderingTest} from 'ember-qunit';
-import {test} from 'qunit';
-import {run} from '@ember/runloop';
-import RSVP, {defer} from 'rsvp';
+import {
+  module} from 'qunit'; import {setupRenderingTest
+} from 'ember-qunit';
+import { test } from 'qunit';
+import { run } from '@ember/runloop';
+import RSVP, { defer } from 'rsvp';
 import hbs from 'htmlbars-inline-precompile';
 
-import {render, click, findAll, find} from '@ember/test-helpers';
+import { render, click, findAll, find } from '@ember/test-helpers';
 
 module('Integration | Component | bg-button', function (hooks) {
   setupRenderingTest(hooks);
@@ -22,7 +24,7 @@ module('Integration | Component | bg-button', function (hooks) {
       {{/bg-button}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'Text');
+    assert.dom('*').hasText('Text');
 
   });
 
@@ -62,7 +64,7 @@ module('Integration | Component | bg-button', function (hooks) {
     `);
 
     this.set('disabled', true);
-    assert.ok(find('button').disabled, 'disable the button when disabled');
+    assert.dom('button').isDisabled('disable the button when disabled');
 
     await click('button');
 
@@ -118,7 +120,7 @@ module('Integration | Component | bg-button', function (hooks) {
     `);
 
     this.set('loading', true);
-    assert.ok(find('button').disabled, 'disable the button when loading');
+    assert.dom('button').isDisabled('disable the button when loading');
 
     await click('button');
 
@@ -147,7 +149,7 @@ module('Integration | Component | bg-button', function (hooks) {
 
     await click('button');
 
-    assert.ok(find('button').disabled, 'forceLoadingToPersist forces loading even after promise has returned');
+    assert.dom('button').isDisabled('forceLoadingToPersist forces loading even after promise has returned');
   });
 
   test('forceLoadingToPersist non promise', async function (assert) {
@@ -168,8 +170,7 @@ module('Integration | Component | bg-button', function (hooks) {
 
     await click('button');
 
-    assert.notOk(
-      find('button').disabled,
+    assert.dom('button').isNotDisabled(
       'forceLoadingToPersist does not force loading when action is not a promise'
     );
   });
@@ -184,7 +185,7 @@ module('Integration | Component | bg-button', function (hooks) {
       {{/bg-button}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'Loading...', 'render default loading text if not provided');
+    assert.dom('*').hasText('Loading...', 'render default loading text if not provided');
 
     await render(hbs`
       {{#bg-button
@@ -196,7 +197,7 @@ module('Integration | Component | bg-button', function (hooks) {
     `);
 
     this.set('loadingText', 'custom-loading-text');
-    assert.equal(find('*').textContent.trim(), 'custom-loading-text', 'render loading text if provided');
+    assert.dom('*').hasText('custom-loading-text', 'render loading text if provided');
 
   });
 
@@ -218,7 +219,7 @@ module('Integration | Component | bg-button', function (hooks) {
 
     await click('button');
 
-    assert.ok(find('button').disabled, 'when async action is triggered render loading state');
+    assert.dom('button').isDisabled('when async action is triggered render loading state');
 
     run(() => {
       d.resolve();
@@ -249,7 +250,7 @@ module('Integration | Component | bg-button', function (hooks) {
 
     await click('button');
 
-    assert.ok(find('button').disabled, 'when async action is triggered render loading state');
+    assert.dom('button').isDisabled('when async action is triggered render loading state');
 
     run(() => {
       this.set('show', false);

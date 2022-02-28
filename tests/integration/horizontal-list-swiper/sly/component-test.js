@@ -84,18 +84,10 @@ module('Integration | Component | horizontal-list-swiper/sly', function (hooks) 
         {{item}}
       {{/horizontal-list-swiper/sly}}
     `);
-    assert.equal(
-      findAll('.scroll-header-sly-item').length,
-      3,
-      '3 items shown'
-    );
+    assert.dom('.scroll-header-sly-item').exists({ count: 3 }, '3 items shown');
     this.set('items', [1, 2, 3, 4]);
     assert.ok(sly.reload.called, 'sly reload has been called');
-    assert.equal(
-      findAll('.scroll-header-sly-item').length,
-      4,
-      '4 items shown'
-    );
+    assert.dom('.scroll-header-sly-item').exists({ count: 4 }, '4 items shown');
   });
 
   test('reacts to move events', async function (assert) {

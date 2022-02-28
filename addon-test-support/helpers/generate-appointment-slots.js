@@ -1,5 +1,5 @@
-import {run} from '@ember/runloop';
-import {merge} from '@ember/polyfills';
+import { run } from '@ember/runloop';
+import { merge } from '@ember/polyfills';
 import moment from 'moment';
 
 export function generateAppointmentSlots(options) {

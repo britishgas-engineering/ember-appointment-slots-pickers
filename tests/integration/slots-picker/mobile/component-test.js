@@ -64,7 +64,7 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
       'when no slot is selected, center on the first available slot'
     );
 
-    const generatedSlots = this.get('generatedAppointmentSlots');
+    const generatedSlots = this.generatedAppointmentSlots;
     const firstAvailableSlot = generatedSlots.find((slot) => slot.get('available'));
     const firstDayLabel = `${firstAvailableSlot.get('slotPickerStartTimeLabel')} - ${firstAvailableSlot.get('slotPickerEndTimeLabel')}`;
     let swipeViewControls = this.$('.horizontal-swipe-view .horizontal-swipe-view-item');
@@ -103,11 +103,11 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
       numberOfAppointments: 50
     });
 
-    const generatedSlots = this.get('generatedAppointmentSlots');
+    const generatedSlots = this.generatedAppointmentSlots;
     const lastAvailableSlot = generatedSlots.filterBy('available', true).get('lastObject');
 
     this.actions.select = (selected) => {
-      this.get('selected').clear().pushObject(selected);
+      this.selected.clear().pushObject(selected);
     };
 
     this.set('selected', [lastAvailableSlot]);
@@ -166,11 +166,11 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
     });
 
     this.actions.select = (slot) => {
-      this.get('selected').pushObject(slot);
+      this.selected.pushObject(slot);
     };
 
     this.actions.deselect = (slot) => {
-      this.get('selected').removeObject(slot);
+      this.selected.removeObject(slot);
     };
 
     this.set('selected', []);

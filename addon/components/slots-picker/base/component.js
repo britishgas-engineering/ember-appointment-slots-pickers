@@ -39,7 +39,7 @@ export default Component.extend({
   actions: {
     onDateChange(date) {
       if (this.baseProps.selectedFilter) {
-        const col = this.get('cellsPerCol').find((item) => {
+        const col = this.cellsPerCol.find((item) => {
           const dayId = item.col.dayId;
 
           return dayId && moment(dayId).isSame(date, 'date');

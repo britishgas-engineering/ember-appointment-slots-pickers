@@ -10,7 +10,7 @@ module('Integration | Component | slots-picker/slots-loader', function(hooks) {
   test('it renders', async function(assert) {
     await render(hbs`{{slots-picker/slots-loader}}`);
 
-    assert.equal(this.element.textContent.trim(), 'Loading..');
+    assert.dom(this.element).hasText('Loading..');
 
     // Template block usage:
     await render(hbs`
@@ -27,7 +27,7 @@ module('Integration | Component | slots-picker/slots-loader', function(hooks) {
 
     await render(hbs`{{slots-picker/slots-loader title=title }}`);
 
-    assert.equal(this.element.textContent.trim(), 'Its loading...');
+    assert.dom(this.element).hasText('Its loading...');
   });
 
   test('pre-loader', async function(assert) {

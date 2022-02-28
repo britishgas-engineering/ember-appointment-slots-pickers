@@ -21,9 +21,9 @@ export default Route.extend({
   },
   setupController() {
     this.controller.setProperties({
-      jsDays: this.get('jsDays'),
-      min: this.get('min'),
-      max: this.get('max')
+      jsDays: this.jsDays,
+      min: this.min,
+      max: this.max
     });
     this._super(...arguments);
   },
