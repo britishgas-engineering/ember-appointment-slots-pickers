@@ -1,7 +1,14 @@
 import { assert } from '@ember/debug';
 import { run } from '@ember/runloop';
 import $ from 'jquery';
-import { oneWay, sort, map, gt, setDiff, uniq } from '@ember/object/computed';
+import {
+  oneWay,
+  sort,
+  map,
+  gt,
+  setDiff,
+  uniq
+} from '@ember/object/computed';
 import { computed } from '@ember/object';
 import Component from '@ember/component';
 import layout from './template';
