@@ -1,6 +1,6 @@
 <div class="scroll-header-sly-frame">
   <div role="list" class="scroll-header-sly-slidee">
-    {{#each itemsUpdate as |item itemIndex|}}
+    {{#each this.itemsUpdate as |item itemIndex|}}
       <div role="listitem" class="scroll-header-sly-item">
         {{yield item itemIndex}}
       </div>

@@ -4,7 +4,7 @@ import slotPickerBase from 'ember-appointment-slots-pickers/components/slots-pic
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import moment from 'moment';
-import { run } from '@ember/runloop';
+import { next } from '@ember/runloop';
 
 export default slotPickerBase.extend({
   scroll: service(),
@@ -38,11 +38,7 @@ export default slotPickerBase.extend({
     if (!firstDay) {
       return false;
     }
-    return [
-      firstDay.getFullYear(),
-      firstDay.getMonth(),
-      firstDay.getDate()
-    ];
+    return [firstDay.getFullYear(), firstDay.getMonth(), firstDay.getDate()];
   }),
 
   max: computed('jsDays.lastObject', function () {
@@ -50,32 +46,32 @@ export default slotPickerBase.extend({
     if (!lastDay) {
       return false;
     }
-    return [
-      lastDay.getFullYear(),
-      lastDay.getMonth(),
-      lastDay.getDate()
-    ];
+    return [lastDay.getFullYear(), lastDay.getMonth(), lastDay.getDate()];
   }),
 
-  cellsForColOfSelectedDay: computed('currentDay', 'cellsPerCol.@each.col', function () {
-    const currentDay = this.currentDay;
+  cellsForColOfSelectedDay: computed(
+    'currentDay',
+    'cellsPerCol.@each.col',
+    function () {
+      const currentDay = this.currentDay;
 
-    if (!currentDay) {
-      return null;
+      if (!currentDay) {
+        return null;
+      }
+
+      const item = this.cellsPerCol.find((item) => {
+        // NB. col.dayId is undefined if appointments populated with dummy loading appointments (?)
+        const dayId = item.col.dayId;
+
+        return dayId && moment(dayId).isSame(currentDay, 'date');
+      });
+
+      return item && item.cellsForCol;
     }
-
-    const item = this.cellsPerCol.find((item) => {
-      // NB. col.dayId is undefined if appointments populated with dummy loading appointments (?)
-      const dayId = item.col.dayId;
-
-      return dayId && moment(dayId).isSame(currentDay, 'date');
-    });
-
-    return item && item.cellsForCol;
-  }),
+  ),
 
   _scrollToSlotsOnlyIfNotOnInit() {
-    run.next(() => {
+    next(() => {
       if (this.isDestroyed) {
         return false;
       }
@@ -84,8 +80,7 @@ export default slotPickerBase.extend({
       const editingExistingAppointment = this.editingExistingAppointment;
       //action run on init by pickadate-input :(
       const actionIsBeingRunOnInitOnExistingAppointment =
-        editingExistingAppointment &&
-        (selectedDay === selectedDayOnInit);
+        editingExistingAppointment && selectedDay === selectedDayOnInit;
       if (!actionIsBeingRunOnInitOnExistingAppointment) {
         this.scroll.to('time-slots');
       }
@@ -106,6 +101,6 @@ export default slotPickerBase.extend({
 
         this.send('onDateChange', date);
       }
-    }
-  }
+    },
+  },
 });

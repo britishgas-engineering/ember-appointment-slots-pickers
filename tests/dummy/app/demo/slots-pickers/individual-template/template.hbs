@@ -1,6 +1,6 @@
 <div class="container-fluid">
 
-  <h1>{{model.slotPickerName}}</h1>
+  <h1>{{this.model.slotPickerName}}</h1>
 
   <h3>Default</h3>
   <div class="mb8">
@@ -11,7 +11,8 @@
       @select={{action (mut this.model.selected)}}
       as |baseProps onSelectSlot|
     >
-      {{component model.slotPickerName
+      {{component
+        this.model.slotPickerName
         baseProps=baseProps
         onSelectSlot=onSelectSlot
       }}
@@ -19,14 +20,16 @@
     </SlotsPicker>
   </div>
 
-  <hr>
-  <h3>Overlay (appears after {{delay}} ms, change with queryParam ?delay=10000)</h3>
+  <hr />
+  <h3>Overlay (appears after
+    {{this.delay}}
+    ms, change with queryParam ?delay=10000)</h3>
   <div class="mb8">
-    {{#clock-reloader
-      delay=delay
-      onrefresh=(route-action "resetSlots" delay)
+    <ClockReloader
+      @delay={{this.delay}}
+      @onrefresh={{fn @onResetSlots this.delay}}
       as |isExpired refresh|
-    }}
+    >
       <SlotsPicker
         @appointmentSlots={{this.model.showableSlots}}
         @selected={{this.model.selected}}
@@ -34,20 +37,25 @@
         @select={{action (mut this.model.selected)}}
         as |baseProps onSelectSlot|
       >
-        {{component model.slotPickerName
+        {{component
+          this.model.slotPickerName
           baseProps=baseProps
           onSelectSlot=onSelectSlot
         }}
         {{#if isExpired}}
-          {{clock-reloader/overlay title="<h3>Hello World</h3>" refresh=(action refresh)}}
+          <ClockReloader::Overlay
+            @title="<h3>Hello World</h3>"
+            @refresh={{action refresh}}
+          />
         {{/if}}
         <SlotsPicker::SelectionSingle @baseProps={{baseProps}} />
       </SlotsPicker>
-    {{/clock-reloader}}
+    </ClockReloader>
   </div>
-  <hr>
-  <h3>Loading state ({{delay}} ms, change with queryParam ?delay=10000)</h3>
-  <hr>
+  <hr />
+  <h3>Loading state ({{this.delay}}
+    ms, change with queryParam ?delay=10000)</h3>
+  <hr />
   <h4>Default loader</h4>
   <div class="mb8">
     <SlotsPicker
@@ -57,14 +65,15 @@
       @select={{action (mut this.model.selected)}}
       as |baseProps onSelectSlot|
     >
-      {{component model.slotPickerName
+      {{component
+        this.model.slotPickerName
         baseProps=baseProps
         onSelectSlot=onSelectSlot
       }}
       <SlotsPicker::SelectionSingle @baseProps={{baseProps}} />
     </SlotsPicker>
   </div>
-  <hr>
+  <hr />
   <h4>Custom loading template</h4>
   <div class="mb8">
     <SlotsPicker
@@ -75,9 +84,12 @@
       as |baseProps onSelectSlot|
     >
       {{#if baseProps.slotsAreLoading}}
-        <SlotsPicker::SlotsLoader @title="Finding the next available appointments in your area.." />
+        <SlotsPicker::SlotsLoader
+          @title="Finding the next available appointments in your area.."
+        />
       {{else}}
-        {{component model.slotPickerName
+        {{component
+          this.model.slotPickerName
           baseProps=baseProps
           onSelectSlot=onSelectSlot
         }}
@@ -85,7 +97,7 @@
       <SlotsPicker::SelectionSingle @baseProps={{baseProps}} />
     </SlotsPicker>
   </div>
-  <hr>
+  <hr />
   <h3>Filter slots</h3>
   <div class="mb8">
     <SlotsFilter
@@ -106,7 +118,8 @@
           @changeFilter={{changeFilter}}
           @selectedFilter={{selectedFilter}}
         />
-        {{component model.slotPickerName
+        {{component
+          this.model.slotPickerName
           baseProps=baseProps
           onSelectSlot=onSelectSlot
         }}
@@ -115,25 +128,29 @@
     </SlotsFilter>
   </div>
 
-  {{#if (not (eq model.slotPickerName "slots-picker/pickadate"))}}
-    <hr>
+  {{#if (not (eq this.model.slotPickerName "slots-picker/pickadate"))}}
+    <hr />
     <h3>Multiple slots</h3>
     <div class="mb8">
       <SlotsPicker
         @appointmentSlots={{this.model.showableSlots}}
         @selected={{this.selectedSlots}}
-        @canSelectMultipleSlots=true
+        @canSelectMultipleSlots="true"
         @noSlotLabel="Not available"
-        @select={{action  "appendSlot"}}
+        @select={{action "appendSlot"}}
         @deselect={{action "removeSlot"}}
         as |baseProps onSelectSlot onDeselectSlot|
       >
-        {{component model.slotPickerName
+        {{component
+          this.model.slotPickerName
           baseProps=baseProps
           onSelectSlot=onSelectSlot
           onDeselectSlot=onDeselectSlot
         }}
-        <SlotsPicker::SelectionMulti @baseProps={{baseProps}} @onDeselectSlot={{onDeselectSlot}} />
+        <SlotsPicker::SelectionMulti
+          @baseProps={{baseProps}}
+          @onDeselectSlot={{onDeselectSlot}}
+        />
       </SlotsPicker>
     </div>
   {{/if}}

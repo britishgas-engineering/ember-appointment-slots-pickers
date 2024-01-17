@@ -1,10 +1,13 @@
-{{#if loading}}
+{{#if this.loading}}
   <span class="fa fa-refresh fa-spin" aria-hidden="true"></span>
-  {{loading-text}}
+  {{this.loading-text}}
 {{else}}
-  {{#if (not hide-icon)}}
-    {{#if customIcon}}
-      <span class="bg-button-icon {{customIcon}}" aria-hidden="true"></span>
+  {{#if (not this.hide-icon)}}
+    {{#if this.customIcon}}
+      <span
+        class="bg-button-icon {{this.customIcon}}"
+        aria-hidden="true"
+      ></span>
     {{else}}
       <span class="bg-button-icon fa fa-angle-right" aria-hidden="true"></span>
     {{/if}}
@@ -12,7 +15,7 @@
 
   {{yield}}
 
-  {{#if isTagged}}
+  {{#if this.isTagged}}
     <span class="bg-button-icon fa fa-tag" aria-labelledby="tagInfo"></span>
   {{/if}}
 {{/if}}

@@ -5,12 +5,11 @@ import { computed, observer } from '@ember/object';
 import Ember from 'ember';
 import RecognizerMixin from 'ember-gestures/mixins/recognizers';
 import layout from './template';
-import { run } from '@ember/runloop';
+import { next } from '@ember/runloop';
 import { getOwner } from '@ember/application';
+import $ from 'jquery';
 
-const {
-  String
-} = Ember;
+const { String } = Ember;
 
 export default Component.extend(RecognizerMixin, {
   window,
@@ -29,9 +28,11 @@ export default Component.extend(RecognizerMixin, {
   }),
   isTestLike: computed('config', function () {
     const config = this.config;
-    return config.environment === 'test' ||
-      config.environment === 'development' &&
-      this.get('window.location.pathname') === '/tests';
+    return (
+      config.environment === 'test' ||
+      (config.environment === 'development' &&
+        this.get('window.location.pathname') === '/tests')
+    );
   }),
 
   swipeLeft() {
@@ -54,9 +55,7 @@ export default Component.extend(RecognizerMixin, {
     }
   },
 
-  classNames: [
-    'asp-scroll', 'ember-appointment-slots-pickers'
-  ],
+  classNames: ['asp-scroll', 'ember-appointment-slots-pickers'],
 
   /**
    * Represents the index of the left most
@@ -67,18 +66,24 @@ export default Component.extend(RecognizerMixin, {
 
   width: computed('isRendered', 'viewport.width', function () {
     this.get('viewport.width');
-    return this.isRendered ? this.$().width() : 0;
+    return this.isRendered ? $(this.element).width() : 0;
   }),
 
   scrollAreaWidth: computed('itemWidth', 'items.length', function () {
     return this.itemWidth * this.get('items.length');
   }),
 
-  itemWidth: computed('isRendered', 'viewport.width', 'items.length', 'currentItem', function () {
-    this.get('viewport.width');//to refresh when viewport is refreshed. A bit strange, but needed
-    //items.length is needed, too (when going from 0 to X items)
-    return this.isRendered ? this.$('.asp-scroll-area > :first-child').width() : 0;
-  }), // 120
+  itemWidth: computed(
+    'isRendered',
+    'viewport.width',
+    'items.length',
+    'currentItem',
+    function () {
+      this.get('viewport.width'); //to refresh when viewport is refreshed. A bit strange, but needed
+      //items.length is needed, too (when going from 0 to X items)
+      return this.isRendered ? $('.asp-scroll-area > :first-child').width() : 0;
+    }
+  ), // 120
 
   scrollAreaOffset: computed(
     'currentItem',
@@ -149,18 +154,19 @@ export default Component.extend(RecognizerMixin, {
   didInsertElement() {
     //needed when not loading the slots sync
     this._super(...arguments);
-    run.next(this, '_recomputeItemWidth');
+    next(this, '_recomputeItemWidth');
   },
 
   didUpdateAttrs() {
     //needed when loading the slots async, at least when
     //no loader so keeping it to be on the safe side
     this._super(...arguments);
-    run.next(this, '_recomputeItemWidth');
+    next(this, '_recomputeItemWidth');
   },
 
   //case where appointment.appointmentSlot resolves later (appointment.appointmentSlot.content is initially null)
-  _onIndexChange: observer('index', function () {//eslint-disable-line
+  _onIndexChange: observer('index', function () {
+    //eslint-disable-line
     const index = this.index;
     if (!this.isDestroyed && index !== undefined) {
       this.set(
@@ -171,7 +177,6 @@ export default Component.extend(RecognizerMixin, {
   }),
 
   actions: {
-
     /**
      * Slide to the next set of items
      * @return {undefined}
@@ -186,8 +191,6 @@ export default Component.extend(RecognizerMixin, {
      */
     prev() {
       this.goToPreviousItem();
-    }
+    },
   },
-
-
 });

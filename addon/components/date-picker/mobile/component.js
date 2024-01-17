@@ -1,14 +1,7 @@
 import { assert } from '@ember/debug';
-import { run } from '@ember/runloop';
+import { debounce } from '@ember/runloop';
 import $ from 'jquery';
-import {
-  oneWay,
-  sort,
-  map,
-  gt,
-  setDiff,
-  uniq
-} from '@ember/object/computed';
+import { oneWay, sort, map, gt, setDiff, uniq } from '@ember/object/computed';
 import { computed } from '@ember/object';
 import Component from '@ember/component';
 import layout from './template';
@@ -17,7 +10,12 @@ import moment from 'moment';
 export const _createDay = function (date, enabled) {
   const value = moment(date).hours(0).minutes(0).seconds(0).milliseconds(0);
   const firstDayOfTheMonth = moment(date).startOf('month');
-  const lastDayOfTheMonth = moment(date).endOf('month').hours(0).minutes(0).seconds(0).milliseconds(0);
+  const lastDayOfTheMonth = moment(date)
+    .endOf('month')
+    .hours(0)
+    .minutes(0)
+    .seconds(0)
+    .milliseconds(0);
   const isFirstDayOfTheMonth = value.isSame(firstDayOfTheMonth);
   const isLastDayOfTheMonth = value.isSame(lastDayOfTheMonth);
 
@@ -28,7 +26,7 @@ export const _createDay = function (date, enabled) {
     isFirstDayOfTheMonth,
     isLastDayOfTheMonth,
     isBoundaryDayOfTheMonth: isFirstDayOfTheMonth || isLastDayOfTheMonth,
-    isDisabled: !enabled
+    isDisabled: !enabled,
   };
 };
 
@@ -54,7 +52,7 @@ export default Component.extend({
     this._resizeListener = () => {
       this._setWidth();
       //need a debounce for iOS iphone 10..
-      run.debounce(this, '_setWidth', 100);
+      debounce(this, '_setWidth', 100);
     };
 
     $(window).on('resize', this._resizeListener);
@@ -69,7 +67,7 @@ export default Component.extend({
 
   _setWidth() {
     if (!this.isDestroyed) {
-      this.set('width', this.$().outerWidth());
+      this.set('width', $(this.element).outerWidth());
     }
     //return false;
   },
@@ -111,18 +109,29 @@ export default Component.extend({
 
   _selectedDates: oneWay('selectedDates'),
 
-  selectedMoments: computed('validatedDates.[]', 'selectedDates.[]', function () {
-    const selectedDates = this.selectedDates;
+  selectedMoments: computed(
+    'validatedDates.[]',
+    'selectedDates.[]',
+    function () {
+      const selectedDates = this.selectedDates;
 
-    return selectedDates.map((date) => this._findMomentOf(date));
-  }),
+      return selectedDates.map((date) => this._findMomentOf(date));
+    }
+  ),
 
   isSelected: computed('selectedMoments', function () {
-    return this.selectedMoments.map((moment) => moment.valueOf()).indexOf(this.get('day.date').valueOf()) > -1;
+    return (
+      this.selectedMoments
+        .map((moment) => moment.valueOf())
+        .indexOf(this.get('day.date').valueOf()) > -1
+    );
   }),
 
   validatedDates: map('dates', function (date) {
-    assert('you must supply moment objects as "dates" in date-picker-mobile', moment.isMoment(date));
+    assert(
+      'you must supply moment objects as "dates" in date-picker-mobile',
+      moment.isMoment(date)
+    );
     return date;
   }),
 
@@ -135,9 +144,7 @@ export default Component.extend({
     let lastDate;
 
     return sortedDates.reduce((arr, date) => {
-      const nbOfDaysMissing = lastDate ?
-        date.diff(lastDate, 'days') - 1 :
-        0;
+      const nbOfDaysMissing = lastDate ? date.diff(lastDate, 'days') - 1 : 0;
 
       for (let i = 1; i < nbOfDaysMissing + 1; i += 1) {
         const date = moment(lastDate).add(i, 'day');
@@ -182,7 +189,7 @@ export default Component.extend({
   currentDateIndex: computed('currentDay', 'days.[]', function () {
     const currentDay = this.currentDay;
 
-    return currentDay && this.dates.indexOf(currentDay.date) || 0;
+    return (currentDay && this.dates.indexOf(currentDay.date)) || 0;
   }),
 
   tempCurrentDay: computed('tempCurrentIndex', 'days.[]', function () {
@@ -193,7 +200,11 @@ export default Component.extend({
   }),
 
   _getIndexOfMoment(selectedMoment) {
-    return selectedMoment ? this.allDates.map((date) => date.valueOf()).indexOf(selectedMoment.valueOf()) : null;
+    return selectedMoment
+      ? this.allDates
+          .map((date) => date.valueOf())
+          .indexOf(selectedMoment.valueOf())
+      : null;
   },
 
   selectedIndexes: computed('selectedMoments', 'allDates', function () {
@@ -208,9 +219,10 @@ export default Component.extend({
 
     return availableDays.map((day) => {
       return days.reduce(
-        ([indexIfFound, iter], currDay) => currDay.date.isSame(day.date) ?
-          [iter, iter + 1] :
-          [indexIfFound, iter + 1],
+        ([indexIfFound, iter], currDay) =>
+          currDay.date.isSame(day.date)
+            ? [iter, iter + 1]
+            : [indexIfFound, iter + 1],
         [-1, 0]
       )[0];
     });
@@ -321,6 +333,6 @@ export default Component.extend({
 
     selectPrevNextDate(nb) {
       return this._selectPrevNextDate(nb);
-    }
-  }
+    },
+  },
 });

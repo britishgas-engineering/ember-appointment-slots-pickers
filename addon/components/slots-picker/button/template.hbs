@@ -1,17 +1,19 @@
-{{#if isSelected}}
-  {{#if canSelectMultipleSlots}}
+{{#if this.isSelected}}
+  {{#if this.canSelectMultipleSlots}}
     <BgButton
       class="asp-btn selected background background-dark-blue"
       @theme="secondary"
       @hide-icon="true"
-      @action={{action attrs.deselect this.appointmentSlot}}
+      @action={{action @deselect this.appointmentSlot}}
     >
-      {{appointmentSlot.slotPickerTime}}
+      {{this.appointmentSlot.slotPickerTime}}
     </BgButton>
   {{else}}
-    <div class="asp-appointment-slot-selected white background background-dark-blue">
-      {{appointmentSlot.slotPickerTime}}
-      {{#if appointmentSlot.slotPickerHasTag}}
+    <div
+      class="asp-appointment-slot-selected white background background-dark-blue"
+    >
+      {{this.appointmentSlot.slotPickerTime}}
+      {{#if this.appointmentSlot.slotPickerHasTag}}
         <span class="fa fa-tag" aria-labelledby="tagInfo"></span>
       {{/if}}
       <span class="fa fa-check" aria-hidden="true"></span>
@@ -23,8 +25,8 @@
     @theme="secondary"
     @hide-icon="true"
     @isTagged={{this.appointmentSlot.slotPickerHasTag}}
-    @action={{action attrs.select this.appointmentSlot}}
+    @action={{action @select this.appointmentSlot}}
   >
-    {{appointmentSlot.slotPickerTime}}
+    {{this.appointmentSlot.slotPickerTime}}
   </BgButton>
 {{/if}}

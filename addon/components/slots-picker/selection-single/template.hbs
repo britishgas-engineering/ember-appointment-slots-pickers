@@ -1,8 +1,12 @@
-<ScrollAnchor @name="appointment-selected" />
+<ScrollAnchorSlots @name="appointment-selected" />
 
-{{#if selected}}
+{{#if this.selected}}
   <p class="bold font-size-6 mt4">
-    Arriving {{or selected.slotPickerLongDayLabel selected.slotPickerDayLabel}} between
-    {{selected.slotPickerStartTimeLabel}} and {{selected.slotPickerEndTimeLabel}}
+    Arriving
+    {{or this.selected.slotPickerLongDayLabel this.selected.slotPickerDayLabel}}
+    between
+    {{this.selected.slotPickerStartTimeLabel}}
+    and
+    {{this.selected.slotPickerEndTimeLabel}}
   </p>
 {{/if}}

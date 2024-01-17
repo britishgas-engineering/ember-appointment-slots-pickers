@@ -9,7 +9,7 @@ const configServiceStub = Service.extend({
   init() {
     this._super(...arguments);
     this.config = this.config || {};
-  }
+  },
 });
 
 module('Integration | Component | clock-reloader', function (hooks) {
@@ -17,7 +17,8 @@ module('Integration | Component | clock-reloader', function (hooks) {
 
   hooks.beforeEach(function () {
     this.actions = {};
-    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
+    this.send = (actionName, ...args) =>
+      this.actions[actionName].apply(this, args);
   });
 
   hooks.beforeEach(function () {
@@ -26,19 +27,13 @@ module('Integration | Component | clock-reloader', function (hooks) {
   });
 
   test('it renders properly when not expired', async function (assert) {
-
     const onrefresh = sinon.stub();
 
     this.set('refresh', onrefresh);
 
     // Template block usage:
     await render(hbs`
-      {{#clock-reloader
-        configService=configService
-        delay=1000000000
-        onrefresh=(action refresh)
-        as |isExpired refresh|
-      }}
+      <ClockReloader @configService={{this.configService}} @delay={{1000000000}} @onrefresh={{this.refresh}} as |isExpired refresh|>
         {{#if isExpired}}
           <button
             {{action (action refresh)}}
@@ -48,29 +43,29 @@ module('Integration | Component | clock-reloader', function (hooks) {
         {{else}}
           <div class='not-expired'></div>
         {{/if}}
-      {{/clock-reloader}}
+      </ClockReloader>
     `);
-    assert.ok(findAll('.not-expired').length, 'The template is showing properly in its non expired version');
-    assert.dom('button').doesNotExist('The template is indeed showing properly in its non expired version');
-
+    assert.ok(
+      findAll('.not-expired').length,
+      'The template is showing properly in its non expired version'
+    );
+    assert
+      .dom('button')
+      .doesNotExist(
+        'The template is indeed showing properly in its non expired version'
+      );
   });
 
   test('it renders properly when expired', async function (assert) {
-
     assert.expect(1);
 
     const onrefresh = sinon.stub();
 
-    this.actions.refresh = onrefresh;
+    this.refresh = onrefresh;
 
     // Template block usage:
     await render(hbs`
-      {{#clock-reloader
-        configService=configService
-        delay=0
-        onrefresh=(action "refresh")
-        as |isExpired refresh|
-      }}
+      <ClockReloader @configService={{this.configService}} @delay={{0}} @onrefresh={{this.refresh}} as |isExpired refresh|>
         {{#if isExpired}}
           <button
             {{action (action refresh)}}
@@ -80,12 +75,14 @@ module('Integration | Component | clock-reloader', function (hooks) {
         {{else}}
           <div class='not-expired'></div>
         {{/if}}
-      {{/clock-reloader}}
+      </ClockReloader>
     `);
     return settled().then(async () => {
       await click('button');
-      assert.ok(onrefresh.called, 'The refresh action is being bubbled correctly');
+      assert.ok(
+        onrefresh.called,
+        'The refresh action is being bubbled correctly'
+      );
     });
-
   });
 });

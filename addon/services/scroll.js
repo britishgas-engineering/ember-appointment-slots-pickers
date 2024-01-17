@@ -1,14 +1,13 @@
 import { merge } from '@ember/polyfills';
-import { scheduleOnce, run } from '@ember/runloop';
+import { scheduleOnce, run, bind } from '@ember/runloop';
 import $ from 'jquery';
 import EmberObject, { computed } from '@ember/object';
 import Service, { inject as service } from '@ember/service';
 import { getOwner } from '@ember/application';
 
 export default Service.extend({
-
   viewport: service(),
-  window,//TODO: use window service
+  window, //TODO: use window service
 
   config: computed(function () {
     return getOwner(this).resolveRegistration('config:environment');
@@ -23,9 +22,11 @@ export default Service.extend({
    */
   isTestLike: computed('config', function () {
     const config = this.config;
-    return config.environment === 'test' ||
-      config.environment === 'development' &&
-      this.get('window.location.pathname') === '/tests';
+    return (
+      config.environment === 'test' ||
+      (config.environment === 'development' &&
+        this.get('window.location.pathname') === '/tests')
+    );
   }),
 
   _minimumDuration: 500,
@@ -58,7 +59,7 @@ export default Service.extend({
       'DOMMouseScroll',
       'mousewheel',
       'keyup',
-      'touchstart'
+      'touchstart',
     ];
   },
 
@@ -72,7 +73,14 @@ export default Service.extend({
   to: function (name, options, callback) {
     if (!this.isTestLike) {
       //console.log('scroll to', name);
-      scheduleOnce('afterRender', this, this.afterRenderTo, name, options, callback);
+      scheduleOnce(
+        'afterRender',
+        this,
+        this.afterRenderTo,
+        name,
+        options,
+        callback
+      );
     }
   },
 
@@ -87,10 +95,7 @@ export default Service.extend({
    * @return {undefined}
    */
   willDestroy() {
-    this.$page.off(
-      this.scrollStopEventNames.join(' '),
-      this.onScrollStop
-    );
+    this.$page.off(this.scrollStopEventNames.join(' '), this.onScrollStop);
   },
 
   afterRenderTo(name, options, callback) {
@@ -105,7 +110,7 @@ export default Service.extend({
        * event listeners for onScrollStop callback
        * @return {undefined}
        */
-      this.onScrollStop = run.bind(this, function () {
+      this.onScrollStop = bind(this, function () {
         const $page = this.$page;
 
         const scrollStopEventNames = this.scrollStopEventNames;
@@ -116,10 +121,7 @@ export default Service.extend({
         if (callback) {
           callback();
         }
-        return $page.off(
-          scrollStopEventNames.join(' '),
-          onScrollStop
-        );
+        return $page.off(scrollStopEventNames.join(' '), onScrollStop);
       });
 
       const $page = this.$page;
@@ -148,11 +150,12 @@ export default Service.extend({
 
       let $stayOnTopElement;
 
-      merge(instanceOptions, anchorOptions || {});
-      merge(instanceOptions, options || {});
+      Object.assign(instanceOptions, anchorOptions || {});
+      Object.assign(instanceOptions, options || {});
 
       if ($anchor && $anchor.length) {
-        scrollTopDestination = $anchor.offset().top -
+        scrollTopDestination =
+          $anchor.offset().top -
           this._headerHeight -
           (instanceOptions.adjustment || 0);
 
@@ -163,8 +166,7 @@ export default Service.extend({
             if (windowObject) {
               scrollTopDestination = Math.min(
                 scrollTopDestination,
-                $stayOnTopElement.offset().top -
-                $(windowObject).height()
+                $stayOnTopElement.offset().top - $(windowObject).height()
               );
             }
           }
@@ -172,10 +174,12 @@ export default Service.extend({
         scrollTopOrigin = $page.scrollTop();
         distance = scrollTopDestination - scrollTopOrigin;
 
-        if (instanceOptions.teleport === 'always' || instanceOptions.teleport === 'smart' && distance < 0) {
+        if (
+          instanceOptions.teleport === 'always' ||
+          (instanceOptions.teleport === 'smart' && distance < 0)
+        ) {
           $page.scrollTop(scrollTopDestination);
         } else {
-
           duration = Math.abs(distance) / this._velocity;
 
           if (duration < minimumDuration) {
@@ -190,12 +194,16 @@ export default Service.extend({
           // to prevent jittering
           $page.on(scrollStopEventNames.join(' '), onScrollStop);
 
-          $page.animate({
-            scrollTop: scrollTopDestination
-          }, duration || 300, 'swing', onScrollStop);
-
+          $page.animate(
+            {
+              scrollTop: scrollTopDestination,
+            },
+            duration || 300,
+            'swing',
+            onScrollStop
+          );
         }
       }
     });
-  }
+  },
 });

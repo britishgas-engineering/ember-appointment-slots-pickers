@@ -7,7 +7,6 @@ export default Component.extend({
   layout: layout,
   // Attributes
   delay: 0,
-  refresh: null,
 
   isExpired: false,
 
@@ -85,7 +84,6 @@ export default Component.extend({
           resolve();
         }
       });
-    }
-  }
-
+    },
+  },
 });

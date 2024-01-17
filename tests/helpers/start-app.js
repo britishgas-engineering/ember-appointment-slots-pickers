@@ -6,8 +6,8 @@ import config from '../../config/environment';
 export default function startApp(attrs) {
   let application;
 
-  let attributes = merge({}, config.APP);
-  attributes = merge(attributes, attrs); // use defaults, but you can override;
+  let attributes = Object.assign({}, config.APP);
+  attributes = Object.assign(attributes, attrs); // use defaults, but you can override;
 
   run(() => {
     application = Application.create(attributes);

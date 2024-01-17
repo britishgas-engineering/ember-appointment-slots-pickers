@@ -13,27 +13,33 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
 
   hooks.beforeEach(function () {
     this.actions = {};
-    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
+    this.send = (actionName, ...args) =>
+      this.actions[actionName].apply(this, args);
   });
 
   hooks.before(function () {
     //allows to use $(element).is(:offscreen) in integration tests
     //see https://stackoverflow.com/a/8897628/4325661
-    $.expr.filters.offscreen = $.expr.filters.offscreen || function (el) {
-      const rect = el.getBoundingClientRect();
-      const containerRect = document.querySelector('#ember-testing').getBoundingClientRect();
-      return (
-        (rect.x + rect.width) < containerRect.x ||
-        (rect.y + rect.height) < containerRect.y ||
-        (rect.x > containerRect.x + containerRect.width || rect.y > containerRect.y + containerRect.height)
-      );
-    };
+    $.expr.filters.offscreen =
+      $.expr.filters.offscreen ||
+      function (el) {
+        const rect = el.getBoundingClientRect();
+        const containerRect = document
+          .querySelector('#ember-testing')
+          .getBoundingClientRect();
+        return (
+          rect.x + rect.width < containerRect.x ||
+          rect.y + rect.height < containerRect.y ||
+          rect.x > containerRect.x + containerRect.width ||
+          rect.y > containerRect.y + containerRect.height
+        );
+      };
     return true;
   });
 
   test('with slots available, no slot selected', async function (assert) {
     generateAppointmentSlots.call(this, {
-      numberOfAppointments: 50
+      numberOfAppointments: 50,
     });
 
     this.set('select', () => {});
@@ -60,14 +66,22 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
     `);
 
     assert.ok(
-      this.$('.date-picker-mobile-days .scroll-header-sly-item').first().hasClass('active'),
+      $('.date-picker-mobile-days .scroll-header-sly-item')
+        .first()
+        .hasClass('active'),
       'when no slot is selected, center on the first available slot'
     );
 
     const generatedSlots = this.generatedAppointmentSlots;
-    const firstAvailableSlot = generatedSlots.find((slot) => slot.get('available'));
-    const firstDayLabel = `${firstAvailableSlot.get('slotPickerStartTimeLabel')} - ${firstAvailableSlot.get('slotPickerEndTimeLabel')}`;
-    let swipeViewControls = this.$('.horizontal-swipe-view .horizontal-swipe-view-item');
+    const firstAvailableSlot = generatedSlots.find((slot) =>
+      slot.get('available')
+    );
+    const firstDayLabel = `${firstAvailableSlot.get(
+      'slotPickerStartTimeLabel'
+    )} - ${firstAvailableSlot.get('slotPickerEndTimeLabel')}`;
+    let swipeViewControls = $(
+      '.horizontal-swipe-view .horizontal-swipe-view-item'
+    );
 
     assert.notOk(
       swipeViewControls.eq(0).is(':offscreen'),
@@ -75,22 +89,23 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
     );
 
     assert.ok(
-      swipeViewControls.find(`.asp-row button:contains("${firstDayLabel}")`).length,
+      swipeViewControls.find(`.asp-row button:contains("${firstDayLabel}")`)
+        .length,
       `first date ${firstDayLabel} is displayed in the first column`
     );
 
     await click('.date-picker-mobile-scroll .fa-angle-right');
 
-    swipeViewControls = this.$('.horizontal-swipe-view .horizontal-swipe-view-item');
+    swipeViewControls = $('.horizontal-swipe-view .horizontal-swipe-view-item');
 
     assert.notOk(
       swipeViewControls.eq(1).is(':offscreen'),
       'second column is onscreen'
     );
 
-    this.$('.date-picker-mobile-days button:last').click();
+    $('.date-picker-mobile-days button:last').click();
 
-    swipeViewControls = this.$('.horizontal-swipe-view .horizontal-swipe-view-item');
+    swipeViewControls = $('.horizontal-swipe-view .horizontal-swipe-view-item');
 
     assert.notOk(
       swipeViewControls.eq(generatedSlots.length - 1).is(':offscreen'),
@@ -100,11 +115,13 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
 
   test('single select slot', async function (assert) {
     generateAppointmentSlots.call(this, {
-      numberOfAppointments: 50
+      numberOfAppointments: 50,
     });
 
     const generatedSlots = this.generatedAppointmentSlots;
-    const lastAvailableSlot = generatedSlots.filterBy('available', true).get('lastObject');
+    const lastAvailableSlot = generatedSlots
+      .filterBy('available', true)
+      .get('lastObject');
 
     this.actions.select = (selected) => {
       this.selected.clear().pushObject(selected);
@@ -130,7 +147,9 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
       </div>
     `);
 
-    const $lastDate = this.$('.date-picker-mobile-days .scroll-header-sly-item .active');
+    const $lastDate = $(
+      '.date-picker-mobile-days .scroll-header-sly-item .active'
+    );
 
     assert.ok(
       findAll('.horizontal-swipe-view .asp-appointment-slot-selected').length,
@@ -139,30 +158,32 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
     run(() => {
       $lastDate.find('button').click();
     });
-    return settled().then(() => {
-      return settled();
-    }).then(() => {
-  
-      assert.ok(
-        $lastDate.hasClass('active'),
-        'last date is still selected so active'
-      );
-      assert.ok(
-        findAll('.horizontal-swipe-view .asp-appointment-slot-selected').length,
-        'slot is still selected'
-      );
+    return settled()
+      .then(() => {
+        return settled();
+      })
+      .then(() => {
+        assert.ok(
+          $lastDate.hasClass('active'),
+          'last date is still selected so active'
+        );
+        assert.ok(
+          findAll('.horizontal-swipe-view .asp-appointment-slot-selected')
+            .length,
+          'slot is still selected'
+        );
 
-      assert.equal(
-        findAll('.asp-cell button').length,
-        this.get('availableAppointmentSlots.length') - 1,
-        'has one less buttons as there are available slots as button is still selected'
-      );
-    });
+        assert.strictEqual(
+          findAll('.asp-cell button').length,
+          this.get('availableAppointmentSlots.length') - 1,
+          'has one less buttons as there are available slots as button is still selected'
+        );
+      });
   });
 
   test('multi select slot', async function (assert) {
     generateAppointmentSlots.call(this, {
-      numberOfAppointments: 50
+      numberOfAppointments: 50,
     });
 
     this.actions.select = (slot) => {
@@ -196,12 +217,16 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
     `);
 
     // find a day with more than 1 button
-    const $currentDay = this.$('.horizontal-swipe-view-item').filter((i, el) => {
-      return this.$(el).find('button').length > 1;
-    }).last();
-    const currentDayIndex = this.$('.horizontal-swipe-view-item').index($currentDay);
+    const $currentDay = $('.horizontal-swipe-view-item')
+      .filter((i, el) => {
+        return $(el).find('button').length > 1;
+      })
+      .last();
+    const currentDayIndex = $('.horizontal-swipe-view-item').index($currentDay);
     const dayButtons = $currentDay.find('button').length;
-    const $lastDate = this.$('.date-picker-mobile-days .scroll-header-sly-item').eq(currentDayIndex);
+    const $lastDate = $('.date-picker-mobile-days .scroll-header-sly-item').eq(
+      currentDayIndex
+    );
 
     run(() => $lastDate.find('button').click());
 
@@ -213,26 +238,23 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
     run(() => $currentDay.find('button:first').click());
 
     run(() => {
-      assert.ok(
-        $currentDay.find('button.selected').length,
-        'slot is selected'
-      );
+      assert.ok($currentDay.find('button.selected').length, 'slot is selected');
 
       assert.notOk(
-        this.$('.horizontal-swipe-view:last .asp-appointment-slot-selected').length,
+        $('.horizontal-swipe-view:last .asp-appointment-slot-selected').length,
         'multi-slot picker does not get rid of button when selected'
       );
 
       run(() => $currentDay.find('button:last').click());
 
       run(() => {
-        assert.equal(
+        assert.strictEqual(
           $currentDay.find('button.selected').length,
           2,
           '2 slots selected'
         );
 
-        assert.equal(
+        assert.strictEqual(
           $currentDay.find('button').length,
           dayButtons,
           'should keep number of buttons constant'
@@ -242,23 +264,23 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
         run(() => $currentDay.find('button:first').click());
 
         run(() => {
-          assert.equal(
+          assert.strictEqual(
             $currentDay.find('button.selected').length,
             1,
             '1 slots selected'
           );
 
           // change day
-          this.$('.date-picker-mobile-days .scroll-header-sly-item').first();
+          $('.date-picker-mobile-days .scroll-header-sly-item').first();
 
-          assert.equal(
+          assert.strictEqual(
             this.get('selected.length'),
             1,
             'changing date keeps 1 slots selected'
           );
 
-          assert.equal(
-            this.$('.horizontal-swipe-view-item:first button.selected').length,
+          assert.strictEqual(
+            $('.horizontal-swipe-view-item:first button.selected').length,
             0,
             'no slots selected for the new day'
           );

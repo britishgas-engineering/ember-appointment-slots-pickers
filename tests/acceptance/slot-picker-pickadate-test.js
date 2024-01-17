@@ -15,19 +15,55 @@ module('Acceptance | Component | slots-picker/pickadate', function (hooks) {
     const firstCalendar = arrayOfCalendars.first();
     const nbOfPrevArrows = firstCalendar.find('.picker__day--prev').length;
     const nbOfNextArrows = firstCalendar.find('.picker__day--next').length;
-    const nbOfDisabledSlots = firstCalendar.find('.picker__day--disabled').length;
-    const nbOfInFocusSlots = firstCalendar.find('.picker__day--infocus:not(.picker__day--disabled)').length;
-    const nbOfOutFocusSlots = firstCalendar.find('.picker__day--outfocus:not(.picker__day--disabled)').length;
-    const valueOfSelected = firstCalendar.find('.picker__day--selected:not(.picker__day--disabled)').text();
+    const nbOfDisabledSlots = firstCalendar.find(
+      '.picker__day--disabled'
+    ).length;
+    const nbOfInFocusSlots = firstCalendar.find(
+      '.picker__day--infocus:not(.picker__day--disabled)'
+    ).length;
+    const nbOfOutFocusSlots = firstCalendar.find(
+      '.picker__day--outfocus:not(.picker__day--disabled)'
+    ).length;
+    const valueOfSelected = firstCalendar
+      .find('.picker__day--selected:not(.picker__day--disabled)')
+      .text();
     const arrayOfOtherCalendars = arrayOfCalendars.toArray().slice(1);
     $.each(arrayOfOtherCalendars, function (i) {
       const j = i + 2;
-      assert.equal($(this).find('.picker__day--prev').length, nbOfPrevArrows, `nbOfPrevArrows of calendar ${j} equal to ${nbOfPrevArrows}`);
-      assert.equal($(this).find('.picker__day--next').length, nbOfNextArrows, `nbOfNextArrows of calendar ${j} equal to ${nbOfNextArrows}`);
-      assert.equal($(this).find('.picker__day--disabled').length, nbOfDisabledSlots, `nbOfDisabledSlots of calendar ${j} equal to ${nbOfDisabledSlots}`);
-      assert.equal($(this).find('.picker__day--infocus:not(.picker__day--disabled)').length, nbOfInFocusSlots, `nbOfInFocusSlots of calendar ${j} equal to ${nbOfInFocusSlots}`);
-      assert.equal($(this).find('.picker__day--outfocus:not(.picker__day--disabled)').length, nbOfOutFocusSlots, `nbOfOutFocusSlots of calendar ${j} equal to ${nbOfOutFocusSlots}`);
-      assert.equal($(this).find('.picker__day--selected:not(.picker__day--disabled)').text(), valueOfSelected, `valueOfSelected of calendar ${j} equal to ${valueOfSelected}`);
+      assert.strictEqual(
+        $(this).find('.picker__day--prev').length,
+        nbOfPrevArrows,
+        `nbOfPrevArrows of calendar ${j} equal to ${nbOfPrevArrows}`
+      );
+      assert.strictEqual(
+        $(this).find('.picker__day--next').length,
+        nbOfNextArrows,
+        `nbOfNextArrows of calendar ${j} equal to ${nbOfNextArrows}`
+      );
+      assert.strictEqual(
+        $(this).find('.picker__day--disabled').length,
+        nbOfDisabledSlots,
+        `nbOfDisabledSlots of calendar ${j} equal to ${nbOfDisabledSlots}`
+      );
+      assert.strictEqual(
+        $(this).find('.picker__day--infocus:not(.picker__day--disabled)')
+          .length,
+        nbOfInFocusSlots,
+        `nbOfInFocusSlots of calendar ${j} equal to ${nbOfInFocusSlots}`
+      );
+      assert.strictEqual(
+        $(this).find('.picker__day--outfocus:not(.picker__day--disabled)')
+          .length,
+        nbOfOutFocusSlots,
+        `nbOfOutFocusSlots of calendar ${j} equal to ${nbOfOutFocusSlots}`
+      );
+      assert.strictEqual(
+        $(this)
+          .find('.picker__day--selected:not(.picker__day--disabled)')
+          .text(),
+        valueOfSelected,
+        `valueOfSelected of calendar ${j} equal to ${valueOfSelected}`
+      );
     });
   });
 });

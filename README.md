@@ -4,11 +4,11 @@ ember-appointment-slot<strong>S</strong>-picker<strong>S</strong> provides four 
 
 We transferred _as is_ the components from a British Gas private addon, some of them consuming old javascript libraries that would helpfully be rewritten using ember-animation.
 
-You can choose to only pick up the components and dependencies you need from the suite using tree-shaking.
+## Compatibility
 
-* Ember.js v3.24 or above
-* Ember CLI v3.24 or above
-* Node.js v12 or above
+* Ember.js v4.4 or above
+* Ember CLI v4.4 or above
+* Node.js v14 or above
 
 At the time of writing, you can use any of the following children calendar components:
 

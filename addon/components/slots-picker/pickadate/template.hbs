@@ -1,4 +1,4 @@
-{{#if slotsAreLoading}}
+{{#if this.slotsAreLoading}}
   <SlotsPicker::SlotsLoader />
 {{else}}
   <div class="asp-pickadate text-center">
@@ -12,11 +12,11 @@
       @setShorterDays={{true}}
     />
 
-    {{#if (and (not selectedFilter) currentDay)}}
-      <ScrollAnchor @name="time-slots" />
+    {{#if (and (not this.selectedFilter) this.currentDay)}}
+      <ScrollAnchorSlots @name="time-slots" />
 
       <h3 class="mt5">
-        {{#if editingExistingAppointment}}
+        {{#if this.editingExistingAppointment}}
           Pick your time slot
         {{else}}
           Great, now pick your time slot
@@ -29,18 +29,23 @@
             <div class="col-md-4 col-md-offset-4">
               <div class="row">
 
-                {{#each cellsForColOfSelectedDay as |cell|}}
+                {{#each this.cellsForColOfSelectedDay as |cell|}}
                   <div class="col-xs-6 mb2">
                     {{#if cell}}
                       <SlotsPicker::Button
                         @appointmentSlot={{cell}}
                         @multiSelected={{this.multiSelected}}
                         @canSelectMultipleSlots={{false}}
-                        @select={{action onSelectSlot}}
+                        @select={{action this.onSelectSlot}}
                       />
                     {{else}}
                       <div class="no-slot-label mb2 mt2">
-                        {{cell.slotPickerRowLabel}} ({{if noSlotLabel noSlotLabel 'Fully booked'}})
+                        {{cell.slotPickerRowLabel}}
+                        ({{if
+                          this.noSlotLabel
+                          this.noSlotLabel
+                          "Fully booked"
+                        }})
                       </div>
                     {{/if}}
                   </div>

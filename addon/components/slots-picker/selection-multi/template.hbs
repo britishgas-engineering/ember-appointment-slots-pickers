@@ -1,11 +1,11 @@
-<ScrollAnchor @name="appointment-selected" />
+<ScrollAnchorSlots @name="appointment-selected" />
 
-{{#if multiSelected.length}}
+{{#if this.multiSelected.length}}
   <p class="font-size-6 mt3 mb1">You have chosen:</p>
 
   <div class="asp-multi-selection mb2">
 
-    {{#each sorted as |selection|}}
+    {{#each this.sorted as |selection|}}
       <div class="asp-multi-selection-item">
         <div class="asp-multi-selection-content">
           <div><strong>{{selection.slotPickerDayLabel}}</strong></div>
@@ -15,7 +15,7 @@
             class="asp-btn white background background-dark-blue"
             @theme=""
             @hide-icon="true"
-            @action={{action attrs.onDeselectSlot selection}}
+            @action={{action @onDeselectSlot selection}}
           >
             <span class="fa fa-close" aria-hidden="true"></span>
           </BgButton>

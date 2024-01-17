@@ -6,13 +6,15 @@ module('Unit | Component | easy-slot-picker', function (hooks) {
   setupTest(hooks);
 
   test('slotPickerComponentName responsiveBreak', function (assert) {
-    const component = this.owner.factoryFor('component:easy-slot-picker').create({
-      viewport: {
-        isMobile: false
-      }
-    });
+    const component = this.owner
+      .factoryFor('component:easy-slot-picker')
+      .create({
+        viewport: {
+          isMobile: false,
+        },
+      });
 
-    assert.equal(
+    assert.strictEqual(
       component.get('slotPickerComponentName'),
       'slots-picker/desktop',
       'slots-picker-/esktop returned for large viewports'
@@ -20,7 +22,7 @@ module('Unit | Component | easy-slot-picker', function (hooks) {
 
     component.set('viewport.isMobile', true);
 
-    assert.equal(
+    assert.strictEqual(
       component.get('slotPickerComponentName'),
       'slots-picker/mobile',
       'slots-picker/mobile returned for small viewports'

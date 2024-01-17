@@ -1,23 +1,24 @@
-import {
-  module} from 'qunit'; import {setupRenderingTest
-} from 'ember-qunit';
+import { module } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import { test } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { generateAppointmentSlots } from 'ember-appointment-slots-pickers/test-support/helpers/generate-appointment-slots';
 import { run } from '@ember/runloop';
 import { render, settled, findAll } from '@ember/test-helpers';
+import $ from 'jquery';
 
 module('Integration | Component | slot-picker-cards', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function () {
     this.actions = {};
-    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
+    this.send = (actionName, ...args) =>
+      this.actions[actionName].apply(this, args);
   });
 
   test('with slots available, no slot selected', async function (assert) {
     generateAppointmentSlots.call(this, {
-      numberOfAppointments: 50
+      numberOfAppointments: 50,
     });
 
     this.actions.select = (selected) => {
@@ -28,25 +29,21 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
 
     await render(hbs`
       <div>
-        {{#slots-picker
-          appointmentSlots=generatedAppointmentSlots
-          select=(action 'select')
-          selected=selected
-          as |baseProps onSelectSlot|
-        }}
-          {{slots-picker/cards
-            baseProps=baseProps
-            onSelectSlot=onSelectSlot
-          }}
-        {{/slots-picker}}
+        <SlotsPicker @appointmentSlots={{generatedAppointmentSlots}} @select={{action "select"}} @selected={{selected}} as |baseProps onSelectSlot|>
+          <SlotsPicker::Cards @baseProps={{baseProps}} @onSelectSlot={{onSelectSlot}} />
+        </SlotsPicker>
       </div>
     `);
 
-    assert.equal(findAll('.asp-btn').length > 0, true, 'has some available appointments loaded afterwards');
+    assert.strictEqual(
+      findAll('.asp-btn').length > 0,
+      true,
+      'has some available appointments loaded afterwards'
+    );
 
     const nbButtons = this.get('availableAppointmentSlots.length');
 
-    assert.equal(
+    assert.strictEqual(
       findAll('.asp-btn').length,
       nbButtons,
       `has as many buttons as there are available slots (${nbButtons})`
@@ -55,12 +52,13 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
     const slotPickerTime = this.get('slotsOfDate1.firstObject.slotPickerTime');
 
     run(() => {
-      this.$(`.asp-btn:contains("${slotPickerTime}"):first`).click();
+      $(`.asp-btn:contains("${slotPickerTime}"):first`).click();
     });
 
     return settled().then(() => {
-      assert.equal(
-        this.$(`.asp-appointment-slot-selected:contains("${slotPickerTime}")`).length,
+      assert.strictEqual(
+        $(`.asp-appointment-slot-selected:contains("${slotPickerTime}")`)
+          .length,
         1,
         'timeslot is selected.'
       );
@@ -69,7 +67,7 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
 
   test('with slots available, last slot selected', async function (assert) {
     generateAppointmentSlots.call(this, {
-      numberOfAppointments: 50
+      numberOfAppointments: 50,
     });
 
     this.actions.testSelect = () => {};
@@ -81,24 +79,20 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
 
     await render(hbs`
       <div>
-        {{#slots-picker
-          appointmentSlots=generatedAppointmentSlots
-          select=(action 'testSelect')
-          selected=selected
-          as |baseProps onSelectSlot|
-        }}
-          {{slots-picker/cards
-            baseProps=baseProps
-            onSelectSlot=onSelectSlot
-          }}
-        {{/slots-picker}}
+        <SlotsPicker @appointmentSlots={{generatedAppointmentSlots}} @select={{action "testSelect"}} @selected={{selected}} as |baseProps onSelectSlot|>
+          <SlotsPicker::Cards @baseProps={{baseProps}} @onSelectSlot={{onSelectSlot}} />
+        </SlotsPicker>
       </div>
     `);
 
     return settled().then(() => {
-      assert.equal(findAll('.asp-btn').length > 0, true, 'has some available appointments loaded afterwards');
+      assert.strictEqual(
+        findAll('.asp-btn').length > 0,
+        true,
+        'has some available appointments loaded afterwards'
+      );
 
-      assert.equal(
+      assert.strictEqual(
         findAll('.slot-picker-button').length,
         availableAppointmentSlots.get('length'),
         'has as many buttons as there are available slots'
@@ -113,7 +107,7 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
 
   test('multiple selections', async function (assert) {
     generateAppointmentSlots.call(this, {
-      numberOfAppointments: 50
+      numberOfAppointments: 50,
     });
 
     this.actions.onSelect = (slot) => this.selected.pushObject(slot);
@@ -126,35 +120,30 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
 
     await render(hbs`
       <div>
-        {{#slots-picker
-          appointmentSlots=generatedAppointmentSlots
-          selected=selected
-          canSelectMultipleSlots=true
-          select=(action 'onSelect')
-          deselect=(action 'onDeselect')
-          as |baseProps onSelectSlot onDeselectSlot|
-        }}
-          {{slots-picker/cards
-            baseProps=baseProps
-            onSelectSlot=onSelectSlot
-            onDeselectSlot=onDeselectSlot
-          }}
-        {{/slots-picker}}
+        <SlotsPicker @appointmentSlots={{generatedAppointmentSlots}} @selected={{selected}} @canSelectMultipleSlots={{true}} @select={{action "onSelect"}} @deselect={{action "onDeselect"}} as |baseProps onSelectSlot onDeselectSlot|>
+          <SlotsPicker::Cards @baseProps={{baseProps}} @onSelectSlot={{onSelectSlot}} @onDeselectSlot={{onDeselectSlot}} />
+        </SlotsPicker>
       </div>
     `);
 
-    const $cardWithButtons = this.$('.five-cards').filter((i, el) => {
-      return this.$(el).find('.slot-picker-button').length > 1;
-    }).first();
+    const $cardWithButtons = $('.five-cards')
+      .filter((i, el) => {
+        return $(el).find('.slot-picker-button').length > 1;
+      })
+      .first();
 
-    await run(() => $cardWithButtons.find('.slot-picker-button:first button').click());
+    await run(() =>
+      $cardWithButtons.find('.slot-picker-button:first button').click()
+    );
 
     assert.notOk(
-      $cardWithButtons.find('.slot-picker-button .asp-appointment-slot-selected').length,
+      $cardWithButtons.find(
+        '.slot-picker-button .asp-appointment-slot-selected'
+      ).length,
       'should not remove buttons when selecting'
     );
 
-    assert.equal(
+    assert.strictEqual(
       $cardWithButtons.find('.slot-picker-button button.selected').length,
       1,
       'should select one slot'
@@ -162,7 +151,7 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
 
     $cardWithButtons.find('.slot-picker-button:last button').click();
 
-    assert.equal(
+    assert.strictEqual(
       $cardWithButtons.find('.slot-picker-button button.selected').length,
       2,
       'should select two slots'
@@ -170,7 +159,7 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
 
     $cardWithButtons.find('.slot-picker-button:first button').click();
 
-    assert.equal(
+    assert.strictEqual(
       $cardWithButtons.find('.slot-picker-button button.selected').length,
       1,
       'should deselect one slot'

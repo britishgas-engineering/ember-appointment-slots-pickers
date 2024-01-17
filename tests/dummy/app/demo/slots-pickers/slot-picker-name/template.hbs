@@ -1,6 +1,10 @@
-{{#if (eq model.slotPickerName 'slots-picker/mobile')}}
-  {{#if (unbound (not viewport.isXs))}}
+{{#if (eq this.model.slotPickerName "slots-picker/mobile")}}
+  {{#if (unbound (not this.viewport.isXs))}}
     <h2 class="red"> Switch to mobile view and reload the page</h2>
   {{/if}}
 {{/if}}
-<Demo::SlotsPickers::IndividualTemplate @model={{this.model}} @delay={{this.delay}} />
+<Demo::SlotsPickers::IndividualTemplate
+  @onResetSlots={{route-action "resetSlots"}}
+  @model={{this.model}}
+  @delay={{this.delay}}
+/>

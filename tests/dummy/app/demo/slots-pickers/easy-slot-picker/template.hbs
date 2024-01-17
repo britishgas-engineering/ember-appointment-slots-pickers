@@ -8,21 +8,13 @@
   <h3>Default</h3>
     <hr>
   <div class="mb8">
-    {{easy-slot-picker
-      appointmentSlots=model.showableSlots
-      selected=model.selected
-      onSelect=(action (mut model.selected))
-    }}
+    <EasySlotPicker @appointmentSlots={{this.model.showableSlots}} @selected={{this.model.selected}} @onSelect={{action (mut this.model.selected)}} />
   </div>
 
-  <h3>Loading state ({{delay}} ms, change with queryParam ?delay=10000)</h3>
+  <h3>Loading state ({{this.delay}} ms, change with queryParam ?delay=10000)</h3>
   <hr>
   <div class="mb8">
-    {{easy-slot-picker
-      appointmentSlots=model.asyncSlots
-      selected=model.selected
-      onSelect=(action (mut model.selected))
-    }}
+    <EasySlotPicker @appointmentSlots={{this.model.asyncSlots}} @selected={{this.model.selected}} @onSelect={{action (mut this.model.selected)}} />
   </div>
   <hr>
 </div>

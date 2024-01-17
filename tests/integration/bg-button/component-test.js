@@ -1,6 +1,5 @@
-import {
-  module} from 'qunit'; import {setupRenderingTest
-} from 'ember-qunit';
+import { module } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import { test } from 'qunit';
 import { run } from '@ember/runloop';
 import RSVP, { defer } from 'rsvp';
@@ -13,196 +12,184 @@ module('Integration | Component | bg-button', function (hooks) {
 
   hooks.beforeEach(function () {
     this.actions = {};
-    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
+    this.send = (actionName, ...args) =>
+      this.actions[actionName].apply(this, args);
   });
 
   test('.yield', async function (assert) {
-
     await render(hbs`
-      {{#bg-button}}
+      <BgButton>
         Text
-      {{/bg-button}}
+      </BgButton>
     `);
 
     assert.dom('*').hasText('Text');
-
   });
 
   test('action', async function (assert) {
-
     const stub = sinon.stub();
     this.actions.defaultAction = stub;
 
     await render(hbs`
-      {{#bg-button
-        action=(action "defaultAction")
-      }}
+      <BgButton @action={{action "defaultAction"}}>
         Text
-      {{/bg-button}}
+      </BgButton>
     `);
 
     assert.ok(!stub.called, 'does not call the action without user action');
 
     await click('button');
 
-    assert.ok(stub.called, 'calls the action when the user clicks on the button');
-
+    assert.ok(
+      stub.called,
+      'calls the action when the user clicks on the button'
+    );
   });
 
   test('disabled', async function (assert) {
-
     const stub = sinon.stub();
     this.actions.defaultAction = stub;
 
     await render(hbs`
-      {{#bg-button
-        action=(action "defaultAction")
-        disabled=disabled
-      }}
+      <BgButton @action={{action "defaultAction"}} @disabled={{this.disabled}}>
         Text
-      {{/bg-button}}
+      </BgButton>
     `);
 
     this.set('disabled', true);
     assert.dom('button').isDisabled('disable the button when disabled');
 
-    await click('button');
-
     assert.ok(!stub.called, 'disable the default action');
 
     this.set('disabled', false);
     assert.ok(!find('button').disabled, 'enable the button when not disabled');
-
   });
 
   test('icon', async function (assert) {
-
     const stub = sinon.stub();
     this.actions.defaultAction = stub;
 
     await render(hbs`
-      {{#bg-button
-        action=(action "defaultAction")
-        hide-icon=hideIcon
-        customIcon=customIcon
-      }}
+      <BgButton @action={{action "defaultAction"}} @hide-icon={{this.hideIcon}} @customIcon={{this.customIcon}}>
         Text
-      {{/bg-button}}
+      </BgButton>
     `);
 
-    assert.ok(findAll('.bg-button-icon.fa.fa-angle-right').length, 'seeing default icon class');
+    assert.ok(
+      findAll('.bg-button-icon.fa.fa-angle-right').length,
+      'seeing default icon class'
+    );
     run(() => {
       this.set('customIcon', 'my-custom-class');
     });
-    assert.notOk(findAll('.bg-button-icon.fa.fa-angle-right').length, 'pouf it disappeared');
-    assert.ok(findAll('.bg-button-icon.my-custom-class').length, 'seeing customIcon class');
+    assert.notOk(
+      findAll('.bg-button-icon.fa.fa-angle-right').length,
+      'pouf it disappeared'
+    );
+    assert.ok(
+      findAll('.bg-button-icon.my-custom-class').length,
+      'seeing customIcon class'
+    );
 
     run(() => {
       this.set('hideIcon', true);
     });
-    assert.notOk(findAll('.bg-button-icon.fa.fa-angle-right').length, 'pouf it disappeared');
-    assert.notOk(findAll('.bg-button-icon.my-custom-class').length, 'magical magic it disappeared too!');
-
+    assert.notOk(
+      findAll('.bg-button-icon.fa.fa-angle-right').length,
+      'pouf it disappeared'
+    );
+    assert.notOk(
+      findAll('.bg-button-icon.my-custom-class').length,
+      'magical magic it disappeared too!'
+    );
   });
 
   test('loading', async function (assert) {
-
     const stub = sinon.stub();
     this.actions.defaultAction = stub;
+    this.set('loading', false);
 
     await render(hbs`
-      {{#bg-button
-        action=(action "defaultAction")
-        loading=loading
-      }}
+      <BgButton @action={{action "defaultAction"}} @loading={{this.loading}}>
         Text
-      {{/bg-button}}
+      </BgButton>
     `);
 
     this.set('loading', true);
     assert.dom('button').isDisabled('disable the button when loading');
 
-    await click('button');
-
     assert.ok(!stub.called, 'disable the default action');
 
     this.set('loading', false);
     assert.ok(!find('button').disabled, 'enable the button when not loading');
-
   });
 
   test('forceLoadingToPersist promise', async function (assert) {
-
     const defaultAction = function () {
       return RSVP.resolve();
     };
     this.actions.defaultAction = defaultAction;
 
     await render(hbs`
-      {{#bg-button
-        action=(action "defaultAction")
-        forceLoadingToPersist=true
-      }}
+      <BgButton @action={{action "defaultAction"}} @forceLoadingToPersist={{true}}>
         Text
-      {{/bg-button}}
+      </BgButton>
     `);
 
     await click('button');
 
-    assert.dom('button').isDisabled('forceLoadingToPersist forces loading even after promise has returned');
+    assert
+      .dom('button')
+      .isDisabled(
+        'forceLoadingToPersist forces loading even after promise has returned'
+      );
   });
 
   test('forceLoadingToPersist non promise', async function (assert) {
-
     const defaultAction = function () {
       return 'bla';
     };
     this.actions.defaultAction = defaultAction;
 
     await render(hbs`
-      {{#bg-button
-        action=(action "defaultAction")
-        forceLoadingToPersist=true
-      }}
+      <BgButton @action={{action "defaultAction"}} @forceLoadingToPersist={{true}}>
         Text
-      {{/bg-button}}
+      </BgButton>
     `);
 
     await click('button');
 
-    assert.dom('button').isNotDisabled(
-      'forceLoadingToPersist does not force loading when action is not a promise'
-    );
+    assert
+      .dom('button')
+      .isNotDisabled(
+        'forceLoadingToPersist does not force loading when action is not a promise'
+      );
   });
 
   test('loading-text', async function (assert) {
-
     await render(hbs`
-      {{#bg-button
-        loading=true
-      }}
+      <BgButton @loading={{true}}>
         Text
-      {{/bg-button}}
+      </BgButton>
     `);
 
-    assert.dom('*').hasText('Loading...', 'render default loading text if not provided');
+    assert
+      .dom('*')
+      .hasText('Loading...', 'render default loading text if not provided');
 
     await render(hbs`
-      {{#bg-button
-        loading=true
-        loading-text="custom-loading-text"
-      }}
+      <BgButton @loading={{true}} @loading-text="custom-loading-text">
         Text
-      {{/bg-button}}
+      </BgButton>
     `);
 
     this.set('loadingText', 'custom-loading-text');
-    assert.dom('*').hasText('custom-loading-text', 'render loading text if provided');
-
+    assert
+      .dom('*')
+      .hasText('custom-loading-text', 'render loading text if provided');
   });
 
   test('async action', async function (assert) {
-
     const d = defer();
 
     this.actions.asyncAction = () => {
@@ -210,27 +197,28 @@ module('Integration | Component | bg-button', function (hooks) {
     };
 
     await render(hbs`
-      {{#bg-button
-        action=(action "asyncAction")
-      }}
+      <BgButton @action={{action "asyncAction"}}>
         Text
-      {{/bg-button}}
+      </BgButton>
     `);
 
     await click('button');
 
-    assert.dom('button').isDisabled('when async action is triggered render loading state');
+    assert
+      .dom('button')
+      .isDisabled('when async action is triggered render loading state');
 
     run(() => {
       d.resolve();
     });
 
-    assert.ok(!find('button').disabled, 'when async action completes render normal state');
-
+    assert.ok(
+      !find('button').disabled,
+      'when async action completes render normal state'
+    );
   });
 
   test('async action - (after component has been destroyed)', async function (assert) {
-
     const d = defer();
 
     this.set('show', true);
@@ -239,18 +227,18 @@ module('Integration | Component | bg-button', function (hooks) {
     };
 
     await render(hbs`
-      {{#if show}}
-        {{#bg-button
-          action=(action "asyncAction")
-        }}
+      {{#if this.show}}
+        <BgButton @action={{action "asyncAction"}}>
           Text
-        {{/bg-button}}
+        </BgButton>
       {{/if}}
     `);
 
     await click('button');
 
-    assert.dom('button').isDisabled('when async action is triggered render loading state');
+    assert
+      .dom('button')
+      .isDisabled('when async action is triggered render loading state');
 
     run(() => {
       this.set('show', false);
@@ -265,6 +253,5 @@ module('Integration | Component | bg-button', function (hooks) {
     } catch (e) {
       assert.ok(false, e);
     }
-
   });
 });

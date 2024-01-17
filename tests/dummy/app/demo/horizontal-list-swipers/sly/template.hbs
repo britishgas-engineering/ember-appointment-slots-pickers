@@ -6,43 +6,31 @@
   <h3>Default</h3>
 
   <div class="row mb8">
-    {{#horizontal-list-swiper/sly
-      itemsUpdate=model
-      as |item itemIndex|
-    }}
+    <HorizontalListSwiper::Sly @itemsUpdate={{this.model}} as |item itemIndex|>
       <div class="scroll-header-sly">
         {{item}}
       </div>
-    {{/horizontal-list-swiper/sly}}
+    </HorizontalListSwiper::Sly>
   </div>
 
   <h3>Centered</h3>
 
   <div class="row mb8">
-    {{#horizontal-list-swiper/sly
-      active-item-alignment="centered"
-      itemsUpdate=model
-      as |item itemIndex|
-    }}
+    <HorizontalListSwiper::Sly @active-item-alignment="centered" @itemsUpdate={{this.model}} as |item itemIndex|>
       <div class="scroll-header-sly">
         {{item}}
       </div>
-    {{/horizontal-list-swiper/sly}}
+    </HorizontalListSwiper::Sly>
   </div>
 
   <h3>Stiff</h3>
 
   <div class="row mb8">
-    {{#horizontal-list-swiper/sly
-      active-item-alignment="centered"
-      stiffness=0.2
-      itemsUpdate=model
-      as |item itemIndex|
-    }}
+    <HorizontalListSwiper::Sly @active-item-alignment="centered" @stiffness={{0.2}} @itemsUpdate={{this.model}} as |item itemIndex|>
       <div class="scroll-header-sly">
         {{item}}
       </div>
-    {{/horizontal-list-swiper/sly}}
+    </HorizontalListSwiper::Sly>
   </div>
 
 </div>

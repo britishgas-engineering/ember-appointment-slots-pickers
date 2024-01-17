@@ -1,11 +1,15 @@
-{{#if slotsAreLoading}}
-  {{slots-picker/slots-loader}}
+{{#if this.slotsAreLoading}}
+  <SlotsPicker::SlotsLoader />
 {{else}}
   <div class="asp-desktop">
     <div class="asp-table">
 
-
-      {{#horizontal-list-swiper/gesture displayAfterRender=displaySlotAfterRender index=selectedDayIndex items=cellsPerCol as |item|}}
+      <HorizontalListSwiper::Gesture
+        @displayAfterRender={{this.displaySlotAfterRender}}
+        @index={{this.selectedDayIndex}}
+        @items={{this.cellsPerCol}}
+        as |item|
+      >
 
         <div class="asp-col font-size-8">
           <div class="asp-row asp-row-header background-dark-blue white">
@@ -15,19 +19,19 @@
           </div>
 
           {{#each item.cellsForCol as |cell index|}}
-            <div class="asp-row border-right border-light-grey }}">
+            <div class="asp-row border-right border-light-grey">
               <div class="asp-cell">
                 {{#if cell}}
-                  {{slots-picker/button
-                    appointmentSlot=cell
-                    multiSelected=multiSelected
-                    canSelectMultipleSlots=canSelectMultipleSlots
-                    select=(action onSelectSlot)
-                    deselect=(optional-action onDeselectSlot)
-                  }}
+                  <SlotsPicker::Button
+                    @appointmentSlot={{cell}}
+                    @multiSelected={{this.multiSelected}}
+                    @canSelectMultipleSlots={{this.canSelectMultipleSlots}}
+                    @select={{action this.onSelectSlot}}
+                    @deselect={{optional-action this.onDeselectSlot}}
+                  />
                 {{else}}
                   <div class="no-slot-label">
-                    {{if noSlotLabel noSlotLabel 'Fully booked'}}
+                    {{if this.noSlotLabel this.noSlotLabel "Fully booked"}}
                   </div>
                 {{/if}}
               </div>
@@ -36,7 +40,7 @@
 
         </div>
 
-      {{/horizontal-list-swiper/gesture}}
+      </HorizontalListSwiper::Gesture>
     </div>
   </div>
 {{/if}}

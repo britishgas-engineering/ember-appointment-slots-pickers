@@ -1,12 +1,14 @@
 <div class="container mt10 ember-appointment-slots-pickers">
   <h1 id="title">Ember appointment slots pickers</h1>
   <ul>
-    <li>{{#link-to "demo.slots-pickers.easy-slot-picker"}}easy-slot-picker{{/link-to}}</li>
-    <li>{{#link-to "demo.horizontal-list-swipers"}}horizontal-list swipers{{/link-to}}</li>
-    <li>{{#link-to "demo.date-pickers"}}date pickers{{/link-to}}</li>
-    <li>{{#link-to "demo.slots-pickers"}}slots pickers{{/link-to}}</li>
-    <li>{{#link-to "demo.slots-filter"}}slots-filter{{/link-to}}</li>
-    <li>{{#link-to "demo.clock-reloader"}}clock-reloader{{/link-to}}</li>
-    <li>{{#link-to "demo.slots-selections"}}slots-selections{{/link-to}}</li>
+    <li><LinkTo
+        @route="demo.slots-pickers.easy-slot-picker"
+      >easy-slot-picker</LinkTo></li>
+    <li><LinkTo @route="demo.horizontal-list-swipers">horizontal-list swipers</LinkTo></li>
+    <li><LinkTo @route="demo.date-pickers">date pickers</LinkTo></li>
+    <li><LinkTo @route="demo.slots-pickers">slots pickers</LinkTo></li>
+    <li><LinkTo @route="demo.slots-filter">slots-filter</LinkTo></li>
+    <li><LinkTo @route="demo.clock-reloader">clock-reloader</LinkTo></li>
+    <li><LinkTo @route="demo.slots-selections">slots-selections</LinkTo></li>
   </ul>
 </div>

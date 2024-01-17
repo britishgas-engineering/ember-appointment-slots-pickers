@@ -2,10 +2,10 @@ import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import layout from './template';
-import { run } from '@ember/runloop';
+import { next } from '@ember/runloop';
+import $ from 'jquery';
 
 export default Component.extend({
-
   layout: layout,
 
   scroll: service(),
@@ -17,14 +17,9 @@ export default Component.extend({
   autoscroll: false,
   stayOnTopOf: null,
 
-  classNames: [
-    'scroll-anchor',
-    'ember-appointment-slots-pickers'
-  ],
+  classNames: ['scroll-anchor', 'ember-appointment-slots-pickers'],
 
-  classNameBindings: [
-    'className'
-  ],
+  classNameBindings: ['className'],
 
   className: computed('name', function () {
     return 'scroll-anchor' + this.name;
@@ -37,20 +32,19 @@ export default Component.extend({
     if (this.name) {
       // Register this anchor against the scroll service
       scroll.set('_anchors.' + this.name, {
-        $el: this.$(),
+        $el: $(this.element),
         options: {
           teleport: this.teleport,
-          stayOnTopOf: this.stayOnTopOf
-        }
+          stayOnTopOf: this.stayOnTopOf,
+        },
       });
 
       if (this.autoscroll) {
         this.logger.info(`autoscroll to ${this.name}`);
-        run.next(() => {
+        next(() => {
           scroll.to(this.name);
         });
       }
-
     }
   },
 
@@ -62,6 +56,5 @@ export default Component.extend({
       // Unregister this anchor from the scroll service
       scroll.set('_anchors.' + this.name, null);
     }
-  }
-
+  },
 });

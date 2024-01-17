@@ -1,33 +1,42 @@
 import moment from 'moment';
 import RSVP from 'rsvp';
-import { run } from '@ember/runloop';
+import { later } from '@ember/runloop';
 import DS from 'ember-data';
 import Route from '@ember/routing/route';
 import EmberObject from '@ember/object';
+import { inject as service } from '@ember/service';
 
-const schema = [{
-  startHour: 8,
-  endHour: 10
-}, {
-  startHour: 10,
-  endHour: 12
-}, {
-  startHour: 12,
-  endHour: 14
-}, {
-  startHour: 14,
-  endHour: 16
-}, {
-  startHour: 14,
-  endHour: 16,
-  variant: 'EVENING'
-}, {
-  startHour: 8,
-  endHour: 16,
-  variant: 'ALLDAY'
-}];
+const schema = [
+  {
+    startHour: 8,
+    endHour: 10,
+  },
+  {
+    startHour: 10,
+    endHour: 12,
+  },
+  {
+    startHour: 12,
+    endHour: 14,
+  },
+  {
+    startHour: 14,
+    endHour: 16,
+  },
+  {
+    startHour: 14,
+    endHour: 16,
+    variant: 'EVENING',
+  },
+  {
+    startHour: 8,
+    endHour: 16,
+    variant: 'ALLDAY',
+  },
+];
 
 export default Route.extend({
+  store: service(),
   model(params) {
     const appointmentSlots = [];
 
@@ -35,24 +44,35 @@ export default Route.extend({
       const s = schema[i % schema.length];
 
       const startMoment = moment().add(i / schema.length + 5, 'days');
-      const notDisplayable = i < schema.length + 1;//first day
-      appointmentSlots.push(this.store.createRecord('appointment-slot', {
-        startTime: startMoment.hours(s.startHour).minutes(0).seconds(0).format(),
-        endTime: startMoment.hours(s.endHour).minutes(0).seconds(0).format(),
-        variant: s.variant,
-        available: Math.random() > 0.75 || notDisplayable,
-        slotPickerNotDisplayable: notDisplayable,
-        slotPickerHasTag: Math.random() > 0.75
-      }));
+      const notDisplayable = i < schema.length + 1; //first day
+      appointmentSlots.push(
+        this.store.createRecord('appointment-slot', {
+          startTime: startMoment
+            .hours(s.startHour)
+            .minutes(0)
+            .seconds(0)
+            .format(),
+          endTime: startMoment.hours(s.endHour).minutes(0).seconds(0).format(),
+          variant: s.variant,
+          available: Math.random() > 0.75 || notDisplayable,
+          slotPickerNotDisplayable: notDisplayable,
+          slotPickerHasTag: Math.random() > 0.75,
+        })
+      );
     }
     const availableSlots = appointmentSlots.filterBy('available', true);
-    const showableSlots = appointmentSlots.filterBy('slotPickerNotDisplayable', false);
-    const selectedSlotIndex = Math.floor(Math.random() * (availableSlots.length + 1));
+    const showableSlots = appointmentSlots.filterBy(
+      'slotPickerNotDisplayable',
+      false
+    );
+    const selectedSlotIndex = Math.floor(
+      Math.random() * (availableSlots.length + 1)
+    );
     const selectedSlot = availableSlots[selectedSlotIndex];
     const model = EmberObject.create({
       selected: selectedSlot,
       appointmentSlots,
-      showableSlots
+      showableSlots,
     });
     this._resetAsyncSlots(model, params.delay);
     return model;
@@ -61,11 +81,15 @@ export default Route.extend({
     //restarts the timer when changing slots-picker route
     const showableSlots = model.get('showableSlots');
     const promiseAsyncSlots = new RSVP.Promise(function (resolve) {
-      run.later(this, function () {
-        resolve(showableSlots);
-      }, delay);
+      later(
+        this,
+        function () {
+          resolve(showableSlots);
+        },
+        delay
+      );
     });
-    const asyncSlots = DS.PromiseArray.create({promise: promiseAsyncSlots});
+    const asyncSlots = DS.PromiseArray.create({ promise: promiseAsyncSlots });
     model.set('asyncSlots', asyncSlots);
     return asyncSlots;
   },
@@ -75,6 +99,6 @@ export default Route.extend({
     },
     resetSlots() {
       return true;
-    }
-  }
+    },
+  },
 });

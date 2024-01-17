@@ -1,0 +1,7 @@
+2024-01-16T22:17:38.421Z [warn] WARNING: {{to-upper-case}} was not converted as it has positional parameters which can't be automatically converted. Source: ./addon/components/date-picker/mobile/template.hbs
+2024-01-16T22:17:38.558Z [warn] WARNING: {{optional-action}} was not converted as it has positional parameters which can't be automatically converted. Source: ./addon/components/slots-picker/cards/template.hbs
+2024-01-16T22:17:38.585Z [warn] WARNING: {{optional-action}} was not converted as it has positional parameters which can't be automatically converted. Source: ./addon/components/slots-picker/cards/day-card/template.hbs
+2024-01-16T22:17:38.647Z [warn] WARNING: {{or}} was not converted as it has positional parameters which can't be automatically converted. Source: ./addon/components/slots-picker/selection-single/template.hbs
+2024-01-16T22:17:38.663Z [warn] WARNING: {{optional-action}} was not converted as it has positional parameters which can't be automatically converted. Source: ./addon/components/slots-picker/mobile/template.hbs
+2024-01-16T22:17:38.678Z [warn] WARNING: {{optional-action}} was not converted as it has positional parameters which can't be automatically converted. Source: ./addon/components/slots-picker/desktop/template.hbs
+2024-01-16T22:50:05.984Z [warn] WARNING: {{page-title}} was not converted as it has positional parameters which can't be automatically converted. Source: tests/dummy/app/templates/application.hbs

@@ -1,32 +1,32 @@
 <div class="filter-container">
-  {{#if viewport.isXs}}
+  {{#if this.viewport.isXs}}
     <div class="filter-container-mobile">
       <button type="button" class="btn btn-tertiary" {{action "filterButtonClick"}}>
-        <span class="{{if areTimeSlotsHidden 'fa fa-angle-down' 'fa fa-angle-up'}}" aria-hidden="true"></span>
+        <span class="{{if this.areTimeSlotsHidden 'fa fa-angle-down' 'fa fa-angle-up'}}" aria-hidden="true"></span>
         Filter by time slots
       </button>
-      <div hidden={{areTimeSlotsHidden}} class="filter">
+      <div hidden={{this.areTimeSlotsHidden}} class="filter">
         <div class="filter-button-group" role="group">
-          {{#if areSlotsEven}}
-            {{#each allTimeSlots as |timeSlot|}}
+          {{#if this.areSlotsEven}}
+            {{#each this.allTimeSlots as |timeSlot|}}
               {{! TODO: use slot-picker-button instead! }}
               <button type="button"
-                class="filter-slot {{if (eq timeSlot selectedTimeSlot) 'filter-slot-selected'}}"
+                class="filter-slot {{if (eq timeSlot this.selectedTimeSlot) 'filter-slot-selected'}}"
                 {{action "timeSlotButtonClick" timeSlot}}>
                 {{timeSlot.label}}
               </button>
             {{/each}}
           {{else}}
-            {{#each inputTimeSlots as |timeSlot|}}
+            {{#each this.inputTimeSlots as |timeSlot|}}
               <button type="button"
-                class="filter-slot {{if (eq timeSlot selectedTimeSlot) 'filter-slot-selected'}}"
+                class="filter-slot {{if (eq timeSlot this.selectedTimeSlot) 'filter-slot-selected'}}"
                 {{action "timeSlotButtonClick" timeSlot}}>
                 {{timeSlot.label}}
               </button>
             {{/each}}
-            {{#each fixedTimeSlots as |timeSlot|}}
+            {{#each this.fixedTimeSlots as |timeSlot|}}
               <button type="button"
-                class="filter-slot filter-slot-big {{if (eq timeSlot selectedTimeSlot) 'filter-slot-selected'}}"
+                class="filter-slot filter-slot-big {{if (eq timeSlot this.selectedTimeSlot) 'filter-slot-selected'}}"
                 {{action "timeSlotButtonClick" timeSlot}}>
                 {{timeSlot.label}}
               </button>
@@ -40,17 +40,17 @@
     <div class="filter-container-desktop">
       <span class="filter-desktop-title">Filter by time</span>
       <div class="filter-button-group" role="group">
-        {{#each fixedTimeSlots as |timeSlot|}}
+        {{#each this.fixedTimeSlots as |timeSlot|}}
           {{! TODO: use slot-picker-button instead! }}
           <button type="button"
-            class="filter-slot-desktop {{if (eq timeSlot selectedTimeSlot) 'filter-slot-selected'}}"
+            class="filter-slot-desktop {{if (eq timeSlot this.selectedTimeSlot) 'filter-slot-selected'}}"
             {{action "timeSlotButtonClick" timeSlot}}>
             {{timeSlot.label}}
           </button>
         {{/each}}
-        {{#each inputTimeSlots as |timeSlot|}}
+        {{#each this.inputTimeSlots as |timeSlot|}}
           <button type="button"
-            class="filter-slot-desktop {{if (eq timeSlot selectedTimeSlot) 'filter-slot-selected'}}"
+            class="filter-slot-desktop {{if (eq timeSlot this.selectedTimeSlot) 'filter-slot-selected'}}"
             {{action "timeSlotButtonClick" timeSlot}}>
             {{timeSlot.label}}
           </button>

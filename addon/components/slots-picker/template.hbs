@@ -2,16 +2,16 @@
   <div class="asp">
     {{yield
       (hash
-        days=days
-        rows=rows
-        cols=cols
-        cellsPerCol=cellsPerCol
-        multiSelected=multiSelected
-        cellsForColOfSelectedDays=cellsForColOfSelectedDays
-        noSlotLabel=noSlotLabel
-        slotsAreLoading=slotsAreLoading
-        selectedFilter=selectedFilter
-        canSelectMultipleSlots=canSelectMultipleSlots
+        days=this.days
+        rows=this.rows
+        cols=this.cols
+        cellsPerCol=this.cellsPerCol
+        multiSelected=this.multiSelected
+        cellsForColOfSelectedDays=this.cellsForColOfSelectedDays
+        noSlotLabel=this.noSlotLabel
+        slotsAreLoading=this.slotsAreLoading
+        selectedFilter=this.selectedFilter
+        canSelectMultipleSlots=this.canSelectMultipleSlots
       )
       (action "onSelectSlot")
       (action "onDeselectSlot")

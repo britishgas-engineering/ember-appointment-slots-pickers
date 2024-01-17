@@ -5,156 +5,216 @@ import { setupRenderingTest } from 'ember-qunit';
 import $ from 'jquery';
 import { click, findAll, find, render } from '@ember/test-helpers';
 
-module('Integration | Component | horizontal-list-swiper/gesture', function (hooks) {
-  setupRenderingTest(hooks);
+module(
+  'Integration | Component | horizontal-list-swiper/gesture',
+  function (hooks) {
+    setupRenderingTest(hooks);
 
-  hooks.before(function () {
-    //allows to use $(element).is(:offscreen) in integration tests
-    //see https://stackoverflow.com/a/8897628/4325661
-    $.expr.filters.offscreen = $.expr.filters.offscreen || function (el) {
-      const rect = el.getBoundingClientRect();
-      const containerRect = document.querySelector('#ember-testing').getBoundingClientRect();
-      return (
-        (rect.x + rect.width) < containerRect.x ||
-        (rect.y + rect.height) < containerRect.y ||
-        (rect.x > containerRect.x + containerRect.width || rect.y > containerRect.y + containerRect.height)
+    hooks.before(function () {
+      //allows to use $(element).is(:offscreen) in integration tests
+      //see https://stackoverflow.com/a/8897628/4325661
+      $.expr.filters.offscreen =
+        $.expr.filters.offscreen ||
+        function (el) {
+          const rect = el.getBoundingClientRect();
+          const containerRect = document
+            .querySelector('#ember-testing')
+            .getBoundingClientRect();
+          return (
+            rect.x + rect.width < containerRect.x ||
+            rect.y + rect.height < containerRect.y ||
+            rect.x > containerRect.x + containerRect.width ||
+            rect.y > containerRect.y + containerRect.height
+          );
+        };
+      return true;
+    });
+
+    test('it renders', async function (assert) {
+      assert.expect(2);
+
+      this.set('isFirstPage', true);
+      this.set('isLastPage', true);
+
+      await render(
+        hbs`{{horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}`
       );
-    };
-    return true;
-  });
 
-  test('it renders', async function (assert) {
-    assert.expect(2);
+      assert.dom('*').hasText('');
 
-    this.set('isFirstPage', true);
-    this.set('isLastPage', true);
-
-    await render(hbs`{{horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}`);
-
-    assert.dom('*').hasText('');
-
-    // Template block usage:
-    await render(hbs`
+      // Template block usage:
+      await render(hbs`
       {{#horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}
       {{/horizontal-list-swiper/gesture}}
     `);
-    assert.dom('*').hasText('');
-  });
+      assert.dom('*').hasText('');
+    });
 
-  test('previous button is not shown when on the first page', async function (assert) {
-    assert.expect(2);
+    test('previous button is not shown when on the first page', async function (assert) {
+      assert.expect(2);
 
-    this.set('isFirstPage', false);
-    this.set('isLastPage', false);
+      this.set('isFirstPage', false);
+      this.set('isLastPage', false);
 
-    await render(hbs`{{horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}`);
-    assert.ok(findAll('.asp-scroll-btn-prev').length, 'The previous dates button exists');
+      await render(
+        hbs`{{horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}`
+      );
+      assert.ok(
+        findAll('.asp-scroll-btn-prev').length,
+        'The previous dates button exists'
+      );
 
-    this.set('isFirstPage', true);
-    assert.notOk(findAll('.asp-scroll-btn-prev').length, 'The previous dates button does not exist on first page');
-  });
+      this.set('isFirstPage', true);
+      assert.notOk(
+        findAll('.asp-scroll-btn-prev').length,
+        'The previous dates button does not exist on first page'
+      );
+    });
 
-  test('more dates button is shown when there is multiple pages', async function (assert) {
-    assert.expect(3);
+    test('more dates button is shown when there is multiple pages', async function (assert) {
+      assert.expect(3);
 
-    this.set('isFirstPage', true);
-    this.set('isLastPage', true);
+      this.set('isFirstPage', true);
+      this.set('isLastPage', true);
 
-    await render(hbs`{{horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}`);
+      await render(
+        hbs`{{horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}`
+      );
 
-    assert.notOk(this.$('div:contains("More dates")').length, 'Does not show "More dates" button');
+      assert.notOk(
+        $('div:contains("More dates")').length,
+        'Does not show "More dates" button'
+      );
 
-    this.set('isLastPage', false);
-    assert.ok(findAll('.asp-scroll-btn-next').length, 'The more dates scroll button exists');
-    assert.ok(this.$('div:contains("More dates")').length, 'Show "More dates" button when not last page');
-  });
+      this.set('isLastPage', false);
+      assert.ok(
+        findAll('.asp-scroll-btn-next').length,
+        'The more dates scroll button exists'
+      );
+      assert.ok(
+        $('div:contains("More dates")').length,
+        'Show "More dates" button when not last page'
+      );
+    });
 
-  test('fade effects on slots is not shown on first and last pages', async function (assert) {
-    assert.expect(4);
+    test('fade effects on slots is not shown on first and last pages', async function (assert) {
+      assert.expect(4);
 
-    this.set('isFirstPage', false);
-    this.set('isLastPage', false);
+      this.set('isFirstPage', false);
+      this.set('isLastPage', false);
 
-    await render(hbs`{{horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}`);
-    assert.ok(findAll('.asp-fade-left').length, 'The left fade is shown when not first page');
-    assert.ok(findAll('.asp-fade-right').length, 'The right fade is shown when not last page');
+      await render(
+        hbs`{{horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}`
+      );
+      assert.ok(
+        findAll('.asp-fade-left').length,
+        'The left fade is shown when not first page'
+      );
+      assert.ok(
+        findAll('.asp-fade-right').length,
+        'The right fade is shown when not last page'
+      );
 
-    this.set('isFirstPage', true);
-    this.set('isLastPage', true);
-    assert.notOk(findAll('.asp-fade-left').length, 'The left fade is not shown on first page');
-    assert.notOk(findAll('.asp-fade-right').length, 'The right fade is not shown on last page');
-  });
+      this.set('isFirstPage', true);
+      this.set('isLastPage', true);
+      assert.notOk(
+        findAll('.asp-fade-left').length,
+        'The left fade is not shown on first page'
+      );
+      assert.notOk(
+        findAll('.asp-fade-right').length,
+        'The right fade is not shown on last page'
+      );
+    });
 
-  test('selected cell is on-screen', async function (assert) {
-    const items = new Array(200);
-    this.set('items', items);
-    await render(hbs`<div class="is-test-env" style="height:10px;">
+    test('selected cell is on-screen', async function (assert) {
+      const items = new Array(200);
+      this.set('items', items);
+      await render(hbs`<div class="is-test-env" style="height:10px;">
       {{#horizontal-list-swiper/gesture items=items index=100 as |item|}}
         <div class="cell" style="width:50px; height:10px; float:left;">{{item}}</div>
         {{/horizontal-list-swiper/gesture}}
       </div>`);
-    assert.notOk(this.$('.cell:eq(100)').is(':offscreen'), 'selected cell is on screen');
-    assert.ok(this.$('.cell:eq(0)').is(':offscreen'), 'first cell is not on screen');
-    assert.ok(this.$('.asp-fade-right'), 'is not last page');
-    assert.ok(this.$('.asp-fade-left'), 'is not first page');
-    assert.ok(findAll('.asp-scroll-btn-next').length, 'can see next button');
-    await click('.asp-scroll-btn-next');
-    assert.ok(this.$('.cell:eq(100)').is(':offscreen'), 'selected cell is not on screen anymore on next page');
-  });
+      assert.notOk(
+        $('.cell:eq(100)').is(':offscreen'),
+        'selected cell is on screen'
+      );
+      assert.ok(
+        $('.cell:eq(0)').is(':offscreen'),
+        'first cell is not on screen'
+      );
+      assert.ok($('.asp-fade-right'), 'is not last page');
+      assert.ok($('.asp-fade-left'), 'is not first page');
+      assert.ok(findAll('.asp-scroll-btn-next').length, 'can see next button');
+      await click('.asp-scroll-btn-next');
+      assert.ok(
+        $('.cell:eq(100)').is(':offscreen'),
+        'selected cell is not on screen anymore on next page'
+      );
+    });
 
-  test('scrollAreaStyle - with width', async function (assert) {
-    const items = new Array(4);
-    this.set('items', items);
-    await render(hbs`<div class="is-test-env" style="height:10px;">
+    test('scrollAreaStyle - with width', async function (assert) {
+      const items = new Array(4);
+      this.set('items', items);
+      await render(hbs`<div class="is-test-env" style="height:10px;">
       {{#horizontal-list-swiper/gesture items=items index=100 as |item|}}
         <div class="cell" style="width:50px; height:10px; float:left;">{{item}}</div>
         {{/horizontal-list-swiper/gesture}}
       </div>`);
-    const style = document.querySelector('.ember-appointment-slots-pickers .asp-scroll-area-wrapper div').style;
+      const style = document.querySelector(
+        '.ember-appointment-slots-pickers .asp-scroll-area-wrapper div'
+      ).style;
 
-    assert.equal(style.width, '200px','Width of component');
-    assert.equal(style.display, '', 'display');
-  });
+      assert.strictEqual(style.width, '200px', 'Width of component');
+      assert.strictEqual(style.display, '', 'display');
+    });
 
-  test('scrollAreaStyle - without width', async function (assert) {
-    const items = new Array(4);
-    this.set('items', items);
-    await render(hbs`<div class="is-test-env" style="height:10px;">
+    test('scrollAreaStyle - without width', async function (assert) {
+      const items = new Array(4);
+      this.set('items', items);
+      await render(hbs`<div class="is-test-env" style="height:10px;">
       {{#horizontal-list-swiper/gesture items=items index=100 as |item|}}
         <div class="cell" style="height:10px; float:left;">{{item}}</div>
         {{/horizontal-list-swiper/gesture}}
       </div>`);
-    const style = document.querySelector('.ember-appointment-slots-pickers .asp-scroll-area-wrapper div').style;
+      const style = document.querySelector(
+        '.ember-appointment-slots-pickers .asp-scroll-area-wrapper div'
+      ).style;
 
-    assert.equal(style.width, '0px','Width of component');
-    assert.equal(style.display, '', 'display of component');
-  });
+      assert.strictEqual(style.width, '0px', 'Width of component');
+      assert.strictEqual(style.display, '', 'display of component');
+    });
 
-  test('scrollAreaStyle - with displayAfterRender and without width', async function (assert) {
-    const items = new Array(4);
-    this.set('items', items);
-    await render(hbs`<div class="is-test-env" style="height:10px;">
+    test('scrollAreaStyle - with displayAfterRender and without width', async function (assert) {
+      const items = new Array(4);
+      this.set('items', items);
+      await render(hbs`<div class="is-test-env" style="height:10px;">
       {{#horizontal-list-swiper/gesture items=items displayAfterRender=true index=100 as |item|}}
         <div class="cell" style="height:10px; float:left;">{{item}}</div>
         {{/horizontal-list-swiper/gesture}}
       </div>`);
-    const style = document.querySelector('.ember-appointment-slots-pickers .asp-scroll-area-wrapper div').style;
+      const style = document.querySelector(
+        '.ember-appointment-slots-pickers .asp-scroll-area-wrapper div'
+      ).style;
 
-    assert.equal(style.width, '0px','Width of component');
-    assert.equal(style.display, 'none', 'display of component');
-  });
+      assert.strictEqual(style.width, '0px', 'Width of component');
+      assert.strictEqual(style.display, 'none', 'display of component');
+    });
 
-  test('scrollAreaStyle - with displayAfterRender and width', async function (assert) {
-    const items = new Array(4);
-    this.set('items', items);
-    await render(hbs`<div class="is-test-env" style="height:10px;">
+    test('scrollAreaStyle - with displayAfterRender and width', async function (assert) {
+      const items = new Array(4);
+      this.set('items', items);
+      await render(hbs`<div class="is-test-env" style="height:10px;">
       {{#horizontal-list-swiper/gesture items=items displayAfterRender=true index=100 as |item|}}
         <div class="cell" style="width:50px; height:10px; float:left;">{{item}}</div>
         {{/horizontal-list-swiper/gesture}}
       </div>`);
-    const style = document.querySelector('.ember-appointment-slots-pickers .asp-scroll-area-wrapper div').style;
+      const style = document.querySelector(
+        '.ember-appointment-slots-pickers .asp-scroll-area-wrapper div'
+      ).style;
 
-    assert.equal(style.width, '200px','Width of component');
-    assert.equal(style.display, '', 'display');
-  });
-});
+      assert.strictEqual(style.width, '200px', 'Width of component');
+      assert.strictEqual(style.display, '', 'display');
+    });
+  }
+);

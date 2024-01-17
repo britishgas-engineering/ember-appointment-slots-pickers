@@ -1,7 +1,7 @@
 import { computed } from '@ember/object';
 import noDelayOnTransitionsInTest from '../no-delay-on-transitions-in-test/component';
 import { inject as service } from '@ember/service';
-import { run } from '@ember/runloop';
+import { scheduleOnce, later, run } from '@ember/runloop';
 import $ from 'jquery';
 import layout from './template';
 
@@ -10,7 +10,7 @@ export default noDelayOnTransitionsInTest.extend({
   classNames: ['scroll-header-sly', 'ember-appointment-slots-pickers'],
 
   viewport: service(),
-  window,//TODO: use service instead
+  window, //TODO: use service instead
 
   index: null, //day at the middle
   indexUpdate: null,
@@ -34,7 +34,7 @@ export default noDelayOnTransitionsInTest.extend({
       return false;
     }
     this.sly.init();
-    const $slidee = this.$('.scroll-header-sly-slidee');
+    const $slidee = $('.scroll-header-sly-slidee');
     let width = $slidee.width();
     //handle the larger bubble for currentIndex.
     //Dont see a better way to do that with Sly. Bloody designers.
@@ -64,7 +64,7 @@ export default noDelayOnTransitionsInTest.extend({
       }
     }
     return index;
-  }).volatile(),//eslint-disable-line
+  }),
 
   _afterRenderSlyMove() {
     if (this.isDestroyed) {
@@ -73,8 +73,8 @@ export default noDelayOnTransitionsInTest.extend({
     const index = this._indexFromPosition;
     if (this.isDragging) {
       const indexRounded = Math.round(index);
-      this.$('.scroll-header-sly-item').removeClass('active');
-      this.$(`.scroll-header-sly-item:eq(${indexRounded})`).addClass('active');
+      $('.scroll-header-sly-item').removeClass('active');
+      $(`.scroll-header-sly-item:eq(${indexRounded})`).addClass('active');
     }
     return this.onmove(index);
   },
@@ -93,7 +93,7 @@ export default noDelayOnTransitionsInTest.extend({
     }
     //this.get('sly').reload();
     this.set('isDragging', false);
-    run.later(
+    later(
       this,
       () => {
         if (this.isDestroyed) {
@@ -111,11 +111,13 @@ export default noDelayOnTransitionsInTest.extend({
   didInsertElement() {
     this.set('isDragging', true);
     const Sly = this.get('window.Sly');
-    const centered = ['centered', 'forceCentered'].includes(this['active-item-alignment']);
+    const centered = ['centered', 'forceCentered'].includes(
+      this['active-item-alignment']
+    );
     // Instantiate sly
     this.set(
       'sly',
-      new Sly(this.$('.scroll-header-sly-frame'), {
+      new Sly($('.scroll-header-sly-frame'), {
         // https://github.com/darsain/sly/blob/master/docs/Options.md
         horizontal: true,
         itemNav: this['active-item-alignment'],
@@ -128,40 +130,43 @@ export default noDelayOnTransitionsInTest.extend({
         elasticBounds: true,
         swingSpeed: this.swingSpeed,
         // Animation
-        speed: this.speed
+        speed: this.speed,
       })
     );
 
     if (this.onactive) {
       this.sly.on('active', () => {
-        run.scheduleOnce('afterRender', this, '_afterRenderSlyActive');
+        scheduleOnce('afterRender', this, '_afterRenderSlyActive');
       });
     }
 
     if (this.onmove) {
       this.sly.on('move', () => {
         run(() => {
-          run.scheduleOnce('afterRender', this, '_afterRenderSlyMove');
+          scheduleOnce('afterRender', this, '_afterRenderSlyMove');
         });
       });
     }
     if (this.onmoveend) {
       this.sly.on('moveEnd', () => {
         run(() => {
-          run.scheduleOnce('afterRender', this, '_afterRenderSlyMoveEnd');
+          scheduleOnce('afterRender', this, '_afterRenderSlyMoveEnd');
         });
       });
     }
 
-    run.scheduleOnce('afterRender', this, '_afterRenderInit');
+    scheduleOnce('afterRender', this, '_afterRenderInit');
 
     this._resizeHandler = this._reload.bind(this);
     $(this.get('window.windowObject')).on('resize', this._resizeHandler);
-    $(this.get('window.windowObject')).on('orientationchange', this._resizeHandler);
+    $(this.get('window.windowObject')).on(
+      'orientationchange',
+      this._resizeHandler
+    );
   },
 
   _reload() {
-    run.scheduleOnce('afterRender', this, '_afterRenderReload');
+    scheduleOnce('afterRender', this, '_afterRenderReload');
   },
 
   _afterUpdateItems() {
@@ -184,7 +189,7 @@ export default noDelayOnTransitionsInTest.extend({
     const items = this.items;
     if (this.sly && items !== itemsUpdate) {
       this.set('items', itemsUpdate);
-      run.scheduleOnce('afterRender', this, '_afterUpdateItems');
+      scheduleOnce('afterRender', this, '_afterUpdateItems');
     }
   },
 
@@ -192,5 +197,5 @@ export default noDelayOnTransitionsInTest.extend({
     $(window).off('resize', this._resizeHandler);
     $(window).off('orientationchange', this._resizeHandler);
     this.sly.destroy();
-  }
+  },
 });

@@ -3,14 +3,6 @@
 <div class="container-fluid">
   <div class="row mb8 fix-container">
     {{!-- TODO: rename to date-picker/pickadate https://github.com/britishgas-engineering/ember-appointment-slots-pickers/issues/20 --}}
-    {{pickadate-input
-      min=min
-      max=max
-      select=(route-action "select")
-      hideToday=true
-      selected=model.selectedDate
-      jsDays=jsDays
-      setShorterDays=true
-    }}
+    <PickadateInput @min={{this.min}} @max={{this.max}} @select={{route-action "select"}} @hideToday={{true}} @selected={{this.model.selectedDate}} @jsDays={{this.jsDays}} @setShorterDays={{true}} />
   </div>
 </div>

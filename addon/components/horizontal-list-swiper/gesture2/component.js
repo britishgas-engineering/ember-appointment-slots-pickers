@@ -2,7 +2,7 @@ import RecognizerMixin from 'ember-gestures/mixins/recognizers';
 import layout from './template';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 
 const HorizontalSwipeView = Component.extend(RecognizerMixin, {
   layout: layout,
@@ -38,7 +38,7 @@ const HorizontalSwipeView = Component.extend(RecognizerMixin, {
   }),
 
   style: computed('offset', 'totalWidth', function () {
-    const {offset, totalWidth} = this;
+    const { offset, totalWidth } = this;
 
     return htmlSafe(`
       -ms-transform: translate3d(${offset}px,0,0);
@@ -53,12 +53,11 @@ const HorizontalSwipeView = Component.extend(RecognizerMixin, {
   styleItem: computed('width', function () {
     const width = this.width;
     return htmlSafe(`width:${width}px`);
-  })
-
+  }),
 });
 
 HorizontalSwipeView.reopenClass({
-  positionalParams: ['items']
+  positionalParams: ['items'],
 });
 
 export default HorizontalSwipeView;

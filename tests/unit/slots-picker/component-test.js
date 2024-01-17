@@ -5,7 +5,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import RSVP from 'rsvp';
 import DS from 'ember-data';
-import { run } from '@ember/runloop';
+import { later } from '@ember/runloop';
 import { settled } from '@ember/test-helpers';
 
 module('Unit | Component | slots-picker', function (hooks) {
@@ -18,41 +18,41 @@ module('Unit | Component | slots-picker', function (hooks) {
     slotPickerRowLabel: 'bli',
     slotPickerDay: moment(today).add(-2, 'day').format('YYYYMMDD'),
     slotPickerRowId: 'twoDaysAgo bli',
-    slotPickerTime: 'twoDaysAgo'
+    slotPickerTime: 'twoDaysAgo',
   });
   const yesterdayDate = EmberObject.create({
     slotPickerNotAvailable: false,
     slotPickerRowLabel: 'bla',
     slotPickerDay: moment(today).add(-1, 'day').format('YYYYMMDD'),
-    slotPickerTime: 'yesterday'
+    slotPickerTime: 'yesterday',
   });
   const todayDate = EmberObject.create({
     slotPickerNotAvailable: false,
     slotPickerRowLabel: 'bla',
     slotPickerDay: moment(today).add(0, 'day').format('YYYYMMDD'),
     slotPickerRowId: 'today bla',
-    slotPickerTime: 'today'
+    slotPickerTime: 'today',
   });
   const tomorrowDate = EmberObject.create({
     slotPickerNotAvailable: false,
     slotPickerRowLabel: 'bla',
     slotPickerDay: moment(today).add(1, 'day').format('YYYYMMDD'),
     slotPickerRowId: 'tomorrow bla',
-    slotPickerTime: 'tomorrow'
+    slotPickerTime: 'tomorrow',
   });
   const tomorrowDate2 = EmberObject.create({
     slotPickerNotAvailable: false,
     slotPickerRowLabel: 'ble',
     slotPickerDay: moment(today).add(1, 'day').format('YYYYMMDD'),
     slotPickerRowId: 'tomorrow ble',
-    slotPickerTime: 'tomorrow2'
+    slotPickerTime: 'tomorrow2',
   });
   const tomorrowDateUnavailable = EmberObject.create({
     slotPickerNotAvailable: true,
     slotPickerRowLabel: 'blu',
     slotPickerDay: moment(today).add(1, 'day').format('YYYYMMDD'),
     slotPickerRowId: 'tomorrow blu',
-    slotPickerTime: 'tomorrow3'
+    slotPickerTime: 'tomorrow3',
   });
 
   test('cellsPerCol', function (assert) {
@@ -63,64 +63,94 @@ module('Unit | Component | slots-picker', function (hooks) {
         tomorrowDate,
         tomorrowDate2,
         tomorrowDateUnavailable,
-        twoDaysAgoDateNotDisplayable
+        twoDaysAgoDateNotDisplayable,
       ],
       store: {
         createRecord(modelName, data) {
           return EmberObject.create(data);
-        }
-      }
+        },
+      },
     });
-    assert.equal(component.get('availableAppointmentSlots.length'), 5, '5 days available');
+    assert.strictEqual(
+      component.get('availableAppointmentSlots.length'),
+      5,
+      '5 days available'
+    );
     assert.notOk(
-      component.get('cellsPerCol.firstObject.cellsForCol').filter((slot) => !!slot).length,
+      component
+        .get('cellsPerCol.firstObject.cellsForCol')
+        .filter((slot) => !!slot).length,
       'we added a first column without slots because of the "slotPickerNotDisplayable" slot'
     );
 
-    component.get('appointmentSlots').removeObject(twoDaysAgoDateNotDisplayable);
-    assert.equal(component.get('availableAppointmentSlots.length'), 4, '4 days available');
+    component
+      .get('appointmentSlots')
+      .removeObject(twoDaysAgoDateNotDisplayable);
+    assert.strictEqual(
+      component.get('availableAppointmentSlots.length'),
+      4,
+      '4 days available'
+    );
     assert.ok(
-      component.get('cellsPerCol.firstObject.cellsForCol').filter((slot) => !!slot).length,
+      component
+        .get('cellsPerCol.firstObject.cellsForCol')
+        .filter((slot) => !!slot).length,
       'the first column now has slots'
     );
 
     component.get('appointmentSlots').removeObject(yesterdayDate);
-    assert.equal(component.get('availableAppointmentSlots.length'), 3, '3 days available');
+    assert.strictEqual(
+      component.get('availableAppointmentSlots.length'),
+      3,
+      '3 days available'
+    );
 
     component.get('appointmentSlots').removeObject(todayDate);
-    assert.equal(component.get('availableAppointmentSlots.length'), 2, '2 day available');
+    assert.strictEqual(
+      component.get('availableAppointmentSlots.length'),
+      2,
+      '2 day available'
+    );
 
     component.get('appointmentSlots').removeObject(tomorrowDate);
     component.get('appointmentSlots').removeObject(tomorrowDate2);
-    assert.equal(component.get('availableAppointmentSlots.length'), 0, '0 day available');
+    assert.strictEqual(
+      component.get('availableAppointmentSlots.length'),
+      0,
+      '0 day available'
+    );
   });
 
   test('adds back selected slot to the list of availableSlots', function (assert) {
     const component = this.owner.factoryFor('component:slots-picker').create({
-      appointmentSlots: [
-        todayDate,
-        tomorrowDateUnavailable
-      ],
-      selected: tomorrowDateUnavailable
+      appointmentSlots: [todayDate, tomorrowDateUnavailable],
+      selected: tomorrowDateUnavailable,
     });
 
-    assert.equal(component.get('availableAppointmentSlots.length'), 2, '2 days available as the (unavailable) selected slot is added back');
+    assert.strictEqual(
+      component.get('availableAppointmentSlots.length'),
+      2,
+      '2 days available as the (unavailable) selected slot is added back'
+    );
     component.set('selected', 'bla');
-    assert.equal(component.get('availableAppointmentSlots.length'), 2, 'availableSelectedSlots doesnt change when selected is updated');
+    assert.strictEqual(
+      component.get('availableAppointmentSlots.length'),
+      2,
+      'availableSelectedSlots doesnt change when selected is updated'
+    );
   });
 
   test('onSelectSlot, external action', function (assert) {
     const component = this.owner.factoryFor('component:slots-picker').create({
-      appointmentSlots: [
-        todayDate,
-        tomorrowDateUnavailable
-      ],
-      select() {
-      }
+      appointmentSlots: [todayDate, tomorrowDateUnavailable],
+      select() {},
     });
     component.send('onSelectSlot', todayDate);
     return settled().then(() => {
-      assert.notOk(component.get('multiSelected')[0], 'not changing selected as should be done by the parent providing the action');
+      assert.notOk(
+        component.get('multiSelected')[0],
+        'not changing selected as should be done by the parent providing the action'
+      );
     });
   });
 
@@ -128,7 +158,7 @@ module('Unit | Component | slots-picker', function (hooks) {
     const component = this.owner.factoryFor('component:slots-picker').create({
       appointmentSlots: [],
       attrs: {},
-      selected: tomorrowDate
+      selected: tomorrowDate,
     });
     assert.ok(
       component.get('slotsAreLoading'),
@@ -138,15 +168,19 @@ module('Unit | Component | slots-picker', function (hooks) {
 
   test('slotsAreLoading - appointmentSlots isPending', function (assert) {
     const promiseAsyncSlots = new RSVP.Promise(function (resolve) {
-      run.later(this, function () {
-        resolve();
-      }, 5000);
+      later(
+        this,
+        function () {
+          resolve();
+        },
+        5000
+      );
     });
-    const asyncSlots = DS.PromiseArray.create({promise: promiseAsyncSlots});
+    const asyncSlots = DS.PromiseArray.create({ promise: promiseAsyncSlots });
     const component = this.owner.factoryFor('component:slots-picker').create({
       appointmentSlots: asyncSlots,
       attrs: {},
-      selected: tomorrowDate
+      selected: tomorrowDate,
     });
     assert.ok(
       component.get('slotsAreLoading'),
@@ -172,36 +206,60 @@ module('Unit | Component | slots-picker', function (hooks) {
 
     selections = component.get('multiSelected');
 
-    assert.deepEqual(selections, [dummySlot], 'should return list containing single selection');
+    assert.deepEqual(
+      selections,
+      [dummySlot],
+      'should return list containing single selection'
+    );
 
     component.set('selected', [dummySlot]);
 
     selections = component.get('multiSelected');
 
-    assert.deepEqual(selections, [dummySlot], 'should return list containing single selection list');
+    assert.deepEqual(
+      selections,
+      [dummySlot],
+      'should return list containing single selection list'
+    );
 
     component.set('selected', [dummySlot, anotherDummySlot]);
 
     selections = component.get('multiSelected');
 
-    assert.deepEqual(selections, [dummySlot, anotherDummySlot], 'should return list containing selection list');
+    assert.deepEqual(
+      selections,
+      [dummySlot, anotherDummySlot],
+      'should return list containing selection list'
+    );
 
     component.set('selected', dummySlotProxy);
 
     selections = component.get('multiSelected');
 
-    assert.deepEqual(selections, [dummySlot], 'should return list containing single selection from proxy');
+    assert.deepEqual(
+      selections,
+      [dummySlot],
+      'should return list containing single selection from proxy'
+    );
 
     component.set('selected', [dummySlotProxy]);
 
     selections = component.get('multiSelected');
 
-    assert.deepEqual(selections, [dummySlot], 'should return list containing single selection list from proxy');
+    assert.deepEqual(
+      selections,
+      [dummySlot],
+      'should return list containing single selection list from proxy'
+    );
 
     component.set('selected', [dummySlotProxy, anotherDummySlot]);
 
     selections = component.get('multiSelected');
 
-    assert.deepEqual(selections, [dummySlot, anotherDummySlot], 'should return list containing selection list from mix');
+    assert.deepEqual(
+      selections,
+      [dummySlot, anotherDummySlot],
+      'should return list containing selection list from mix'
+    );
   });
 });

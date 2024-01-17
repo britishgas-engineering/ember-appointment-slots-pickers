@@ -1,23 +1,24 @@
-import {
-  module} from 'qunit'; import {setupRenderingTest
-} from 'ember-qunit';
+import { module } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import { test } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
 import { render, settled, click, findAll } from '@ember/test-helpers';
+import $ from 'jquery';
 
 module('Integration | Component | slots-picker/button', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function () {
     this.actions = {};
-    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
+    this.send = (actionName, ...args) =>
+      this.actions[actionName].apply(this, args);
   });
 
   test('single selection with slot selected', async function (assert) {
     assert.expect(2);
 
-    const appointmentSlots = [{slotPickerTime: 'myTime'}];
+    const appointmentSlots = [{ slotPickerTime: 'myTime' }];
     const appointmentSlot = appointmentSlots[0];
 
     this.set('appointmentSlots', appointmentSlots);
@@ -29,11 +30,7 @@ module('Integration | Component | slots-picker/button', function (hooks) {
 
     await render(hbs`
       <div>
-        {{slots-picker/button
-          appointmentSlot=appointmentSlot
-          multiSelected=appointmentSlots
-          select=(action 'onSelectSlot')
-        }}
+        <SlotsPicker::Button @appointmentSlot={{appointmentSlot}} @multiSelected={{appointmentSlots}} @select={{action "onSelectSlot"}} />
       </div>
     `);
 
@@ -43,7 +40,7 @@ module('Integration | Component | slots-picker/button', function (hooks) {
     );
 
     assert.ok(
-      this.$('.asp-appointment-slot-selected:contains("myTime")').length,
+      $('.asp-appointment-slot-selected:contains("myTime")').length,
       'displays cell'
     );
   });
@@ -52,8 +49,8 @@ module('Integration | Component | slots-picker/button', function (hooks) {
     // assert.expect(2);
 
     const appointmentSlots = [
-      {slotPickerTime: 'myTime'},
-      {slotPickerTime: 'moreTime'}
+      { slotPickerTime: 'myTime' },
+      { slotPickerTime: 'moreTime' },
     ];
     const appointmentSlot = appointmentSlots[0];
     this.set('onSelectSlot', sinon.stub());
@@ -63,13 +60,7 @@ module('Integration | Component | slots-picker/button', function (hooks) {
 
     await render(hbs`
       <div>
-        {{slots-picker/button
-          appointmentSlot=appointmentSlot
-          multiSelected=appointmentSlots
-          canSelectMultipleSlots=true
-          select=(action onSelectSlot)
-          deselect=(action onDeselectSlot)
-        }}
+        <SlotsPicker::Button @appointmentSlot={{appointmentSlot}} @multiSelected={{appointmentSlots}} @canSelectMultipleSlots={{true}} @select={{action onSelectSlot}} @deselect={{action onDeselectSlot}} />
       </div>
     `);
 
@@ -85,30 +76,32 @@ module('Integration | Component | slots-picker/button', function (hooks) {
 
     await click('.asp-btn');
 
-    assert.ok(this.onDeselectSlot.called, 'should call deselect action when button clicked');
-    assert.notOk(this.onSelectSlot.called, 'should not call select action when button clicked');
+    assert.ok(
+      this.onDeselectSlot.called,
+      'should call deselect action when button clicked'
+    );
+    assert.notOk(
+      this.onSelectSlot.called,
+      'should not call select action when button clicked'
+    );
   });
 
   test('with slot not selected', async function (assert) {
     assert.expect(4);
 
-    const appointmentSlot = {slotPickerTime: 'myTime'};
-    const selectedSlots = [{id: 'bla'}];
+    const appointmentSlot = { slotPickerTime: 'myTime' };
+    const selectedSlots = [{ id: 'bla' }];
 
     this.set('appointmentSlot', appointmentSlot);
     this.set('selectedSlots', selectedSlots);
 
     this.actions.onSelectSlot = (slot) => {
-      assert.equal(slot, appointmentSlot, 'appointmentSlot is selected');
+      assert.strictEqual(slot, appointmentSlot, 'appointmentSlot is selected');
     };
 
     await render(hbs`
       <div>
-        {{slots-picker/button
-          appointmentSlot=appointmentSlot
-          multiSelected=selectedSlots
-          select=(action 'onSelectSlot')
-        }}
+        <SlotsPicker::Button @appointmentSlot={{appointmentSlot}} @multiSelected={{selectedSlots}} @select={{action "onSelectSlot"}} />
       </div>
     `);
 
@@ -118,12 +111,12 @@ module('Integration | Component | slots-picker/button', function (hooks) {
     );
 
     assert.ok(
-      this.$('.asp-btn:contains("myTime")').length,
+      $('.asp-btn:contains("myTime")').length,
       'displays cell inside button'
     );
 
     run(() => {
-      this.$('.asp-btn:contains("myTime")').click();
+      $('.asp-btn:contains("myTime")').click();
     });
 
     return settled().then(() => {

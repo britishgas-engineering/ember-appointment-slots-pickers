@@ -1,4 +1,12 @@
 <h1>date pickers</h1>
-{{link-to "mobile" "demo.date-pickers.mobile" class="m3 btn btn-primary"}}
-{{link-to "pickadate" "demo.date-pickers.pickadate" class="m3 btn btn-primary"}}
+<LinkTo
+  @route="mobile"
+  @model="demo.date-pickers.mobile"
+  class="m3 btn btn-primary"
+>Mobile</LinkTo>
+<LinkTo
+  @route="pickadate"
+  @model="demo.date-pickers.pickadate"
+  class="m3 btn btn-primary"
+>Pick a date</LinkTo>
 {{outlet}}

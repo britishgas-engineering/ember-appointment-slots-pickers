@@ -3,7 +3,7 @@
 <LinkTo @route="demo.slots-pickers.easy-slot-picker" class="m3 btn btn-primary">
   easy
 </LinkTo>
-{{#each slotPickerNames as |slotPickerName|}}
+{{#each this.slotPickerNames as |slotPickerName|}}
   <LinkTo @route="demo.slots-pickers.slot-picker-name" @model={{slotPickerName}} class="m3 btn btn-primary">
     {{slotPickerName}}
   </LinkTo>

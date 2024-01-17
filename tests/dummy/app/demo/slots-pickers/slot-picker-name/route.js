@@ -1,3 +1,5 @@
+/* eslint-disable ember/no-actions-hash */
+/* eslint-disable ember/no-classic-classes */
 import Route from '@ember/routing/route';
 
 export default Route.extend({
@@ -14,6 +16,8 @@ export default Route.extend({
     const parentController = this.controllerFor('demo.slots-pickers');
     controller.set('delay', parentController.get('delay'));
     this._super(controller, model);
-  }
-
+  },
+  actions: {
+    resetSlots() {},
+  },
 });

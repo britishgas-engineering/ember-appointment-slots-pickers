@@ -1,13 +1,13 @@
 
-{{#if slotsAreLoading}}
+{{#if this.slotsAreLoading}}
   <SlotsPicker::SlotsLoader />
 {{else}}
   <div class="asp-cards text-center">
     <div class="asp-table">
       <div class="row">
         <div class="col-xs-12 slot-picker-cards-container">
-          {{#each cellsPerCol as |item|}}
-            <div class="mb6 {{columnClasses}} {{fiveCardsClass}}">
+          {{#each this.cellsPerCol as |item|}}
+            <div class="mb6 {{this.columnClasses}} {{this.fiveCardsClass}}">
               <SlotsPicker::Cards::DayCard
                 @appointmentSlots={{item.cellsForCol}}
                 @multiSelected={{this.multiSelected}}

@@ -6,17 +6,17 @@ import layout from './template';
 import moment from 'moment';
 
 /**
-* Pickadate Input Component
-*
-* @param {String} value
-* The date used by the component
-*
-* @action {Action} select
-* Triggered whenever the user click on a
-* date, sends an empty value if
-* the date is disabled
-*
-*/
+ * Pickadate Input Component
+ *
+ * @param {String} value
+ * The date used by the component
+ *
+ * @action {Action} select
+ * Triggered whenever the user click on a
+ * date, sends an empty value if
+ * the date is disabled
+ *
+ */
 export default Component.extend({
   layout,
   slots: null,
@@ -35,41 +35,55 @@ export default Component.extend({
   value: null,
   init() {
     this._super(...arguments);
-    this.weekdaysShort = this.weekdaysShort || ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-    this.weekdaysShorter = this.weekdaysShorter || ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+    this.weekdaysShort = this.weekdaysShort || [
+      'Su',
+      'Mo',
+      'Tu',
+      'We',
+      'Th',
+      'Fr',
+      'Sa',
+    ];
+    this.weekdaysShorter = this.weekdaysShorter || [
+      'S',
+      'M',
+      'T',
+      'W',
+      'T',
+      'F',
+      'S',
+    ];
   },
 
   /**
-  * Notify the parent controller
-  * that a user has clicked on a
-  * select date
-  * @param  {Event} e event object
-  * @return {undefined}
-  */
+   * Notify the parent controller
+   * that a user has clicked on a
+   * select date
+   * @param  {Event} e event object
+   * @return {undefined}
+   */
   onPickerDayClick: function (e) {
-
     const $el = $(e.target);
 
     if ($el.hasClass('picker__day--disabled')) {
       this.select();
     }
-
   },
 
   onPickerFocus: function () {
     // alert('focus');
     if (document.querySelector('.picker__holder')) {
-      this.$('.picker__holder').blur();
+      $('.picker__holder').blur();
       return false;
     }
   },
 
   /**
-  * Notify the parent element
-  * of the user choice
-  * @param  {Event} e event object
-  * @return {undefined}
-  */
+   * Notify the parent element
+   * of the user choice
+   * @param  {Event} e event object
+   * @return {undefined}
+   */
   onPickerSet: function (e) {
     if (e.select) {
       this.select(e.select);
@@ -77,23 +91,28 @@ export default Component.extend({
   },
 
   /**
-  * Update the picker selected date
-  * @return {undefined}
-  */
-  onValueChanged: observer('value', function () {//eslint-disable-line
+   * Update the picker selected date
+   * @return {undefined}
+   */
+  onValueChanged: observer('value', function () {
+    //eslint-disable-line
     if (this.value) {
-
       // Set the value on the picker and mute
       // the callback to avoid an action being
       // triggered and follow a strict one way
       // pattern
-      this.picker.set('select', this.value, {muted: true});
+      this.picker.set('select', this.value, { muted: true });
     }
   }),
 
-  onSelectionChanged: observer('selected', function () {//eslint-disable-line
+  onSelectionChanged: observer('selected', function () {
+    //eslint-disable-line
     if (!this.isDestroyed && this.selected) {
-      this.picker.set('select', moment(this.get('selected.slotPickerDay'), 'YYYYMMDD').toDate(), {muted: true});
+      this.picker.set(
+        'select',
+        moment(this.get('selected.slotPickerDay'), 'YYYYMMDD').toDate(),
+        { muted: true }
+      );
     }
   }),
 
@@ -139,15 +158,19 @@ export default Component.extend({
     this._renderSlots();
 
     if (this.highlight) {
-      this.picker.set('view', this.highlight, {format: 'yyyy-mm-dd'});
+      this.picker.set('view', this.highlight, { format: 'yyyy-mm-dd' });
     }
 
     if (this.selected) {
-      this.picker.set('select', moment(this.get('selected.slotPickerDay')).format('YYYY-MM-DD'), {format: 'yyyy-mm-dd'});
+      this.picker.set(
+        'select',
+        moment(this.get('selected.slotPickerDay')).format('YYYY-MM-DD'),
+        { format: 'yyyy-mm-dd' }
+      );
     }
 
     if (this.value) {
-      this.picker.set('select', this.value, {muted: true});
+      this.picker.set('select', this.value, { muted: true });
     }
     this.picker.set('min', this.min ? this.min : false);
     this.picker.set('max', this.max ? this.max : false);
@@ -159,30 +182,30 @@ export default Component.extend({
   },
 
   /**
-  * Start the pickadate instance
-  * @return {undefined}
-  */
+   * Start the pickadate instance
+   * @return {undefined}
+   */
   didInsertElement: function () {
-
     this._super(...arguments);
-    const $input = this.$('input').pickadate({
-      weekdaysShort: this.setShorterDays ? this.weekdaysShorter : this.weekdaysShort,
+    const $input = $('input').pickadate({
+      weekdaysShort: this.setShorterDays
+        ? this.weekdaysShorter
+        : this.weekdaysShort,
       firstDay: 1,
       min: this.min ? this.min : false,
       max: this.max ? this.max : false,
       klass: {
-        now: this.value || this.hideToday ? '' : 'picker__day--today'
-      }
+        now: this.value || this.hideToday ? '' : 'picker__day--today',
+      },
     });
 
     schedule('afterRender', this, function () {
       this.picker = $input.pickadate('picker');
       this._render();
 
-      this.$('.picker__holder')
+      $('.picker__holder')
         .on('click', '.picker__day', this.onPickerDayClick.bind(this))
         .on('focus', this.onPickerFocus.bind(this));
-
     });
   },
 
@@ -204,6 +227,5 @@ export default Component.extend({
     if (this.picker && slotsLength !== slotsUpdateLength) {
       this._render();
     }
-  }
-
+  },
 });

@@ -91,7 +91,7 @@ module.exports = {
                   '**/variables.less',
                   /components\/application-pre-loader/,
                   /components\/bg-button/,
-                  /components\/scroll-anchor/,
+                  /components\/scroll-anchor-slots/,
                 ];
                 break;
               case 'mobile':
@@ -119,7 +119,11 @@ module.exports = {
                 patterns = [/components\/slots-picker\/cards/];
                 break;
               default:
-                console.error('unrecognized bundle for ember-appointment-slots-pickers tree-shaking: ', bundleName); break;//eslint-disable-line
+                console.error(
+                  'unrecognized bundle for ember-appointment-slots-pickers tree-shaking: ',
+                  bundleName
+                );
+                break; //eslint-disable-line
             }
             Array.prototype.push.apply(options[includeOrExclude], patterns);
           });
