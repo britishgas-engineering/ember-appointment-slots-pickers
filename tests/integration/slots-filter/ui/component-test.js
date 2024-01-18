@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find, findAll, clearRender } from '@ember/test-helpers';
+import { render, find, findAll, clearRender, click } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
@@ -28,15 +28,13 @@ module('Integration | Component | slots-filter', function (hooks) {
 
   test('should have a font awesome angle-down icon and hide the filter at start for mobile', async function (assert) {
     this.set('areTimeSlotsHidden', true);
-    this.set(
-      'viewport',
-      EmberObject.create({
-        isXs: true,
-      })
-    );
+    const viewport = this.owner.lookup('service:viewport');
+    viewport.set('bootstrapWidth', 400);
+
     await render(hbs`
-      <SlotsFilter::Ui @areTimeSlotsHidden={{areTimeSlotsHidden}} @viewport={{viewport}} />
+      <SlotsFilter::Ui @areTimeSlotsHidden={{this.areTimeSlotsHidden}} />
     `);
+
     assert
       .dom('.fa.fa-angle-down')
       .exists({ count: 1 }, 'the font awesome angle-down icon should be shown');
@@ -48,9 +46,12 @@ module('Integration | Component | slots-filter', function (hooks) {
     this.set('timeSlots', timeSlots);
     await clearRender();
     await render(hbs`
-      <SlotsFilter::Ui @areTimeSlotsHidden={{areTimeSlotsHidden}} @timeSlots={{timeSlots}} @viewport={{viewport}} />
+      <SlotsFilter::Ui
+        @areTimeSlotsHidden={{this.areTimeSlotsHidden}}
+        @timeSlots={{this.timeSlots}} />
     `);
-    await run(() => $('button:contains("Filter by time slots")').click());
+
+    await click('button');
 
     assert
       .dom('.filter-container-mobile')
@@ -58,9 +59,11 @@ module('Integration | Component | slots-filter', function (hooks) {
     assert
       .dom('.fa.fa-angle-up')
       .exists({ count: 1 }, 'the font awesome angle-up icon should be shown');
-    assert
-      .dom('div.filter')
-      .hasAttribute('hidden', null, 'the filter should not be hidden');
+    assert.strictEqual(
+      find('div.filter').getAttribute('hidden'),
+      null,
+      'the filter should not be hidden'
+    );
     assert.strictEqual(
       $('div.filter-button-group:visible').length,
       1,
@@ -108,15 +111,14 @@ module('Integration | Component | slots-filter', function (hooks) {
 
   test('Desktop should show all the filters', async function (assert) {
     this.set('areTimeSlotsHidden', true);
-    this.set(
-      'viewport',
-      EmberObject.create({
-        isXs: false,
-      })
-    );
+    const viewport = this.owner.lookup('service:viewport');
+    viewport.set('bootstrapWidth', 800);
     this.set('timeSlots', timeSlots);
+
     await render(hbs`
-      <SlotsFilter::Ui @areTimeSlotsHidden={{areTimeSlotsHidden}} @timeSlots={{timeSlots}} @viewport={{viewport}} />
+      <SlotsFilter::Ui
+        @areTimeSlotsHidden={{this.areTimeSlotsHidden}}
+        @timeSlots={{this.timeSlots}} />
     `);
 
     assert.strictEqual(
@@ -161,15 +163,13 @@ module('Integration | Component | slots-filter', function (hooks) {
 
   test('should hide the filter when the user clicks on a slot button', async function (assert) {
     this.set('areTimeSlotsHidden', false);
-    this.set(
-      'viewport',
-      EmberObject.create({
-        isXs: true,
-      })
-    );
+    const viewport = this.owner.lookup('service:viewport');
+    viewport.set('bootstrapWidth', 400);
     this.set('timeSlots', timeSlots);
     await render(hbs`
-      <SlotsFilter::Ui @areTimeSlotsHidden={{areTimeSlotsHidden}} @timeSlots={{timeSlots}} @viewport={{viewport}} />
+      <SlotsFilter::Ui
+        @areTimeSlotsHidden={{this.areTimeSlotsHidden}}
+        @timeSlots={{this.timeSlots}} />
     `);
     await run(() => $('button:contains("8am - 10am")').click());
     assert

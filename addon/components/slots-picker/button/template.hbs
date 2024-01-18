@@ -25,7 +25,7 @@
     @theme="secondary"
     @hide-icon="true"
     @isTagged={{this.appointmentSlot.slotPickerHasTag}}
-    @action={{action @select this.appointmentSlot}}
+    @action={{fn @select this.appointmentSlot}}
   >
     {{this.appointmentSlot.slotPickerTime}}
   </BgButton>

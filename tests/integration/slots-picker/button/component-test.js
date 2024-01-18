@@ -24,13 +24,16 @@ module('Integration | Component | slots-picker/button', function (hooks) {
     this.set('appointmentSlots', appointmentSlots);
     this.set('appointmentSlot', appointmentSlot);
 
-    this.actions.onSelectSlot = () => {
+    this.onSelectSlot = () => {
       assert.ok(false, 'onSelectSlot shouldnt be run');
     };
 
     await render(hbs`
       <div>
-        <SlotsPicker::Button @appointmentSlot={{appointmentSlot}} @multiSelected={{appointmentSlots}} @select={{action "onSelectSlot"}} />
+        <SlotsPicker::Button
+          @appointmentSlot={{this.appointmentSlot}}
+          @multiSelected={{this.appointmentSlots}}
+          @select={{this.onSelectSlot}} />
       </div>
     `);
 
@@ -60,7 +63,12 @@ module('Integration | Component | slots-picker/button', function (hooks) {
 
     await render(hbs`
       <div>
-        <SlotsPicker::Button @appointmentSlot={{appointmentSlot}} @multiSelected={{appointmentSlots}} @canSelectMultipleSlots={{true}} @select={{action onSelectSlot}} @deselect={{action onDeselectSlot}} />
+        <SlotsPicker::Button
+          @appointmentSlot={{this.appointmentSlot}}
+          @multiSelected={{this.appointmentSlots}}
+          @canSelectMultipleSlots={{true}}
+          @select={{this.onSelectSlot}}
+          @deselect={{this.onDeselectSlot}} />
       </div>
     `);
 
@@ -95,13 +103,16 @@ module('Integration | Component | slots-picker/button', function (hooks) {
     this.set('appointmentSlot', appointmentSlot);
     this.set('selectedSlots', selectedSlots);
 
-    this.actions.onSelectSlot = (slot) => {
+    this.onSelectSlot = (slot) => {
       assert.strictEqual(slot, appointmentSlot, 'appointmentSlot is selected');
     };
 
     await render(hbs`
       <div>
-        <SlotsPicker::Button @appointmentSlot={{appointmentSlot}} @multiSelected={{selectedSlots}} @select={{action "onSelectSlot"}} />
+        <SlotsPicker::Button
+          @appointmentSlot={{this.appointmentSlot}}
+          @multiSelected={{this.selectedSlots}}
+          @select={{this.onSelectSlot}} />
       </div>
     `);
 
@@ -115,15 +126,11 @@ module('Integration | Component | slots-picker/button', function (hooks) {
       'displays cell inside button'
     );
 
-    run(() => {
-      $('.asp-btn:contains("myTime")').click();
-    });
+    await click('.asp-btn');
 
-    return settled().then(() => {
-      assert.ok(
-        true,
-        'action is called as per separate assertion and assert.expect'
-      );
-    });
+    assert.ok(
+      true,
+      'action is called as per separate assertion and assert.expect'
+    );
   });
 });

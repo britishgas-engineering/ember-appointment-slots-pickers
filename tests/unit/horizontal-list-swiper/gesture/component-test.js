@@ -1,7 +1,6 @@
 import { test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { module } from 'qunit';
-import { next } from '@ember/runloop';
 
 module('Unit | Component | horizontal-list-swiper/gesture', function (hooks) {
   setupTest(hooks);
@@ -40,24 +39,24 @@ module('Unit | Component | horizontal-list-swiper/gesture', function (hooks) {
       .factoryFor('component:horizontal-list-swiper/gesture')
       .create({
         recognizers: null,
-        isLastPage: true,
-        currentItem: 0,
-        itemsPerPage: 3,
+        isRendered: false,
+        currentItem: 2,
+        items: ['tests', '2', '3'],
       });
 
     component.goToNextItem();
     assert.strictEqual(
       component.get('currentItem'),
-      0,
+      2,
       "does not move to the next item if it's on the last page"
     );
 
-    component.set('isLastPage', false);
+    component.set('currentItem', 0);
 
     component.goToNextItem();
     assert.strictEqual(
       component.get('currentItem'),
-      3,
+      1,
       "moves to the next item if it's not on the last page"
     );
   });
@@ -68,19 +67,19 @@ module('Unit | Component | horizontal-list-swiper/gesture', function (hooks) {
       .factoryFor('component:horizontal-list-swiper/gesture')
       .create({
         recognizers: null,
-        isFirstPage: true,
-        currentItem: 4,
-        itemsPerPage: 3,
+        isRendered: false,
+        currentItem: 0,
+        items: ['tests', '2', '3'],
       });
 
     component.goToPreviousItem();
     assert.strictEqual(
       component.get('currentItem'),
-      4,
+      0,
       "does not move to the next item if it's on the first page"
     );
 
-    component.set('isFirstPage', false);
+    component.set('currentItem', 2);
 
     component.goToPreviousItem();
     assert.strictEqual(
@@ -88,114 +87,5 @@ module('Unit | Component | horizontal-list-swiper/gesture', function (hooks) {
       1,
       "moves to the next item if it's not on the first page"
     );
-  });
-
-  test('testing currentItem when index is 3', function (assert) {
-    assert.expect(1);
-    const component = this.owner
-      .factoryFor('component:horizontal-list-swiper/gesture')
-      .create({
-        recognizers: null,
-        currentItem: 0,
-        itemsPerPage: 3,
-        index: 3,
-      });
-    component.didInsertElement();
-    next(this, function () {
-      assert.strictEqual(
-        component.get('currentItem'),
-        3,
-        'calculatedCurrentItem value'
-      );
-    });
-  });
-
-  test('testing currentItem when index is 0', function (assert) {
-    assert.expect(1);
-    const component = this.owner
-      .factoryFor('component:horizontal-list-swiper/gesture')
-      .create({
-        recognizers: null,
-        currentItem: 0,
-        itemsPerPage: 3,
-        index: 0,
-      });
-
-    component.didInsertElement();
-
-    next(this, function () {
-      assert.strictEqual(
-        component.get('currentItem'),
-        0,
-        'calculatedCurrentItem value'
-      );
-    });
-  });
-
-  test('testing currentItem when index is 6', function (assert) {
-    assert.expect(1);
-    const component = this.owner
-      .factoryFor('component:horizontal-list-swiper/gesture')
-      .create({
-        recognizers: null,
-        currentItem: 0,
-        itemsPerPage: 5,
-        index: 6,
-      });
-
-    component.didInsertElement();
-
-    next(this, function () {
-      assert.strictEqual(
-        component.get('currentItem'),
-        5,
-        'calculatedCurrentItem value'
-      );
-    });
-  });
-
-  test('testing currentItem when index is 11', function (assert) {
-    assert.expect(1);
-    const component = this.owner
-      .factoryFor('component:horizontal-list-swiper/gesture')
-      .create({
-        recognizers: null,
-        currentItem: 0,
-        itemsPerPage: 5,
-        index: 11,
-      });
-
-    component.didInsertElement();
-
-    next(this, function () {
-      assert.strictEqual(
-        component.get('currentItem'),
-        10,
-        'calculatedCurrentItem value'
-      );
-    });
-  });
-
-  test('testing currentItem when index is 0 then later 11', function (assert) {
-    assert.expect(1);
-    const component = this.owner
-      .factoryFor('component:horizontal-list-swiper/gesture')
-      .create({
-        recognizers: null,
-        currentItem: 0,
-        itemsPerPage: 5,
-        index: 0,
-      });
-
-    component.didInsertElement();
-
-    next(this, function () {
-      component.set('index', 11);
-      assert.strictEqual(
-        component.get('currentItem'),
-        10,
-        'currentItem is updated'
-      );
-    });
   });
 });

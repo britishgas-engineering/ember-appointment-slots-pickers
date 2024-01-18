@@ -6,19 +6,17 @@ We transferred _as is_ the components from a British Gas private addon, some of 
 
 ## Compatibility
 
-* Ember.js v4.4 or above
-* Ember CLI v4.4 or above
-* Node.js v14 or above
+- Ember.js v4.4 or above
+- Ember CLI v4.4 or above
+- Node.js v14 or above
 
 At the time of writing, you can use any of the following children calendar components:
 
-* [easy-slot-picker](https://britishgas-engineering.github.io/ember-appointment-slots-pickers/#/demo/slots-pickers/easy-slot-picker)
-* [slots-picker/desktop](https://britishgas-engineering.github.io/ember-appointment-slots-pickers/#/demo/slots-pickers/desktop)
-* [slots-picker/mobile](https://britishgas-engineering.github.io/ember-appointment-slots-pickers/#/demo/slots-pickers/mobile)
-* [slots-picker/cards](https://britishgas-engineering.github.io/ember-appointment-slots-pickers/#/demo/slots-pickers//)
-* [slots-picker/pickadate](https://britishgas-engineering.github.io/ember-appointment-slots-pickers/#/demo/slots-pickers/pickadate)
-
-
+- [easy-slot-picker](https://britishgas-engineering.github.io/ember-appointment-slots-pickers/#/demo/slots-pickers/easy-slot-picker)
+- [slots-picker/desktop](https://britishgas-engineering.github.io/ember-appointment-slots-pickers/#/demo/slots-pickers/desktop)
+- [slots-picker/mobile](https://britishgas-engineering.github.io/ember-appointment-slots-pickers/#/demo/slots-pickers/mobile)
+- [slots-picker/cards](https://britishgas-engineering.github.io/ember-appointment-slots-pickers/#/demo/slots-pickers//)
+- [slots-picker/pickadate](https://britishgas-engineering.github.io/ember-appointment-slots-pickers/#/demo/slots-pickers/pickadate)
 
 <table>
     <thead>
@@ -106,7 +104,7 @@ At the time of writing, you can use any of the following children calendar compo
     </tbody>
 </table>
 
-## Many calendars, one API ##
+## Many calendars, one API
 
 We tried to have all of the `slots-picker/XX` components use the same API (still needs to be improved), starting from a common definition of the `appointmentSlots` array / promiseArray sent as attribute to the parent `slots-picker` container component:
 
@@ -142,69 +140,73 @@ Additional inputs that can be passed into the `slots-picker` component:
 noSlotLabel: 'Not Available' //optional, defaults to 'Fully Booked'
 ```
 
-## Leveraging composition to give power to the developers ##
+## Leveraging composition to give power to the developers
 
 You will find in the [dummy app](https://britishgas-engineering.github.io/ember-appointment-slots-pickers/#/demo) lots of examples on how to use these components, some of them are also summarized below:
 
-### Easy slot picker ###
+### Easy slot picker
 
 For those who are on a rush, we created an easy to use but non-customizable and non-extendable default slot picker, that you can just drop in your app like so:
+
 ```hbs
-  {{easy-slot-picker
-    appointmentSlots=model.appointmentSlots
-    selected=model.selected
-    onSelect=(action (mut model.selected))
-  }}
+{{easy-slot-picker
+  appointmentSlots=model.appointmentSlots
+  selected=model.selected
+  onSelect=(action (mut model.selected))
+}}
 ```
 
 Under the hood, `easy-slot-picker` is using a particular combination of `slots-picker/desktop`, `slots-picker/mobile` and `slots-picker/slots-loader` which can be replicated and extended in the steps below:
 
-### Basic setup ###
+### Basic setup
 
 The basic use case is to use one of the `slots-picker/xx` individual calendars (`mobile`, `desktop`, `pickadate` or `cards`) inside the `slot-picker` container component:
 
 ```hbs
-    {{#slot-picker
-      appointmentSlots=model.appointmentSlots
-      selected=model.selected
-      noSlotLabel='Not available'
-      select=(action (mut model.selected))
-      as |baseProps onSelectSlot|
-    }}
-      {{component 'slot-picker/desktop'
-        baseProps=baseProps
-        onSelectSlot=onSelectSlot
-      }}
-    {{/slot-picker}}
+{{#slot-picker
+  appointmentSlots=model.appointmentSlots
+  selected=model.selected
+  noSlotLabel="Not available"
+  select=(action (mut model.selected))
+  as |baseProps onSelectSlot|
+}}
+  {{component
+    "slot-picker/desktop"
+    baseProps=baseProps
+    onSelectSlot=onSelectSlot
+  }}
+{{/slot-picker}}
 ```
 
 `baseProps` is a hash of properties that children components need to be able to do their work. All children components extend the `slot-picker/base` class converting each of those properties into an alias on the child component: `days: readOnly('baseProps.days'),`
 
-### Add a loading template ###
+### Add a loading template
 
 One of those `baseProps` properties is the `slotsAreLoading` property, set to `true` when `appointmentSlots` is a `isPending` promiseArray, or an array with `null` length. You can customize the loading template for the slot-pickers in your app (a default one is provided). We created a `slots-picker/slots-loader` default loading template that you can customize if you have nothing better:
 
 ```hbs
-    {{#slots-picker
-      appointmentSlots=model.appointmentSlots
-      selected=model.selected
-      noSlotLabel='Not available'
-      select=(action (mut model.selected))
-      as |baseProps onSelectSlot|
+{{#slots-picker
+  appointmentSlots=model.appointmentSlots
+  selected=model.selected
+  noSlotLabel="Not available"
+  select=(action (mut model.selected))
+  as |baseProps onSelectSlot|
+}}
+  {{#if baseProps.slotsAreLoading}}
+    {{slots-picker/slots-loader
+      title="Finding the next available appointments in your area.."
     }}
-      {{#if baseProps.slotsAreLoading}}
-        {{slots-picker/slots-loader title="Finding the next available appointments in your area.."}}
-      {{else}}
-        {{component 'slots-picker/mobile'
-          baseProps=baseProps
-          onSelectSlot=onSelectSlot
-        }}
-      {{/if}}
-    {{/slots-picker}}
+  {{else}}
+    {{component
+      "slots-picker/mobile"
+      baseProps=baseProps
+      onSelectSlot=onSelectSlot
+    }}
+  {{/if}}
+{{/slots-picker}}
 ```
 
-
-### Different calendars for different screen sizes ###
+### Different calendars for different screen sizes
 
 One of the things you will have to maintain if you move away from `easy-slot-picker` is to choose in your app which calendars to display for the different screen sizes. [Some calendars are only available on mobile, some others only on desktop, some on both](https://github.com/britishgas-engineering/ember-appointment-slots-pickers/blob/feature/transfer-slot-pickers-to-open-source/README.md#choose-your-own-calendventure).
 
@@ -224,13 +226,14 @@ The `easy-slot-picker` code is doing just that, by changing the child component 
   appointmentSlots=appointment-slots
   selected=selected
   noSlotLabel=no-slot-label
-  select=(action 'select')
+  select=(action "select")
   as |baseProps onSelectSlot onSelectDate|
 }}
   {{#if baseProps.slotsAreLoading}}
     {{slots-picker/slots-loader title=loaderSentence}}
   {{else}}
-    {{component slotPickerComponentName
+    {{component
+      slotPickerComponentName
       baseProps=baseProps
       onSelectSlot=onSelectSlot
       onSelectDate=onSelectDate
@@ -239,32 +242,35 @@ The `easy-slot-picker` code is doing just that, by changing the child component 
 {{/slots-picker}}
 ```
 
-### Refresh the slots after some time ###
+### Refresh the slots after some time
 
 To show an overlay on the calendars once some time has expired, and ask customers to click to refresh their slots, you can use our `clock-reloader` and `clock-reloader/overlay` components:
 
 ```hbs
-    {{#clock-reloader
-      delay=delay
-      onrefresh=(route-action "resetAsyncSlots" delay)
-      as |isExpired refresh|
+{{#clock-reloader
+  delay=delay onrefresh=(action "resetAsyncSlots" delay)
+  as |isExpired refresh|
+}}
+  {{#slots-picker
+    appointmentSlots=model.showableSlots
+    selected=model.selected
+    noSlotLabel="Not available"
+    select=(action (mut model.selected))
+    as |baseProps onSelectSlot|
+  }}
+    {{component
+      model.slotPickerName
+      baseProps=baseProps
+      onSelectSlot=onSelectSlot
     }}
-      {{#slots-picker
-        appointmentSlots=model.showableSlots
-        selected=model.selected
-        noSlotLabel='Not available'
-        select=(action (mut model.selected))
-        as |baseProps onSelectSlot|
+    {{#if isExpired}}
+      {{clock-reloader/overlay
+        title="<h3>Hello World</h3>"
+        refresh=(action refresh)
       }}
-        {{component model.slotPickerName
-          baseProps=baseProps
-          onSelectSlot=onSelectSlot
-        }}
-        {{#if isExpired}}
-          {{clock-reloader/overlay title="<h3>Hello World</h3>" refresh=(action refresh)}}
-        {{/if}}
-      {{/slots-picker}}
-    {{/clock-reloader}}
+    {{/if}}
+  {{/slots-picker}}
+{{/clock-reloader}}
 ```
 
 ### Filter the slots by time-range
@@ -272,44 +278,45 @@ To show an overlay on the calendars once some time has expired, and ask customer
 Some components (`slots-picker/pickadate`, `slots-picker/mobile` ) show the dates before the times, so in that case it can be very useful to add a capability for customers to filter the available dates by time-range. This is what our `slots-filter` and `slots-filter/ui` components do:
 
 ```hbs
-    {{#slots-filter
-      appointmentSlots=appointment.availableSlots
-      as |filteredAppointmentSlots changeFilter selectedFilter|
+{{#slots-filter
+  appointmentSlots=appointment.availableSlots
+  as |filteredAppointmentSlots changeFilter selectedFilter|
+}}
+  {{#slots-picker
+    appointmentSlots=filteredAppointmentSlots
+    selected=appointment.appointmentSlot
+    noSlotLabel="Not available"
+    select=(action selectSlot)
+    as |baseProps onSelectSlot onSelectDate|
+  }}
+    {{slots-filter/ui
+      timeSlots=baseProps.rows
+      changeFilter=changeFilter
+      selectedFilter=selectedFilter
     }}
-      {{#slots-picker
-        appointmentSlots=filteredAppointmentSlots
-        selected=appointment.appointmentSlot
-        noSlotLabel='Not available'
-        select=(route-action selectSlot)
-        as |baseProps onSelectSlot onSelectDate|
-      }}
-        {{slots-filter/ui
-          timeSlots=baseProps.rows
-          changeFilter=changeFilter
-          selectedFilter=selectedFilter
-        }}
-        {{component model.slotPickerName
-          baseProps=baseProps
-          onSelectSlot=onSelectSlot
-        }}
+    {{component
+      model.slotPickerName
+      baseProps=baseProps
+      onSelectSlot=onSelectSlot
+    }}
 
-      {{/slots-picker}}
-    {{/slots-filter}}
+  {{/slots-picker}}
+{{/slots-filter}}
 ```
 
-### Combining everything together ###
+### Combining everything together
 
 Due to composition, you can modularize your slot-picker as you want. If you use all the components together, you could get something looking like this (real world use case):
 
 ```hbs
   {{#clock-reloader
     delay=appointment.timerRefresherContainer
-    onrefresh=(route-action "refresh")
+    onrefresh=(action "refresh")
     class="mb6" as |isExpired refresh|
   }}
     {{#slots-filter
       appointmentSlots=appointment.availableSlots
-      select=(route-action 'selectSlot')
+      select=(action 'selectSlot')
       filterOption=selectedTimeSlot
       as |filteredAppointmentSlots filter|
     }}
@@ -324,7 +331,7 @@ Due to composition, you can modularize your slot-picker as you want. If you use 
           appointment-slots=availableOrSuggestedSlots
           selected=appointment.appointmentSlot.content
           no-slot-label="Fully booked"
-          on-select=(route-action "select")
+          on-select=(action "select")
           as |baseProps onSelectSlot onSelectDate|
         }}
           {{#if baseProps.slotsAreLoading}}
@@ -348,33 +355,34 @@ Due to composition, you can modularize your slot-picker as you want. If you use 
 
 ```
 
-## Extend the base classes to create your own calendar ##
+## Extend the base classes to create your own calendar
 
-### Why not using contextual components? ###
+### Why not using contextual components?
 
 By contextual components we mean using things like:
 
 ```hbs
-  {{#slots-picker
-    appointmentSlots=model.appointmentSlots
-    selected=model.selected
-    noSlotLabel='Not available'
-    select=(action (mut model.selected))
-    as |asp|
-  }}
-    {{asp.desktop}}
-  {{/slots-picker}}
+{{#slots-picker
+  appointmentSlots=model.appointmentSlots
+  selected=model.selected
+  noSlotLabel="Not available"
+  select=(action (mut model.selected))
+  as |asp|
+}}
+  {{asp.desktop}}
+{{/slots-picker}}
 ```
 
 where the children `asp.XX` components would be yielded by the parent `slot-picker` component. This apparently leads to cleaner syntax than passing the `baseProps` properties down to the children, but the problem with this pattern is that:
-* There is one big massive component containing all the others, so it prevents us from splitting them in different addons / tree-shake.
-* Using clearly separate components allows the addon consumers to extend only one of them (parent or one of the children) in one app (or updating the corresponding addon), without bothering about the others.
-* Previously, when adding a functionality to a calendar, we had to pass it as an attribute to the parent container, which would then itself transfer it to the child component, it didn't really make sense. Now you can just add / override children attributes in your app as you wish, without touching the container component
-* This allows to use as and when needed optional components like `clock-reloader`, `slots-picker/slots-loader`, `slots-filter`.
 
-### Core classes ###
+- There is one big massive component containing all the others, so it prevents us from splitting them in different addons / tree-shake.
+- Using clearly separate components allows the addon consumers to extend only one of them (parent or one of the children) in one app (or updating the corresponding addon), without bothering about the others.
+- Previously, when adding a functionality to a calendar, we had to pass it as an attribute to the parent container, which would then itself transfer it to the child component, it didn't really make sense. Now you can just add / override children attributes in your app as you wish, without touching the container component
+- This allows to use as and when needed optional components like `clock-reloader`, `slots-picker/slots-loader`, `slots-filter`.
 
-#### slots-picker container component ####
+### Core classes
+
+#### slots-picker container component
 
 This component's primary use is to transform the array of `appointmentSlots` provided to it into a format more consumable by the children components, yielding downstream for example the rows (one for each time range), columns (one for each date) and cells of the calendars:
 
@@ -397,7 +405,7 @@ This component's primary use is to transform the array of `appointmentSlots` pro
 }}
 ```
 
-#### slots-picker/base component ####
+#### slots-picker/base component
 
 This base component just aliases the `baseProps.xx` objects given by the parent `slots-picker` container to similarly names properties in the children calendar components:
 
@@ -407,33 +415,35 @@ days: computed('baseProps.days', function () {
 }).readOnly(),
 
 ```
+
 It also contains patterns common to all calendars, for example the action called when changing a date.
 
 Each child `slots-picker/xx` calendar component is then built by extending this base class.
 
-
-#### Add your own calendar ####
+#### Add your own calendar
 
 You may have a better design in mind, or want to do things better than us and use ember-animation to build new calendars. In that case, all you have to do is create a new `slots-picker/better-calendar` component extending `slots-picker/base` and add it to the suite!
 
 **Any better idea of how to do things? Create an issue or even better create a PR!**
 
-## Tree-shaking ##
+## Tree-shaking
 
 Based on [broccoli-funnel](https://github.com/broccolijs/broccoli-funnel), and extended with `bundles` that you can include or exclude. The available keys for bundles correspond to the different calendars (`easy`, `mobile`, `desktop`, `cards`, `pickadate`) and also a `bg` bundle that you have to exclude if you work for British Gas (otherwise just ignore this bundle).
 
 Some examples:
 
 _The below will only load the `easy-slot-picker` component and associated files, including stylesheets:_
+
 ```javascript
-options['ember-appointment-slots-pickers'] = {
+options["ember-appointment-slots-pickers"] = {
   bundles: {
-    include: ['easy']
-  }
+    include: ["easy"],
+  },
 };
 ```
 
 _This will exclude the files and libraries needed for the `mobile` and `cards` calendars, and also the `clock-reloader` component suite, and keep everything else:_
+
 ```javascript
 //ember-cli-build.js
 options['ember-appointment-slots-pickers'] = {
@@ -447,39 +457,38 @@ options['ember-appointment-slots-pickers'] = {
 ```
 
 _This will only load the `pickadate-input` component and stylesheets, and mandatory services / helpers:_
+
 ```javascript
 //ember-cli-build.js
-options['ember-appointment-slots-pickers'] = {
+options["ember-appointment-slots-pickers"] = {
   include: [
     /components\/pickadate-input/,
-      '**/ember-appointment-slots-pickers.css'
+    "**/ember-appointment-slots-pickers.css",
   ],
   bundles: {
-    exclude: [
-      'mobile'
-    ]
-  }
+    exclude: ["mobile"],
+  },
 };
 ```
 
 ## Installation
 
-* `git clone <repository-url>` this repository
-* `cd ember-appointment-slots-pickers`
-* `npm install`
-* `bower install`
+- `git clone <repository-url>` this repository
+- `cd ember-appointment-slots-pickers`
+- `npm install`
+- `bower install`
 
 ## Running
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+- `ember serve`
+- Visit your app at [http://localhost:4200](http://localhost:4200).
 
 ## Running Tests
 
-* `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
+- `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
+- `ember test`
+- `ember test --server`
 
 ## Building
 
-* `ember build`
+- `ember build`

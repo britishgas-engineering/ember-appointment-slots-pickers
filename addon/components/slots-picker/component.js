@@ -8,7 +8,7 @@ import {
   uniq,
   map,
   sort,
-  setDiff
+  setDiff,
 } from '@ember/object/computed';
 import EmberObject, { computed } from '@ember/object';
 import ObjectProxy from '@ember/object/proxy';
@@ -36,7 +36,10 @@ export default Component.extend({
       multiSelected = selected.toArray();
     } else if (selected instanceof Array) {
       multiSelected = selected;
-    } else if (selected && (!(selected instanceof ObjectProxy) || selected.content)) {
+    } else if (
+      selected &&
+      (!(selected instanceof ObjectProxy) || selected.content)
+    ) {
       multiSelected = [selected];
     }
 
@@ -46,9 +49,12 @@ export default Component.extend({
     });
   }),
 
-  availableAppointmentSlotsWithoutSelected: filter('appointmentSlots', function (appointmentSlot) {
-    return !appointmentSlot.get('slotPickerNotAvailable');
-  }),
+  availableAppointmentSlotsWithoutSelected: filter(
+    'appointmentSlots',
+    function (appointmentSlot) {
+      return !appointmentSlot.get('slotPickerNotAvailable');
+    }
+  ),
   hasNoSlots: equal('availableAppointmentSlotsWithoutSelected.length', 0),
   slotsArePending: computed('appointmentSlots.isPending', function () {
     return this.get('appointmentSlots.isPending');
@@ -70,7 +76,10 @@ export default Component.extend({
   }),
 
   //making sure the selected slot is added back to the available slots, if needed
-  availableAppointmentSlots: union('availableAppointmentSlotsWithoutSelected', 'availableSelectedSlots'),
+  availableAppointmentSlots: union(
+    'availableAppointmentSlotsWithoutSelected',
+    'availableSelectedSlots'
+  ),
   rowIdsWithDuplicates: mapBy('availableAppointmentSlots', 'slotPickerRowId'),
   rowIds: uniq('rowIdsWithDuplicates'),
 
@@ -84,30 +93,39 @@ export default Component.extend({
       id,
       label,
       labelClassName,
-      group
+      group,
     });
   }),
 
-  rowsSorting: ['group:desc', 'id:asc'],//eslint-disable-line
+  rowsSorting: ['group:desc', 'id:asc'], //eslint-disable-line
   rows: sort('rowsNotSorted', 'rowsSorting'),
 
   dayIdsWithDuplicates: mapBy('availableAppointmentSlots', 'slotPickerDay'),
   dayIds: uniq('dayIdsWithDuplicates'),
 
-  colsNotSorted: computed('dayIds', 'availableAppointmentSlots.@each', function () {
-    const appointmentSlots = this.availableAppointmentSlots;
-    return this.dayIds.map((dayId) => {
-      const appointmentSlotsForCol = appointmentSlots.filterBy('slotPickerDay', dayId);
-      const dayLabel = appointmentSlotsForCol.get('firstObject.slotPickerDayLabel');
-      return EmberObject.create({
-        dayId,
-        dayLabel,
-        appointmentSlotsForCol
+  colsNotSorted: computed(
+    'dayIds',
+    'availableAppointmentSlots.@each',
+    function () {
+      const appointmentSlots = this.availableAppointmentSlots;
+      return this.dayIds.map((dayId) => {
+        const appointmentSlotsForCol = appointmentSlots.filterBy(
+          'slotPickerDay',
+          dayId
+        );
+        const dayLabel = appointmentSlotsForCol.get(
+          'firstObject.slotPickerDayLabel'
+        );
+        return EmberObject.create({
+          dayId,
+          dayLabel,
+          appointmentSlotsForCol,
+        });
       });
-    });
-  }),
+    }
+  ),
 
-  colsSorting: ['dayId:asc'],//eslint-disable-line
+  colsSorting: ['dayId:asc'], //eslint-disable-line
   cols: sort('colsNotSorted', 'colsSorting'),
 
   cellsPerCol: computed(
@@ -118,15 +136,21 @@ export default Component.extend({
         const appointmentSlotsForCol = col.get('appointmentSlotsForCol');
         const cellsForCol = this.rows.map((row) => {
           const rowId = row.get('id');
-          const appointmentSlot = appointmentSlotsForCol.findBy('slotPickerRowId', rowId);
+          const appointmentSlot = appointmentSlotsForCol.findBy(
+            'slotPickerRowId',
+            rowId
+          );
           //set the "slotPickerNotDisplayable" property of an appointmentSlot to false if you want to create the corresponding
           //row / column without actually showing the appointment as available
           //for example, if you want to display the day before the first available day on the calendar
-          return appointmentSlot && !appointmentSlot.get('slotPickerNotDisplayable') ? appointmentSlot : null;
+          return appointmentSlot &&
+            !appointmentSlot.get('slotPickerNotDisplayable')
+            ? appointmentSlot
+            : null;
         });
         return {
           col,
-          cellsForCol
+          cellsForCol,
         };
       });
     }
@@ -137,8 +161,15 @@ export default Component.extend({
   }),
 
   //move to: loading mixin
-  notDisplayableAppointmentSlots: filterBy('availableAppointmentSlots', 'slotPickerNotDisplayable', true),
-  displayableAppointmentSlots: setDiff('availableAppointmentSlots', 'notDisplayableAppointmentSlots'),
+  notDisplayableAppointmentSlots: filterBy(
+    'availableAppointmentSlots',
+    'slotPickerNotDisplayable',
+    true
+  ),
+  displayableAppointmentSlots: setDiff(
+    'availableAppointmentSlots',
+    'notDisplayableAppointmentSlots'
+  ),
   isLoading: equal('displayableAppointmentSlots.length', 0),
 
   actions: {
@@ -170,6 +201,6 @@ export default Component.extend({
 
         return true;
       }
-    }
-  }
+    },
+  },
 });

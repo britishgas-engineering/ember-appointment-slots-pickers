@@ -1,3 +1,4 @@
+/* eslint-disable qunit/require-expect */
 import { test } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
@@ -35,7 +36,7 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
     this.set('selected', null);
     await render(hbs`
       <div class="my-test-container" style="width:400px">
-        <SlotsPicker @appointmentSlots={{generatedAppointmentSlots}} @selected={{selected}} @noSlotLabel={{noSlotLabel}} @select={{action "select"}} as |baseProps onSelectSlot onSelectDate|>
+        <SlotsPicker @appointmentSlots={{this.generatedAppointmentSlots}} @selected={{this.selected}} @noSlotLabel={{this.noSlotLabel}} @select={{this.actions.select}} as |baseProps onSelectSlot onSelectDate|>
           <SlotsPicker::Pickadate @baseProps={{baseProps}} @onSelectSlot={{onSelectSlot}} @onSelectDate={{onSelectDate}} />
         </SlotsPicker>
       </div>
@@ -44,7 +45,7 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
     //that's standard behaviour of pickadate apparently
     await click('.picker__nav--prev');
     assert.strictEqual(
-      findAll('.picker__day--infocus:not(".picker__day--disabled")').length,
+      findAll('.picker__day--infocus:not(.picker__day--disabled)').length,
       availableDaysOfFirstMonth.get('length'),
       'expect as many days with appointments as from stub data.'
     );
@@ -140,8 +141,8 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
     });
     await render(hbs`
       <div class="my-test-container" style="width:400px">
-        <SlotsPicker @appointmentSlots={{generatedAppointmentSlots}} @selected={{selected}} @noSlotLabel={{noSlotLabel}} @select={{action "select"}} as |baseProps onSelectSlot onSelectDate|>
-          <SlotsPicker::Pickadate @baseProps={{baseProps}} @onSelectSlot={{onSelectSlot}} @onSelectDate={{onSelectDate}} @scroll={{scroll}} />
+        <SlotsPicker @appointmentSlots={{this.generatedAppointmentSlots}} @selected={{this.selected}} @noSlotLabel={{this.noSlotLabel}} @select={{this.actions.select}} as |baseProps onSelectSlot onSelectDate|>
+          <SlotsPicker::Pickadate @baseProps={{baseProps}} @onSelectSlot={{onSelectSlot}} @onSelectDate={{onSelectDate}} @scroll={{this.scroll}} />
         </SlotsPicker>
       </div>
     `);
@@ -181,10 +182,10 @@ module('Integration | Component | slots-picker/pickadate', function (hooks) {
     );
     await render(hbs`
       <div class="my-test-container" style="width:400px">
-        <SlotsFilter @appointmentSlots={{generatedAppointmentSlots}} as |filteredAppointmentSlots changeFilter selectedFilter|>
-          <SlotsPicker @appointmentSlots={{filteredAppointmentSlots}} @selected={{selected}} @noSlotLabel={{noSlotLabel}} @selectedFilter={{selectedFilter}} @select={{action "select"}} as |baseProps onSelectSlot onSelectDate|>
-          <SlotsFilter::Ui @timeSlots={{baseProps.rows}} @changeFilter={{changeFilter}} @selectedFilter={{selectedFilter}} @viewport={{viewport}} />
-            <SlotsPicker::Pickadate @baseProps={{baseProps}} @onSelectSlot={{onSelectSlot}} @onSelectDate={{onSelectDate}} @scroll={{scroll}} />
+        <SlotsFilter @appointmentSlots={{this.generatedAppointmentSlots}} as |filteredAppointmentSlots changeFilter selectedFilter|>
+          <SlotsPicker @appointmentSlots={{filteredAppointmentSlots}} @selected={{this.selected}} @noSlotLabel={{this.noSlotLabel}} @selectedFilter={{selectedFilter}} @select={{this.actions.select}} as |baseProps onSelectSlot onSelectDate|>
+          <SlotsFilter::Ui @timeSlots={{baseProps.rows}} @changeFilter={{changeFilter}} @selectedFilter={{selectedFilter}} @viewport={{this.viewport}} />
+            <SlotsPicker::Pickadate @baseProps={{baseProps}} @onSelectSlot={{onSelectSlot}} @onSelectDate={{onSelectDate}} @scroll={{this.scroll}} />
           </SlotsPicker>
         </SlotsFilter>
       </div>

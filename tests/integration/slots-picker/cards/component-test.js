@@ -17,7 +17,7 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
   });
 
   test('with slots available, no slot selected', async function (assert) {
-    generateAppointmentSlots.call(this, {
+    this.generateAppointmentSlots = generateAppointmentSlots.call(this, {
       numberOfAppointments: 50,
     });
 
@@ -29,7 +29,7 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
 
     await render(hbs`
       <div>
-        <SlotsPicker @appointmentSlots={{generatedAppointmentSlots}} @select={{action "select"}} @selected={{selected}} as |baseProps onSelectSlot|>
+        <SlotsPicker @appointmentSlots={{this.generatedAppointmentSlots}} @select={{this.actions.select}} @selected={{this.selected}} as |baseProps onSelectSlot|>
           <SlotsPicker::Cards @baseProps={{baseProps}} @onSelectSlot={{onSelectSlot}} />
         </SlotsPicker>
       </div>
@@ -66,7 +66,7 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
   });
 
   test('with slots available, last slot selected', async function (assert) {
-    generateAppointmentSlots.call(this, {
+    this.generateAppointmentSlots = generateAppointmentSlots.call(this, {
       numberOfAppointments: 50,
     });
 
@@ -79,7 +79,7 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
 
     await render(hbs`
       <div>
-        <SlotsPicker @appointmentSlots={{generatedAppointmentSlots}} @select={{action "testSelect"}} @selected={{selected}} as |baseProps onSelectSlot|>
+        <SlotsPicker @appointmentSlots={{this.generatedAppointmentSlots}} @select={{this.actions.testSelect}} @selected={{this.selected}} as |baseProps onSelectSlot|>
           <SlotsPicker::Cards @baseProps={{baseProps}} @onSelectSlot={{onSelectSlot}} />
         </SlotsPicker>
       </div>
@@ -106,7 +106,7 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
   });
 
   test('multiple selections', async function (assert) {
-    generateAppointmentSlots.call(this, {
+    this.generateAppointmentSlots = generateAppointmentSlots.call(this, {
       numberOfAppointments: 50,
     });
 
@@ -120,7 +120,7 @@ module('Integration | Component | slot-picker-cards', function (hooks) {
 
     await render(hbs`
       <div>
-        <SlotsPicker @appointmentSlots={{generatedAppointmentSlots}} @selected={{selected}} @canSelectMultipleSlots={{true}} @select={{action "onSelect"}} @deselect={{action "onDeselect"}} as |baseProps onSelectSlot onDeselectSlot|>
+        <SlotsPicker @appointmentSlots={{this.generatedAppointmentSlots}} @selected={{this.selected}} @canSelectMultipleSlots={{true}} @select={{this.actions.onSelect}} @deselect={{this.actions.onDeselect}} as |baseProps onSelectSlot onDeselectSlot|>
           <SlotsPicker::Cards @baseProps={{baseProps}} @onSelectSlot={{onSelectSlot}} @onDeselectSlot={{onDeselectSlot}} />
         </SlotsPicker>
       </div>

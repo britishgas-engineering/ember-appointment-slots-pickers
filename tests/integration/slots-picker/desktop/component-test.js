@@ -16,14 +16,14 @@ module('Integration | Component | slots-picker/desktop', function (hooks) {
   });
 
   test('with slots available, no slot selected', async function (assert) {
-    generateAppointmentSlots.call(this, {
+    this.generateAppointmentSlots = generateAppointmentSlots.call(this, {
       numberOfAppointments: 50,
     });
     this.set('testSelect', () => {});
 
     await render(hbs`
       <div>
-        <SlotsPicker @appointmentSlots={{generatedAppointmentSlots}} @select={{action testSelect}} as |baseProps onSelectSlot|>
+        <SlotsPicker @appointmentSlots={{this.generatedAppointmentSlots}} @select={{this.testSelect}} as |baseProps onSelectSlot|>
           <SlotsPicker::Desktop @baseProps={{baseProps}} @onSelectSlot={{onSelectSlot}} />
         </SlotsPicker>
       </div>
@@ -42,8 +42,9 @@ module('Integration | Component | slots-picker/desktop', function (hooks) {
     assert
       .dom('.asp-col-header .asp-row.delimiter')
       .exists({ count: 1 }, 'has one delimiter in the header column');
+
     assert.strictEqual(
-      findAll('.asp-scroll .asp-col:eq(0) .asp-row.delimiter').length,
+      findAll('.asp-scroll .asp-col:nth-child(1) .asp-row.delimiter').length,
       1,
       'has one delimiter in the first non-header column'
     );
@@ -61,7 +62,7 @@ module('Integration | Component | slots-picker/desktop', function (hooks) {
   });
 
   test('with slots available, last slot selected', async function (assert) {
-    generateAppointmentSlots.call(this, {
+    this.generateAppointmentSlots = generateAppointmentSlots.call(this, {
       numberOfAppointments: 50,
     });
     this.actions.testSelect = () => {};
@@ -79,7 +80,7 @@ module('Integration | Component | slots-picker/desktop', function (hooks) {
     this.set('selected', selectedSlot);
     await render(hbs`
       <div>
-        <SlotsPicker @appointmentSlots={{generatedAppointmentSlots}} @select={{action "testSelect"}} @selected={{selected}} as |baseProps onSelectSlot|>
+        <SlotsPicker @appointmentSlots={{this.generatedAppointmentSlots}} @select={{this.actions.testSelect}} @selected={{this.selected}} as |baseProps onSelectSlot|>
           <SlotsPicker::Desktop @baseProps={{baseProps}} @onSelectSlot={{onSelectSlot}} />
         </SlotsPicker>
       </div>

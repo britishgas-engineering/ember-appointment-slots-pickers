@@ -1,3 +1,5 @@
+/* eslint-disable ember/require-tagless-components */
+/* eslint-disable ember/no-classic-classes */
 import { schedule } from '@ember/runloop';
 import { observer } from '@ember/object';
 import $ from 'jquery';
@@ -54,7 +56,6 @@ export default Component.extend({
       'S',
     ];
   },
-
   /**
    * Notify the parent controller
    * that a user has clicked on a
@@ -64,12 +65,10 @@ export default Component.extend({
    */
   onPickerDayClick: function (e) {
     const $el = $(e.target);
-
     if ($el.hasClass('picker__day--disabled')) {
       this.select();
     }
   },
-
   onPickerFocus: function () {
     // alert('focus');
     if (document.querySelector('.picker__holder')) {
@@ -77,7 +76,6 @@ export default Component.extend({
       return false;
     }
   },
-
   /**
    * Notify the parent element
    * of the user choice
@@ -89,7 +87,6 @@ export default Component.extend({
       this.select(e.select);
     }
   },
-
   /**
    * Update the picker selected date
    * @return {undefined}
@@ -104,7 +101,6 @@ export default Component.extend({
       this.picker.set('select', this.value, { muted: true });
     }
   }),
-
   onSelectionChanged: observer('selected', function () {
     //eslint-disable-line
     if (!this.isDestroyed && this.selected) {
@@ -115,7 +111,6 @@ export default Component.extend({
       );
     }
   }),
-
   _renderJsDays() {
     const jsDays = this.jsDays;
     if (jsDays) {
@@ -123,7 +118,6 @@ export default Component.extend({
       // Disable all the dates.
       this.picker.set('disable', true);
       this.picker.set('enable', false);
-
       this.picker.set('disable', jsDays);
       this.set('jsDaysUpdate', jsDays);
       // Flip the dates.
@@ -131,7 +125,6 @@ export default Component.extend({
       this.picker.set('enable', 'flip');
     }
   },
-
   _renderSlots() {
     const slots = this.slots;
     if (slots) {
@@ -139,7 +132,6 @@ export default Component.extend({
       // Disable all the dates.
       this.picker.set('disable', true);
       this.picker.set('enable', false);
-
       const enabledDays = slots.map(function (day) {
         return moment(day.get('date')).toDate();
       });
@@ -150,17 +142,13 @@ export default Component.extend({
       this.picker.set('enable', 'flip');
     }
   },
-
   _render() {
     this.picker.off('set');
-
     this._renderJsDays();
     this._renderSlots();
-
     if (this.highlight) {
       this.picker.set('view', this.highlight, { format: 'yyyy-mm-dd' });
     }
-
     if (this.selected) {
       this.picker.set(
         'select',
@@ -168,50 +156,45 @@ export default Component.extend({
         { format: 'yyyy-mm-dd' }
       );
     }
-
     if (this.value) {
       this.picker.set('select', this.value, { muted: true });
     }
     this.picker.set('min', this.min ? this.min : false);
     this.picker.set('max', this.max ? this.max : false);
-
     //handle loading state on slot-picker-pickadate component
     if (this.get('jsDays.length') || this.get('slots.length') || this.max) {
       this.picker.on('set', this.onPickerSet.bind(this));
     }
   },
-
   /**
    * Start the pickadate instance
    * @return {undefined}
    */
   didInsertElement: function () {
     this._super(...arguments);
-    const $input = $('input').pickadate({
-      weekdaysShort: this.setShorterDays
-        ? this.weekdaysShorter
-        : this.weekdaysShort,
-      firstDay: 1,
-      min: this.min ? this.min : false,
-      max: this.max ? this.max : false,
-      klass: {
-        now: this.value || this.hideToday ? '' : 'picker__day--today',
-      },
-    });
-
+    const $input = $(this.element)
+      .find('input')
+      .pickadate({
+        weekdaysShort: this.setShorterDays
+          ? this.weekdaysShorter
+          : this.weekdaysShort,
+        firstDay: 1,
+        min: this.min ? this.min : false,
+        max: this.max ? this.max : false,
+        klass: {
+          now: this.value || this.hideToday ? '' : 'picker__day--today',
+        },
+      });
     schedule('afterRender', this, function () {
       this.picker = $input.pickadate('picker');
       this._render();
-
       $('.picker__holder')
         .on('click', '.picker__day', this.onPickerDayClick.bind(this))
         .on('focus', this.onPickerFocus.bind(this));
     });
   },
-
   didUpdateAttrs() {
     this._super(...arguments);
-
     const jsDaysUpdate = this.jsDaysUpdate;
     const jsDays = this.jsDays;
     const jsDaysLength = jsDays && jsDays.length;
@@ -219,7 +202,6 @@ export default Component.extend({
     if (this.picker && jsDaysLength !== jsDaysUpdateLength) {
       this._render();
     }
-
     const slotsUpdate = this.slotsUpdate;
     const slots = this.slots;
     const slotsLength = slots && slots.length;

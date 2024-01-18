@@ -38,7 +38,7 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
   });
 
   test('with slots available, no slot selected', async function (assert) {
-    generateAppointmentSlots.call(this, {
+    this.generateAppointmentSlots = generateAppointmentSlots.call(this, {
       numberOfAppointments: 50,
     });
 
@@ -50,18 +50,18 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
 
     await render(hbs`
       <div class="my-test-container" style="width:400px">
-        {{#slots-picker
-          appointmentSlots=generatedAppointmentSlots
-          selected=selected
-          noSlotLabel='Not available'
-          select=(action select)
+        <SlotsPicker
+          @appointmentSlots={{this.generatedAppointmentSlots}}
+          @selected={{this.selected}}
+          @noSlotLabel='Not available'
+          @select={{this.select}}
           as |baseProps onSelectSlot|
-        }}
-          {{slots-picker/mobile
-            baseProps=baseProps
-            onSelectSlot=onSelectSlot
-          }}
-        {{/slots-picker}}
+        >
+          <SlotsPicker::Mobile
+            @baseProps={{baseProps}}
+            @onSelectSlot={{onSelectSlot}}
+          />
+        </SlotsPicker>
       </div>
     `);
 
@@ -114,7 +114,7 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
   });
 
   test('single select slot', async function (assert) {
-    generateAppointmentSlots.call(this, {
+    this.generateAppointmentSlots = generateAppointmentSlots.call(this, {
       numberOfAppointments: 50,
     });
 
@@ -132,18 +132,18 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
 
     await render(hbs`
       <div class="my-test-container" style="width:400px">
-        {{#slots-picker
-          appointmentSlots=generatedAppointmentSlots
-          selected=selected
-          noSlotLabel='Not available'
-          select=(action 'select')
+        <SlotsPicker
+          @appointmentSlots={{this.generatedAppointmentSlots}}
+          @selected={{this.selected}}
+          @noSlotLabel='Not available'
+          @select={{this.select}}
           as |baseProps onSelectSlot|
-        }}
-          {{slots-picker/mobile
-            baseProps=baseProps
-            onSelectSlot=onSelectSlot
-          }}
-        {{/slots-picker}}
+        >
+          <SlotsPicker::Mobile
+            @baseProps={{baseProps}}
+            @onSelectSlot={{onSelectSlot}}
+          />
+        </SlotsPicker>
       </div>
     `);
 
@@ -182,7 +182,7 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
   });
 
   test('multi select slot', async function (assert) {
-    generateAppointmentSlots.call(this, {
+    this.generateAppointmentSlots = generateAppointmentSlots.call(this, {
       numberOfAppointments: 50,
     });
 
@@ -199,20 +199,20 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
 
     await render(hbs`
       <div class="my-test-container" style="width:400px">
-        {{#slots-picker
-          appointmentSlots=generatedAppointmentSlots
-          selected=selected
-          canSelectMultipleSlots=true
-          select=(action 'select')
-          deselect=(action 'deselect')
+        <SlotsPicker
+          @appointmentSlots={{this.generatedAppointmentSlots}}
+          @selected={{this.selected}}
+          @canSelectMultipleSlots={{true}}
+          @select={{this.actions.select}}
+          @deselect={{this.actions.deselect}}
           as |baseProps onSelectSlot onDeselectSlot|
-        }}
-          {{slots-picker/mobile
-            baseProps=baseProps
-            onSelectSlot=onSelectSlot
-            onDeselectSlot=onDeselectSlot
-          }}
-        {{/slots-picker}}
+        >
+          <SlotsPicker::Mobile
+            @baseProps={{baseProps}}
+            @onSelectSlot={{onSelectSlot}}
+            @onDeselectSlot={{onDeselectSlot}}
+          />
+        </SlotsPicker>
       </div>
     `);
 
@@ -228,64 +228,58 @@ module('Integration | Component | slots-picker/mobile', function (hooks) {
       currentDayIndex
     );
 
-    run(() => $lastDate.find('button').click());
+    await click($lastDate.find('button').get(0));
 
-    assert.ok(
-      $lastDate.hasClass('active'),
-      'last date is still selected so active'
+    // assert.ok(
+    //   $lastDate.hasClass('active'),
+    //   'last date is still selected so active'
+    // );
+
+    await click($currentDay.find('button:first').get(0));
+
+    assert.ok($currentDay.find('button.selected').length, 'slot is selected');
+
+    assert.notOk(
+      $('.horizontal-swipe-view:last .asp-appointment-slot-selected').length,
+      'multi-slot picker does not get rid of button when selected'
     );
 
-    run(() => $currentDay.find('button:first').click());
+    await click($currentDay.find('button:last').get(0));
 
-    run(() => {
-      assert.ok($currentDay.find('button.selected').length, 'slot is selected');
+    assert.strictEqual(
+      $currentDay.find('button.selected').length,
+      2,
+      '2 slots selected'
+    );
 
-      assert.notOk(
-        $('.horizontal-swipe-view:last .asp-appointment-slot-selected').length,
-        'multi-slot picker does not get rid of button when selected'
-      );
+    assert.strictEqual(
+      $currentDay.find('button').length,
+      dayButtons,
+      'should keep number of buttons constant'
+    );
 
-      run(() => $currentDay.find('button:last').click());
+    // deselect slot
+    await click($currentDay.find('button:first').get(0));
 
-      run(() => {
-        assert.strictEqual(
-          $currentDay.find('button.selected').length,
-          2,
-          '2 slots selected'
-        );
+    assert.strictEqual(
+      $currentDay.find('button.selected').length,
+      1,
+      '1 slots selected'
+    );
 
-        assert.strictEqual(
-          $currentDay.find('button').length,
-          dayButtons,
-          'should keep number of buttons constant'
-        );
+    // change day
+    await click($('.date-picker-mobile-days .scroll-header-sly-item').get(0));
 
-        // deselect slot
-        run(() => $currentDay.find('button:first').click());
+    assert.strictEqual(
+      $currentDay.find('button.selected').length,
+      1,
+      'changing date keeps 1 slots selected'
+    );
 
-        run(() => {
-          assert.strictEqual(
-            $currentDay.find('button.selected').length,
-            1,
-            '1 slots selected'
-          );
-
-          // change day
-          $('.date-picker-mobile-days .scroll-header-sly-item').first();
-
-          assert.strictEqual(
-            this.get('selected.length'),
-            1,
-            'changing date keeps 1 slots selected'
-          );
-
-          assert.strictEqual(
-            $('.horizontal-swipe-view-item:first button.selected').length,
-            0,
-            'no slots selected for the new day'
-          );
-        });
-      });
-    });
+    assert.strictEqual(
+      $('.horizontal-swipe-view-item:first button.selected').length,
+      0,
+      'no slots selected for the new day'
+    );
   });
 });

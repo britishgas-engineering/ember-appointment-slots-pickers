@@ -6,7 +6,7 @@ import $ from 'jquery';
 import { click, findAll, find, render } from '@ember/test-helpers';
 
 module(
-  'Integration | Component | horizontal-list-swiper/gesture',
+  'Integration | Component | HorizontalListSwiper::Gesture',
   function (hooks) {
     setupRenderingTest(hooks);
 
@@ -35,17 +35,26 @@ module(
 
       this.set('isFirstPage', true);
       this.set('isLastPage', true);
+      this.set('isRendered', false);
+      this.set('currentItem', 0);
+      this.items = ['tests'];
 
       await render(
-        hbs`{{horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}`
+        hbs`<HorizontalListSwiper::Gesture
+          @items={{this.items}}
+          @isRendered={{this.isRendered}}
+          @currentItem={{this.currentItem}} />`
       );
 
       assert.dom('*').hasText('');
 
       // Template block usage:
       await render(hbs`
-      {{#horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}
-      {{/horizontal-list-swiper/gesture}}
+      <HorizontalListSwiper::Gesture
+        @items={{this.items}}
+        @isRendered={{this.isRendered}}
+        @currentItem={{this.currentItem}}>
+      </HorizontalListSwiper::Gesture>
     `);
       assert.dom('*').hasText('');
     });
@@ -55,16 +64,22 @@ module(
 
       this.set('isFirstPage', false);
       this.set('isLastPage', false);
+      this.set('isRendered', false);
+      this.set('currentItem', 1);
+      this.items = ['tests', 'test'];
 
       await render(
-        hbs`{{horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}`
+        hbs`<HorizontalListSwiper::Gesture
+          @items={{this.items}}
+          @isRendered={{this.isRendered}}
+          @currentItem={{this.currentItem}} />`
       );
       assert.ok(
         findAll('.asp-scroll-btn-prev').length,
         'The previous dates button exists'
       );
 
-      this.set('isFirstPage', true);
+      this.set('currentItem', 0);
       assert.notOk(
         findAll('.asp-scroll-btn-prev').length,
         'The previous dates button does not exist on first page'
@@ -76,9 +91,14 @@ module(
 
       this.set('isFirstPage', true);
       this.set('isLastPage', true);
-
+      this.set('isRendered', false);
+      this.set('currentItem', 1);
+      this.items = ['tests', 'test'];
       await render(
-        hbs`{{horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}`
+        hbs`<HorizontalListSwiper::Gesture
+          @items={{this.items}}
+          @isRendered={{this.isRendered}}
+          @currentItem={{this.currentItem}} />`
       );
 
       assert.notOk(
@@ -87,6 +107,7 @@ module(
       );
 
       this.set('isLastPage', false);
+      this.set('currentItem', 0);
       assert.ok(
         findAll('.asp-scroll-btn-next').length,
         'The more dates scroll button exists'
@@ -102,9 +123,15 @@ module(
 
       this.set('isFirstPage', false);
       this.set('isLastPage', false);
+      this.set('isRendered', false);
+      this.set('currentItem', 1);
+      this.set('items', ['tests', 'test', '3rd one']);
 
       await render(
-        hbs`{{horizontal-list-swiper/gesture isFirstPage=isFirstPage isLastPage=isLastPage}}`
+        hbs`<HorizontalListSwiper::Gesture
+          @items={{this.items}}
+          @isRendered={{this.isRendered}}
+          @currentItem={{this.currentItem}} />`
       );
       assert.ok(
         findAll('.asp-fade-left').length,
@@ -117,6 +144,8 @@ module(
 
       this.set('isFirstPage', true);
       this.set('isLastPage', true);
+      this.set('currentItem', 0);
+      this.set('items', ['tests']);
       assert.notOk(
         findAll('.asp-fade-left').length,
         'The left fade is not shown on first page'
@@ -131,9 +160,9 @@ module(
       const items = new Array(200);
       this.set('items', items);
       await render(hbs`<div class="is-test-env" style="height:10px;">
-      {{#horizontal-list-swiper/gesture items=items index=100 as |item|}}
+      <HorizontalListSwiper::Gesture @items={{this.items}} @index={{100}} as |item|>
         <div class="cell" style="width:50px; height:10px; float:left;">{{item}}</div>
-        {{/horizontal-list-swiper/gesture}}
+        </HorizontalListSwiper::Gesture>
       </div>`);
       assert.notOk(
         $('.cell:eq(100)').is(':offscreen'),
@@ -157,9 +186,9 @@ module(
       const items = new Array(4);
       this.set('items', items);
       await render(hbs`<div class="is-test-env" style="height:10px;">
-      {{#horizontal-list-swiper/gesture items=items index=100 as |item|}}
+      <HorizontalListSwiper::Gesture @items={{this.items}} @index={{100}} as |item|>
         <div class="cell" style="width:50px; height:10px; float:left;">{{item}}</div>
-        {{/horizontal-list-swiper/gesture}}
+        </HorizontalListSwiper::Gesture>
       </div>`);
       const style = document.querySelector(
         '.ember-appointment-slots-pickers .asp-scroll-area-wrapper div'
@@ -173,9 +202,9 @@ module(
       const items = new Array(4);
       this.set('items', items);
       await render(hbs`<div class="is-test-env" style="height:10px;">
-      {{#horizontal-list-swiper/gesture items=items index=100 as |item|}}
+      <HorizontalListSwiper::Gesture @items={{this.items}} @index={{100}} as |item|>
         <div class="cell" style="height:10px; float:left;">{{item}}</div>
-        {{/horizontal-list-swiper/gesture}}
+        </HorizontalListSwiper::Gesture>
       </div>`);
       const style = document.querySelector(
         '.ember-appointment-slots-pickers .asp-scroll-area-wrapper div'
@@ -189,9 +218,9 @@ module(
       const items = new Array(4);
       this.set('items', items);
       await render(hbs`<div class="is-test-env" style="height:10px;">
-      {{#horizontal-list-swiper/gesture items=items displayAfterRender=true index=100 as |item|}}
+      <HorizontalListSwiper::Gesture @items={{this.items}} @displayAfterRender={{true}} @index={{100}} as |item|>
         <div class="cell" style="height:10px; float:left;">{{item}}</div>
-        {{/horizontal-list-swiper/gesture}}
+        </HorizontalListSwiper::Gesture>
       </div>`);
       const style = document.querySelector(
         '.ember-appointment-slots-pickers .asp-scroll-area-wrapper div'
@@ -205,9 +234,9 @@ module(
       const items = new Array(4);
       this.set('items', items);
       await render(hbs`<div class="is-test-env" style="height:10px;">
-      {{#horizontal-list-swiper/gesture items=items displayAfterRender=true index=100 as |item|}}
+      <HorizontalListSwiper::Gesture @items={{this.items}} @displayAfterRender={{true}} @index={{100}} as |item|>
         <div class="cell" style="width:50px; height:10px; float:left;">{{item}}</div>
-        {{/horizontal-list-swiper/gesture}}
+        </HorizontalListSwiper::Gesture>
       </div>`);
       const style = document.querySelector(
         '.ember-appointment-slots-pickers .asp-scroll-area-wrapper div'

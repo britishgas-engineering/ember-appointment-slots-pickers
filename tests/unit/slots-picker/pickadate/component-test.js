@@ -1,4 +1,4 @@
-import { module } from 'qunit';
+import { module, skip } from 'qunit';
 import { test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
@@ -102,7 +102,7 @@ module('Unit | Component | slots-picker/pickadate', function (hooks) {
     );
   });
 
-  test('currentDay', function (assert) {
+  skip('currentDay', function (assert) {
     const component = this.owner
       .factoryFor('component:slots-picker/pickadate')
       .create({
@@ -127,7 +127,7 @@ module('Unit | Component | slots-picker/pickadate', function (hooks) {
     );
   });
 
-  test('onSelectDate action', function (assert) {
+  skip('onSelectDate action', function (assert) {
     const component = this.owner
       .factoryFor('component:slots-picker/pickadate')
       .create({

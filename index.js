@@ -91,7 +91,7 @@ module.exports = {
                   '**/variables.less',
                   /components\/application-pre-loader/,
                   /components\/bg-button/,
-                  /components\/scroll-anchor-slots/,
+                  /components\/scroll-anchor/,
                 ];
                 break;
               case 'mobile':

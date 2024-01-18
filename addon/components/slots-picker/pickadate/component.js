@@ -7,19 +7,17 @@ import moment from 'moment';
 import { next } from '@ember/runloop';
 
 export default slotPickerBase.extend({
+  init() {
+    this._super(...arguments);
+    const selectedSlot = this.selected;
+    if (selectedSlot) {
+      this.currentDay = moment(selectedSlot.get('slotPickerDay')).valueOf();
+    }
+  },
   scroll: service(),
   layout,
   selectedDayOnInit: null,
-  currentDay: computed('selected', 'cols', function () {
-    const selectedSlot = this.selected;
-
-    if (selectedSlot) {
-      return moment(selectedSlot.get('slotPickerDay')).valueOf();
-    }
-
-    return null;
-  }),
-
+  currentDay: null,
   editingExistingAppointment: bool('selectedDayOnInit'),
 
   // pickadate is not compatible with multiselect
@@ -92,7 +90,6 @@ export default slotPickerBase.extend({
     onSelectDate(date) {
       if (date !== this.currentDay) {
         this._scrollToSlotsOnlyIfNotOnInit();
-
         // select date here
         this.set('currentDay', date);
 
